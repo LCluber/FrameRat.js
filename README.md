@@ -12,7 +12,7 @@ The purpose of this library is to provide a simple way to control an animation w
 
 ## Installation
 
-To use **FrameRat.js** download it **[here](http://framerats.lcluber.com/#download)** and learn how to use it **[there](http://frameratjs.lcluber.com/#example)**.
+To use **FrameRat.js** download it **[here](http://frameratjs.lcluber.com/#download)** and learn how to use it **[there](http://frameratjs.lcluber.com/#example)**.
 
 ## API Reference
 
