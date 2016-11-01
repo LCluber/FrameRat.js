@@ -1,34 +1,3 @@
-## Synopsis
-
-  FrameRat.js is an animation frame library written in Javascript.
-
-## Code Example
-
- [See a basic example on the dedicated website](http://frameratjs.lcluber.com/#example).
-
-## Motivation
-
-The purpose of this library is to provide a simple way to control an animation while providing useful methods to monitor it and polyfills.
-
-## Installation
-
-To use **FrameRat.js** download it **[here](http://framerats.lcluber.com/#download)** and learn how to use it **[there](http://frameratjs.lcluber.com/#example)**.
-
-## API Reference
-
-[See the documentation on the dedicated website](http://frameratjs.lcluber.com/doc/).
-
-## Tests
-
-No tests to run yet
-
-## Contributors
-
-There is still a lot of work to do on this project and I would be glad to get all the help you can provide.
-To contribute you can clone the project on **[GitHub](https://github.com/LCluber/FrameRat.js)** and see  **install.md** for detailed installation walkthrough of the project.
-
-## License
-
 MIT License
 
 Copyright (c) 2011 Ludovic CLUBER
