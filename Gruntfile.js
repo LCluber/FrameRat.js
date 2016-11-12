@@ -2,7 +2,9 @@ module.exports = function(grunt){
 
   require('time-grunt')(grunt);
 
-  var src       = [ 'src/framerat.js',
+  var projectName = 'FrameRat';
+
+  var src       = [ 'src/' + projectName.toLowerCase() + '.js',
                     'src/time.js',
                     'src/clock.js',
                     'src/polyfills/performanceNow.js',
@@ -35,7 +37,7 @@ module.exports = function(grunt){
     '* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n' +
     '* SOFTWARE.\n' +
     '*\n' +
-    '* http://www.frameratjs.lcluber.com\n' +
+    '* http://' + projectName.toLowerCase() + '.lcluber.com\n' +
     '*/\n';
 
   // Project configuration.
@@ -138,9 +140,8 @@ module.exports = function(grunt){
           mangle: false,
           compress:false,
         },
-        files: {
-          'dist/framerat.js': src
-        }
+        src: src,
+        dest: distDir + projectName.toLowerCase() + '.js'
       },
       libmin: {
         options: {
@@ -148,7 +149,7 @@ module.exports = function(grunt){
           sourceMapName: 'src/sourcemap.map',
           banner: '',
           mangle: {
-            except: ['FRAMERAT'],
+            except: [projectName.toUpperCase()],
           },
           compress: {
             sequences: true,
@@ -170,9 +171,8 @@ module.exports = function(grunt){
             keep_fnames: false
           }
         },
-        files: {
-          'dist/framerat.min.js': src
-        }
+        src: src,
+        dest: distDir + projectName.toLowerCase() + '.min.js'
       },
       web: {
         options: {
@@ -261,7 +261,7 @@ module.exports = function(grunt){
     compress: {
       main: {
         options: {
-          archive: 'zip/frameratjs.zip'
+          archive: 'zip/' + projectName.toLowerCase() + '.zip'
         },
         files: [
           {src: [distDir + '*'], dest: '/', filter: 'isFile'},
@@ -288,6 +288,8 @@ module.exports = function(grunt){
   grunt.loadNpmTasks('grunt-jsdoc');
 
   grunt.registerTask('default', [ 'jshint', 'clean', 'copy', 'jsdoc', 'sass', 'cssmin', 'jade', 'uglify', 'concat', 'compress' ]); //build all
+
+  grunt.registerTask('prod', [ 'clean', 'copy', 'jsdoc', 'sass', 'cssmin', 'jade', 'uglify', 'concat', 'compress' ]); //build all
 
   grunt.registerTask('doc', [ 'jsdoc' ]); //build jsdoc into /doc
   grunt.registerTask('src', [ 'jshint:lib', 'uglify:lib', 'uglify:libmin', 'concat:lib', 'concat:libmin']); //build orbis into /dist
