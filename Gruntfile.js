@@ -4,16 +4,19 @@ module.exports = function(grunt){
 
   var projectName = 'FrameRat';
 
-  var src       = [ 'src/' + projectName.toLowerCase() + '.js',
-                    'src/time.js',
-                    'src/clock.js',
-                    'src/polyfills/performanceNow.js',
-                    'src/polyfills/requestAnimationFrame.js'
-                  ];
+  var srcDir    = 'src/';
   var distDir   = 'dist/';
   var webDir    = 'website/';
   var publicDir = webDir + 'public/';
   var nodeDir   = 'node_modules/';
+
+  var src       = [ srcDir + projectName.toLowerCase() + '.js',
+                    srcDir + 'time.js',
+                    srcDir + 'clock.js',
+                    srcDir + 'polyfills/performanceNow.js',
+                    srcDir + 'polyfills/requestAnimationFrame.js'
+                  ];
+  
 
   var banner    = '/** MIT License\n' +
     '* \n' +
@@ -75,7 +78,7 @@ module.exports = function(grunt){
       options: {
         jshintrc: 'config/.jshintrc'
       },
-      lib: [ 'Gruntfile.js', 'src/**/*.js'],
+      lib: [ 'Gruntfile.js', srcDir + '**/*.js'],
       web: [ webDir + 'js/**/*.js'],
     },
     sass: {
@@ -146,7 +149,7 @@ module.exports = function(grunt){
       libmin: {
         options: {
           sourceMap: false,
-          sourceMapName: 'src/sourcemap.map',
+          sourceMapName: srcDir + 'sourcemap.map',
           banner: '',
           mangle: {
             except: [projectName.toUpperCase()],
@@ -177,7 +180,7 @@ module.exports = function(grunt){
       web: {
         options: {
           sourceMap: false,
-          sourceMapName: 'src/sourcemap.map',
+          sourceMapName: srcDir + 'sourcemap.map',
           mangle: {
             except: ['jQuery']
           },
@@ -218,8 +221,8 @@ module.exports = function(grunt){
           stripBanners: false,
           banner: banner
         },
-        src: [distDir + 'framerat.js','libs/taipanjs/taipan.js'],
-        dest: distDir + 'framerat.js'
+        src: [distDir + projectName.toLowerCase() + '.js','libs/taipanjs/taipan.js'],
+        dest: distDir + projectName.toLowerCase() + '.js'
       },
       libmin: {
         options: {
@@ -227,8 +230,8 @@ module.exports = function(grunt){
           stripBanners: true,
           banner: banner
         },
-        src:[distDir + 'framerat.min.js','libs/taipanjs/taipan.min.js'],
-        dest: distDir + 'framerat.min.js'
+        src:[distDir + projectName.toLowerCase() + '.min.js','libs/taipanjs/taipan.min.js'],
+        dest: distDir + projectName.toLowerCase() + '.min.js'
       },
       webjs: {
         options: {
@@ -240,7 +243,7 @@ module.exports = function(grunt){
               nodeDir + 'bootstrap/dist/js/bootstrap.min.js',
               webDir + 'libs/*.js',
               // distDir + 'framerat.js',
-              distDir + 'framerat.min.js',
+              distDir + projectName.toLowerCase() + '.min.js',
               publicDir + 'js/main.min.js'
             ],
         dest: publicDir + 'js/main.min.js'
