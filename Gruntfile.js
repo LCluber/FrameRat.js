@@ -261,7 +261,7 @@ module.exports = function(grunt){
     compress: {
       main: {
         options: {
-          archive: 'zip/' + projectName.toLowerCase() + '.zip'
+          archive: 'zip/' + projectName.toLowerCase() + 'js.zip'
         },
         files: [
           {src: [distDir + '*'], dest: '/', filter: 'isFile'},
