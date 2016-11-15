@@ -17,7 +17,6 @@ module.exports = function(grunt){
                     srcDir + 'polyfills/requestAnimationFrame.js'
                   ];
   
-
   var banner    = '/** MIT License\n' +
     '* \n' +
     '* Copyright (c) 2011 Ludovic CLUBER \n' +
