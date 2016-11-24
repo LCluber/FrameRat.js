@@ -21,7 +21,7 @@
       "start": "node ./bin/www"
     },
     "dependencies" : {
-      "Taipanjs":                     "git+https://github.com/LCluber/Taipan.js.git#843581f",
+      "Taipanjs":                     "git+https://github.com/LCluber/Taipan.js.git",
       "bootstrap":                    "^3.3.7",
       "jquery":                       "^1.11.3",
       "jquery-easing":                "^0.0.1",
