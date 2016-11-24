@@ -240,7 +240,7 @@ module.exports = function(grunt){
           stripBanners: false,
           banner: banner
         },
-        src: [distDir + projectName.toLowerCase() + '.js','libs/taipanjs/taipan.js'],
+        src: [distDir + projectName.toLowerCase() + '.js', nodeDir + 'Taipanjs/dist/taipan.js'],
         dest: distDir + projectName.toLowerCase() + '.js'
       },
       libmin: {
@@ -249,7 +249,7 @@ module.exports = function(grunt){
           stripBanners: true,
           banner: banner
         },
-        src:[distDir + projectName.toLowerCase() + '.min.js','libs/taipanjs/taipan.min.js'],
+        src:[distDir + projectName.toLowerCase() + '.min.js', nodeDir + 'Taipanjs/dist/taipan.min.js'],
         dest: distDir + projectName.toLowerCase() + '.min.js'
       },
       webjs: {
