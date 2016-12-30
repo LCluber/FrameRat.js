@@ -62,26 +62,8 @@ module.exports = function(grunt){
                 publicDir + 'js/*',
                 publicDir + 'css/*',
                 webDir    + 'sass/build/*',
-                publicDir + 'fonts/*',
+                //publicDir + 'fonts/*',
                 zipDir    + '*'
-        ]
-      }
-    },
-    copy: {
-      main: {
-        files: [
-          { expand: true,
-            cwd: nodeDir + 'bootstrap/dist/fonts/',
-            src: ['**'],
-            dest: publicDir + 'fonts/',
-            filter: 'isFile'
-          },
-          { expand: true,
-            cwd: nodeDir + 'font-awesome/fonts/',
-            src: ['**'],
-            dest: publicDir + 'fonts/',
-            filter: 'isFile'
-          }
         ]
       }
     },
@@ -298,6 +280,20 @@ module.exports = function(grunt){
         overwrite: false,
         force: false
       },
+      fonts:{
+        expand: true,
+        cwd: nodeDir + 'bootstrap/dist/',
+        src: ['fonts/**/*'],
+        dest: publicDir,
+        filter: 'isFile'
+      },
+      fontAwesome:{
+        expand: true,
+        cwd: nodeDir + 'font-awesome/',
+        src: ['fonts/**/*'],
+        dest: publicDir,
+        filter: 'isFile'
+      },
       public: {
         expand: true,
         cwd: publicDir,
@@ -376,7 +372,6 @@ module.exports = function(grunt){
   });
 
   grunt.loadNpmTasks( 'grunt-contrib-clean' );
-  grunt.loadNpmTasks( 'grunt-contrib-copy' );
   grunt.loadNpmTasks( 'grunt-contrib-jshint' );
   grunt.loadNpmTasks( 'grunt-contrib-uglify' );
   grunt.loadNpmTasks( 'grunt-contrib-csslint' );
@@ -394,9 +389,9 @@ module.exports = function(grunt){
   grunt.loadNpmTasks( 'grunt-open' );
 
 
-  grunt.registerTask('default', [ 'jshint', 'clean', 'copy', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify', 'concat', 'symlink', 'compress' ]); //build all for release
+  grunt.registerTask('default', [ 'jshint', 'clean', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify', 'concat', 'symlink', 'compress' ]); //build all for release
 
-  grunt.registerTask('prod', [ 'clean:web', 'copy', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify:web', 'concat', 'htmlmin', 'compress' ]); //build for prod on the server
+  grunt.registerTask('prod', [ 'clean:web', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify:web', 'concat', 'htmlmin', 'symlink', 'compress' ]); //build for prod on the server
   
   grunt.registerTask('serve', [ 'concurrent' ]); //serve files, open website watch for changes and.
 
