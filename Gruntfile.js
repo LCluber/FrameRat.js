@@ -62,6 +62,7 @@ module.exports = function(grunt){
                 publicDir + 'js/*',
                 publicDir + 'css/*',
                 webDir    + 'sass/build/*',
+                //webDir    + 'libs/',
                 //publicDir + 'fonts/*',
                 zipDir    + '*'
         ]
@@ -255,8 +256,7 @@ module.exports = function(grunt){
         src: [
                 nodeDir + 'jquery/dist/jquery.min.js',
                 nodeDir + 'bootstrap/dist/js/bootstrap.min.js',
-                webDir + 'libs/*.js',
-                // distDir + 'framerat.js',
+                webDir + 'libs/*.min.js',
                 distDir + projectName.toLowerCase() + '.min.js',
                 publicDir + 'js/main.min.js'
             ],
@@ -279,6 +279,13 @@ module.exports = function(grunt){
       options: {
         overwrite: false,
         force: false
+      },
+      libs:{
+        expand: true,
+        cwd: nodeDir + 'Type6js/dist/',
+        src: ['*.js'],
+        dest: webDir + 'libs/',
+        filter: 'isFile'
       },
       fonts:{
         expand: true,
@@ -389,16 +396,16 @@ module.exports = function(grunt){
   grunt.loadNpmTasks( 'grunt-open' );
 
 
-  grunt.registerTask('default', [ 'jshint', 'clean', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify', 'concat', 'symlink', 'compress' ]); //build all for release
+  grunt.registerTask('default', [ 'jshint', 'clean', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify', 'symlink', 'concat', 'compress' ]); //build all for release
 
-  grunt.registerTask('prod', [ 'clean:web', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify:web', 'concat', 'htmlmin', 'symlink', 'compress' ]); //build for prod on the server
+  grunt.registerTask('prod', [ 'clean:web', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify:web', 'symlink', 'concat', 'htmlmin', 'compress' ]); //build for prod on the server
   
   grunt.registerTask('serve', [ 'concurrent' ]); //serve files, open website watch for changes and.
 
   grunt.registerTask('doc', [ 'jsdoc' ]); //build jsdoc into /doc
-  grunt.registerTask('src', [ 'jshint:lib', 'clean:lib', 'uglify:lib', 'uglify:libmin' ]); //build orbis into /dist
+  grunt.registerTask('src', [ 'jshint:lib', 'clean:lib', 'uglify', 'concat:lib', 'concat:libmin', 'symlink:libs', 'concat:webjs' ]); //build orbis into /dist
   //website
-  grunt.registerTask('js', [ 'jshint:web', 'uglify:web', 'concat:webjs' ]); //build js into /website/public/js
+  grunt.registerTask('js', [ 'jshint:web', 'uglify:web', 'symlink:libs', 'concat:webjs' ]); //build js into /website/public/js
   grunt.registerTask('css', [ 'sass', 'csslint', 'cssmin', 'concat:webcss' ]); //build sass into /website/public/css
   grunt.registerTask('static', [ 'pug', 'htmlmin', 'symlink' ]); //build static site into /website/static
 
