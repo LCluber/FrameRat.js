@@ -2,6 +2,7 @@
 node_modules/
 doc/
 zip/
+website/libs/
 website/static/
 website/public/fonts/
 website/public/css/
