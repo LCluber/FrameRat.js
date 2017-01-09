@@ -13,8 +13,6 @@
   var slice        = TYPE6.Trigonometry.TWOPI / numObjects;
   var radius       = 20;
 
-  //var circlePosition  = TYPE6.Vector2.create();
-
   for(var i = 0; i < numObjects; i += 1) {
     angle = i * slice;
     smallCircles[i] = TYPE6.Geometry.Circle.create(
@@ -82,15 +80,18 @@
   var animation = FRAMERAT.create(render);
 
   function playAnimation(){
-    animation.play();
+    var log = animation.play();
+    //console.log(log);
   }
 
   function pauseAnimation () {
-    animation.pause();
+    var log = animation.toggle();
+    //console.log(log);
   }
 
   function stopAnimation () {
-    animation.stop();
+    var log = animation.stop();
+    //console.log(log);
     clearFrame();
     writeConsole(); //draw the console one time to show the reset
   }
