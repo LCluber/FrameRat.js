@@ -6,7 +6,7 @@ var FRAMERAT = {
   /**
   * @author Ludovic Cluber <http://www.lcluber.com>
   * @file Animation frame library.
-  * @version 0.2.0
+  * @version 0.2.2
   * @copyright (c) 2011 Ludovic Cluber
 
   * @license
@@ -125,7 +125,7 @@ var FRAMERAT = {
   * @returns {boolean} true if previous state was "running" false otherwise
   */
   stop:function(){
-    if ( this.pause() ){
+    if( this.pause() ){
       this.clock.init();
       this.frameNumber = 0;
       return true;

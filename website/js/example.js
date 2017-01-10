@@ -31,7 +31,7 @@
   function draw(){
     for( var i = 0 ; i < numObjects ; i += 1 ) {
       var circle = smallCircles[i];
-      if (i == Math.floor(step))
+      if (i === Math.floor(step))
         circle.alpha = 1;
       else
         circle.majAlpha();
@@ -39,7 +39,7 @@
     }
 
     step += 0.25;
-    if(step == numObjects)
+    if(step === numObjects)
       step = 0;
 
   }
@@ -80,18 +80,15 @@
   var animation = FRAMERAT.create(render);
 
   function playAnimation(){
-    var log = animation.play();
-    //console.log(log);
+    animation.play();
   }
 
   function pauseAnimation () {
-    var log = animation.toggle();
-    //console.log(log);
+    animation.toggle();
   }
 
   function stopAnimation () {
-    var log = animation.stop();
-    //console.log(log);
+    animation.stop();
     clearFrame();
     writeConsole(); //draw the console one time to show the reset
   }

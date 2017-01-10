@@ -1,6 +1,6 @@
 Version 0.2.2 (January 10th 2017)
 ------------------------------
- * added toggle() method to toggle between running and paused states
+ * added toggle() method to toggle between play and pause states
  * play(), pause() and stop() methods now return a boolean
 
 Version 0.2.1 (October 15th 2016)
