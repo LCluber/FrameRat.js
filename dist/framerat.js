@@ -23,7 +23,7 @@
 * http://frameratjs.lcluber.com
 */
 var FRAMERAT = {
-    revision: "0.2.1",
+    revision: "0.2.2",
     id: null,
     onAnimate: function() {},
     frameNumber: 0,
@@ -52,17 +52,28 @@ var FRAMERAT = {
         if (this.fsm.play()) {
             this.clock.start();
             this.requestNewFrame(scope);
+            return true;
         }
-        return this.fsm.getStatus();
+        return false;
     },
     pause: function() {
-        if (this.fsm.pause()) this.cancelAnimation();
+        if (this.fsm.pause()) {
+            this.cancelAnimation();
+            return true;
+        }
+        return false;
+    },
+    toggle: function() {
+        if (!this.play()) this.pause();
         return this.fsm.getStatus();
     },
     stop: function() {
-        this.pause();
-        this.clock.init();
-        this.frameNumber = 0;
+        if (this.pause()) {
+            this.clock.init();
+            this.frameNumber = 0;
+            return true;
+        }
+        return false;
     },
     getTotalTime: function(decimals) {
         return this.clock.getTotal(decimals);

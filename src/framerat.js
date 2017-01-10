@@ -6,7 +6,7 @@ var FRAMERAT = {
   /**
   * @author Ludovic Cluber <http://www.lcluber.com>
   * @file Animation frame library.
-  * @version 0.2.0
+  * @version 0.2.2
   * @copyright (c) 2011 Ludovic Cluber
 
   * @license
@@ -31,7 +31,7 @@ var FRAMERAT = {
   * SOFTWARE.
   *
   */
-  revision: '0.2.1',
+  revision: '0.2.2',
 
   id: null, //animation frame ID
   onAnimate: function(){}, //call this functiion at each frame
@@ -79,26 +79,42 @@ var FRAMERAT = {
   * @since 0.2.0
   * @method
   * @param {string} scope the scope to pass to the onAnimate callback .
-  * @returns {string}  The status of the finite state machine
+  * @returns {boolean} true if previous state was "paused" false otherwise
   */
   play:function(scope){
     if( this.fsm.play() ){
       this.clock.start();
       this.requestNewFrame(scope);
+      return true;
     }
-    return this.fsm.getStatus();
+    return false;
+    //return this.fsm.getStatus();
   },
 
   /**
   * Pause the animation.
   * @since 0.2.0
   * @method
-  * @returns {string}  The status of the finite state machine
+  * @returns {boolean} true if previous state was "running" false otherwise
   */
   pause:function(){
-    if ( this.fsm.pause() )
+    if ( this.fsm.pause() ){
       this.cancelAnimation();
-
+      return true;
+    }
+    return false;
+    //return this.fsm.getStatus();
+  },
+  
+  /**
+  * Toggle the animation between running and paused states.
+  * @since 0.2.0
+  * @method
+  * @returns {string}  The status of the finite state machine
+  */
+  toggle:function(){
+    if( !this.play() )
+      this.pause();
     return this.fsm.getStatus();
   },
 
@@ -106,11 +122,16 @@ var FRAMERAT = {
   * Stop and reset the animation.
   * @since 0.2.0
   * @method
+  * @returns {boolean} true if previous state was "running" false otherwise
   */
   stop:function(){
-    this.pause();
-    this.clock.init();
-    this.frameNumber = 0;
+    if( this.pause() ){
+      this.clock.init();
+      this.frameNumber = 0;
+      return true;
+    }
+    return false;
+    //return this.fsm.getStatus();
   },
 
   /**

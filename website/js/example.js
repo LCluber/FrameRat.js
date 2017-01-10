@@ -13,8 +13,6 @@
   var slice        = TYPE6.Trigonometry.TWOPI / numObjects;
   var radius       = 20;
 
-  //var circlePosition  = TYPE6.Vector2.create();
-
   for(var i = 0; i < numObjects; i += 1) {
     angle = i * slice;
     smallCircles[i] = TYPE6.Geometry.Circle.create(
@@ -33,7 +31,7 @@
   function draw(){
     for( var i = 0 ; i < numObjects ; i += 1 ) {
       var circle = smallCircles[i];
-      if (i == Math.floor(step))
+      if (i === Math.floor(step))
         circle.alpha = 1;
       else
         circle.majAlpha();
@@ -41,7 +39,7 @@
     }
 
     step += 0.25;
-    if(step == numObjects)
+    if(step === numObjects)
       step = 0;
 
   }
@@ -86,7 +84,7 @@
   }
 
   function pauseAnimation () {
-    animation.pause();
+    animation.toggle();
   }
 
   function stopAnimation () {
