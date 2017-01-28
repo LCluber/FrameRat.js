@@ -1,3 +1,7 @@
+Version 0.2.4 (January 29th 2017)
+------------------------------
+ * Fixed console bug when using several instances of FrameRat.js
+
 Version 0.2.3 (January 28th 2017)
 ------------------------------
  * Added a console to display frame rate information on the canvas
@@ -5,7 +9,7 @@ Version 0.2.3 (January 28th 2017)
  * New toggleConsole() method to show or hide the console on the canvas
  * Simplified clock class
  * The callback's scope is now passed on creation rather than in the new frame request
- * Added TYPE6.js dependency
+ * Added Type6.js dependency
 
 Version 0.2.2 (January 10th 2017)
 ------------------------------

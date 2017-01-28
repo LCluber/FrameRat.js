@@ -1,6 +1,6 @@
 {
     "name" : "FrameRatjs",
-    "version" : "0.2.3",
+    "version" : "0.2.4",
     "description":"javascript library",
     "keywords":["animation frame"],
     "homepage":"http://frameratjs.lcluber.com",

@@ -1,6 +1,6 @@
 FRAMERAT.Console = {
   
-  fontFamilly : 'Georgia',
+  fontFamily : 'Georgia',
   fontSize    : 20,
   fontColor   : 'rgba(60, 60, 60, 1)',
   font        : '',
@@ -12,24 +12,11 @@ FRAMERAT.Console = {
   nbLines     : 0,
   show        : false,
   
-  Line : {
-    position : null,
-    callback : null,
-    text     : '',
-    
-    create : function( position, text, callback, scope ){
-      var _this = Object.create(this);
-      _this.position = position;
-      _this.callback = callback.bind(scope);
-      _this.text     = text;
-      return _this;
-    }
-  },
-  
   create : function( position, padding ){
     var _this = Object.create(this);
     _this.position = position;
     _this.padding  = padding;
+    _this.lines    = [];
     _this.setFont( _this.fontSize, _this.fontFamily );
     return _this;
   },
@@ -76,4 +63,18 @@ FRAMERAT.Console = {
     this.show = this.show ? false : true ;
   }
   
+};
+
+FRAMERAT.Console.Line = {
+  position : null,
+  callback : null,
+  text     : '',
+  
+  create : function( position, text, callback, scope ){
+    var _this = Object.create(this);
+    _this.position = position;
+    _this.callback = callback.bind(scope);
+    _this.text     = text;
+    return _this;
+  }
 };
