@@ -16,7 +16,7 @@ module.exports = function(grunt){
   var zipDir    = 'zip/';
 
   var src       = [ srcDir + projectName.toLowerCase() + '.js',
-                    srcDir + 'time.js',
+                    srcDir + 'console.js',
                     srcDir + 'clock.js',
                     srcDir + 'polyfills/performanceNow.js',
                     srcDir + 'polyfills/requestAnimationFrame.js'
@@ -183,7 +183,7 @@ module.exports = function(grunt){
             join_vars:true,
             cascade:true,
             warnings: true,
-            drop_console: true,
+            drop_console: false,
             keep_fargs: false,
             keep_fnames: false
           }
@@ -235,7 +235,7 @@ module.exports = function(grunt){
           stripBanners: false,
           banner: banner
         },
-        src: [distDir + projectName.toLowerCase() + '.js', nodeDir + 'Taipanjs/dist/taipan.js'],
+        src: [distDir + projectName.toLowerCase() + '.js', nodeDir + 'Type6js/dist/type6.js', nodeDir + 'Taipanjs/dist/taipan.js'],
         dest: distDir + projectName.toLowerCase() + '.js'
       },
       libmin: {
@@ -244,7 +244,7 @@ module.exports = function(grunt){
           stripBanners: true,
           banner: banner
         },
-        src:[distDir + projectName.toLowerCase() + '.min.js', nodeDir + 'Taipanjs/dist/taipan.min.js'],
+        src:[distDir + projectName.toLowerCase() + '.min.js', nodeDir + 'Type6js/dist/type6.min.js', nodeDir + 'Taipanjs/dist/taipan.min.js'],
         dest: distDir + projectName.toLowerCase() + '.min.js'
       },
       webjs: {

@@ -6,7 +6,7 @@ var FRAMERAT = {
   /**
   * @author Ludovic Cluber <http://www.lcluber.com>
   * @file Animation frame library.
-  * @version 0.2.2
+  * @version 0.2.3
   * @copyright (c) 2011 Ludovic Cluber
 
   * @license
@@ -31,32 +31,58 @@ var FRAMERAT = {
   * SOFTWARE.
   *
   */
-  revision: '0.2.2',
+  revision: '0.2.3',
 
   id: null, //animation frame ID
   onAnimate: function(){}, //call this functiion at each frame
 
-  frameNumber:0,
-  fsm: {},
-  clock: {},
-  frameId: 0,
+  tickCount : 0,
+  fsm       : {},
+  clock     : {},
+  frameId   : 0,
+  options   : {
+    refreshRate : 30
+  },
+  console : {},
+  formated : {
+    delta : 0
+  },
 
   /**
   * Create a new animation frame.
   * @since 0.2.0
   * @method
   * @param {function} onAnimate The name of your onAnimate callback function.
+  * @param {string} scope the scope to pass to the onAnimate callback .
   * @returns {animationFrame}  The new animation frame
   */
-  create : function(onAnimate) {
+  create : function( onAnimate, scope ) {
     var _this = Object.create(this);
-    _this.onAnimate = onAnimate;
-    _this.createFSM();
+    _this.createOnAnimateCallback( onAnimate, scope );
+    _this.createFiniteStateMachine();
+    _this.createConsole();
     _this.clock = FRAMERAT.Clock.create();
     return _this;
   },
 
-  createFSM : function(){
+  createOnAnimateCallback : function( onAnimate, scope ){
+    if (!scope)
+      this.onAnimate = onAnimate;
+    else
+      this.onAnimate = onAnimate.bind(scope);
+    
+  },
+
+  createConsole : function(){
+    this.console = FRAMERAT.Console.create( TYPE6.Vector2D.create(), TYPE6.Vector2D.create(20,20) );
+    this.console.addLine('Elapsed time : {0}', this.getFormatedTotalTime, this );
+    this.console.addLine('Frame count : {0}', this.getFrameNumber, this );
+    this.console.addLine('Frame Per Second : {0}', this.getFramePerSecond, this );
+    this.console.addLine('Frame duration : {0}', this.getFormatedDelta, this );
+    this.toggleConsole(); //display the console by default
+  },
+
+  createFiniteStateMachine : function(){
     this.fsm = TAIPAN.create([
                 //{ name: 'start',    from: 'idle',    to: 'running' },
                 { name: 'play',  from: 'paused',  to: 'running' },
@@ -73,18 +99,16 @@ var FRAMERAT = {
   //     return this.fsm.getStatus();
   // },
 
-
   /**
   * Start the animation.
   * @since 0.2.0
   * @method
-  * @param {string} scope the scope to pass to the onAnimate callback .
   * @returns {boolean} true if previous state was "paused" false otherwise
   */
-  play:function(scope){
+  play:function(){
     if( this.fsm.play() ){
       this.clock.start();
-      this.requestNewFrame(scope);
+      this.requestNewFrame();
       return true;
     }
     return false;
@@ -127,7 +151,7 @@ var FRAMERAT = {
   stop:function(){
     if( this.pause() ){
       this.clock.init();
-      this.frameNumber = 0;
+      this.tickCount = 0;
       return true;
     }
     return false;
@@ -141,8 +165,29 @@ var FRAMERAT = {
   * @param {integer} decimals The number of decimals.
   * @returns {integer}  the elapsed time in seconds
   */
-  getTotalTime:function( decimals ){
-    return this.clock.getTotal( decimals );
+  getTotalTime : function(){
+    return this.clock.getTotal();
+  },
+  
+  getFormatedTotalTime : function(){
+    return TYPE6.MathUtils.round( this.millisecondToSecond( this.getTotalTime() ), 2 );
+  },
+
+  /**
+  * Get the elapsed time between the last two frames in second and millisecond.
+  * @since 0.2.0
+  * @method
+  * @returns {Time}  a Time object containing the delta in seconds and milliseconds
+  */
+  getDelta : function(){
+    return this.clock.getDelta();
+  },
+  
+  getFormatedDelta : function(){
+    if( this.tickCount % this.options.refreshRate === 0 )
+      this.formated.delta = TYPE6.MathUtils.round( this.getDelta(), 2 );
+  
+    return this.formated.delta;
   },
 
   /**
@@ -152,35 +197,7 @@ var FRAMERAT = {
   * @returns {integer}  the number of frames
   */
   getFrameNumber:function(){
-    return this.frameNumber;
-  },
-
-  /**
-  * Get the rounded elapsed time between the last two frames in seconds and milliseconds. this method lets you set a refresh rate in frame.
-  * @since 0.2.0
-  * @method
-  * @param {integer} refreshRate the refresh rate in frames
-  * @param {integer} decimals The number of decimals.
-  * @returns {Time}  a Time object containing the rounded delta in seconds and milliseconds
-  */
-  getRoundedDelta:function( refreshRate, decimals ){
-    this.computeRoundedDelta( refreshRate, decimals );
-    return this.clock.getRoundedDelta();
-  },
-
-  computeRoundedDelta : function( refreshRate, decimals ){
-    if( this.frameNumber%refreshRate === 0 )
-      this.clock.computeRoundedDelta( decimals );
-  },
-
-  /**
-  * Get the elapsed time between the last two frames in second and millisecond.
-  * @since 0.2.0
-  * @method
-  * @returns {Time}  a Time object containing the delta in seconds and milliseconds
-  */
-  getDelta:function(){
-    return this.clock.getDelta();
+    return this.tickCount;
   },
 
   /**
@@ -191,9 +208,9 @@ var FRAMERAT = {
   * @param {integer} decimals The number of decimals.
   * @returns {array}  the number of frame per second
   */
-  getFramePerSecond: function( refreshRate, decimals ){
-    if( this.frameNumber%refreshRate === 0 )
-      this.clock.computeFramePerSecond( decimals );
+  getFramePerSecond: function(){
+    if( this.tickCount % this.options.refreshRate === 0 )
+      this.clock.computeFramePerSecond();
 
     return this.clock.getFramePerSecond();
   },
@@ -205,21 +222,42 @@ var FRAMERAT = {
   * @param {string} property The name of a type of assets given in the assets file.
   * @returns {array}  the list of assets as an array or false if property not found
   */
-  newFrame:function(scope){
-    this.requestNewFrame(scope);
+  newFrame:function(){
+    this.requestNewFrame();
     this.clock.tick();
   },
 
-  requestNewFrame:function(scope){
-    if (!scope)
-      this.frameId = window.requestAnimationFrame(this.onAnimate);
-    else
-      this.frameId = window.requestAnimationFrame(this.onAnimate.bind(scope));
-    this.frameNumber++;
+  requestNewFrame:function(){
+    this.frameId = window.requestAnimationFrame(this.onAnimate);
+    this.tickCount++;
   },
 
   cancelAnimation:function(){
     window.cancelAnimationFrame(this.frameId);
+  },
+  
+  //utils
+  millisecondToSecond : function( millisecond ){
+    return millisecond * 0.001;
+  },
+  
+  /**
+  * Draw the console on the canvas
+  * @since 0.2.3
+  * @method
+  * @param {object} context The context of the canvas.
+  */
+  drawConsole : function( context ){
+    this.console.draw( context );
+  },
+  
+  /**
+  * Toggle the console on the canvas to show or hide it
+  * @since 0.2.3
+  * @method
+  */
+  toggleConsole : function(){
+    this.console.toggle();
   }
 
 };

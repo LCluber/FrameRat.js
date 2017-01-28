@@ -56,15 +56,6 @@
     context.fillText( text, posX, posY );
   }
 
-  function writeConsole(){
-    context.font="20px Georgia";
-    write('Elapsed time : '     + animation.getTotalTime(0) + ' seconds', 20, 40);
-    write('Frame number : '     + animation.getFrameNumber(), 20, 70);
-    write('Frame Per Second : ' + animation.getFramePerSecond(30, 0), 20, 100);
-    write('Frame duration : '   + animation.getDelta().getSecond(), 20, 130);
-    write('Rounded Frame duration : ' + animation.getRoundedDelta(30, 0).getMillisecond() + ' ms', 20, 160);
-  }
-
   function clearFrame(){
     context.clearRect(0, 0, width, height);
   }
@@ -72,12 +63,12 @@
   function render(){
     clearFrame();
     draw();
-    writeConsole();
+    animation.drawConsole( context );
     animation.newFrame();
   }
 
   //create animation frame
-  var animation = FRAMERAT.create(render);
+  var animation = FRAMERAT.create( render, null );
 
   function playAnimation(){
     animation.play();
@@ -90,5 +81,5 @@
   function stopAnimation () {
     animation.stop();
     clearFrame();
-    writeConsole(); //draw the console one time to show the reset
+    animation.drawConsole( context ); //draw the console one time to show the reset
   }
