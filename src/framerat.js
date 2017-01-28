@@ -174,18 +174,18 @@ var FRAMERAT = {
   },
 
   /**
-  * Get the elapsed time between the last two frames in second and millisecond.
+  * Get the elapsed time between the last two frames in second.
   * @since 0.2.0
   * @method
-  * @returns {Time}  a Time object containing the delta in seconds and milliseconds
+  * @returns {float}  a float number representing the delta in seconds
   */
   getDelta : function(){
-    return this.clock.getDelta();
+    return this.millisecondToSecond( this.clock.getDelta() );
   },
   
   getFormatedDelta : function(){
     if( this.tickCount % this.options.refreshRate === 0 )
-      this.formated.delta = TYPE6.MathUtils.round( this.getDelta(), 2 );
+      this.formated.delta = TYPE6.MathUtils.round( this.getDelta(), 5 );
   
     return this.formated.delta;
   },

@@ -101,10 +101,10 @@ var FRAMERAT = {
         return TYPE6.MathUtils.round(this.millisecondToSecond(this.getTotalTime()), 2);
     },
     getDelta: function() {
-        return this.clock.getDelta();
+        return this.millisecondToSecond(this.clock.getDelta());
     },
     getFormatedDelta: function() {
-        if (this.tickCount % this.options.refreshRate === 0) this.formated.delta = TYPE6.MathUtils.round(this.getDelta(), 2);
+        if (this.tickCount % this.options.refreshRate === 0) this.formated.delta = TYPE6.MathUtils.round(this.getDelta(), 5);
         return this.formated.delta;
     },
     getFrameNumber: function() {
