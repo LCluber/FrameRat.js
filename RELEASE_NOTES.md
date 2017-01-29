@@ -1,3 +1,7 @@
+Version 0.2.5 (January 30th 2017)
+------------------------------
+ * Updated Type6.js dependency to version 0.2.3 
+
 Version 0.2.4 (January 29th 2017)
 ------------------------------
  * Fixed console bug when using several instances of FrameRat.js
