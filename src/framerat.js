@@ -6,7 +6,7 @@ var FRAMERAT = {
   /**
   * @author Ludovic Cluber <http://www.lcluber.com>
   * @file Animation frame library.
-  * @version 0.2.4
+  * @version 0.2.5
   * @copyright (c) 2011 Ludovic Cluber
 
   * @license
@@ -31,7 +31,7 @@ var FRAMERAT = {
   * SOFTWARE.
   *
   */
-  revision: '0.2.4',
+  revision: '0.2.5',
 
   id: null, //animation frame ID
   onAnimate: function(){}, //call this functiion at each frame

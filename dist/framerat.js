@@ -23,7 +23,7 @@
 * http://frameratjs.lcluber.com
 */
 var FRAMERAT = {
-    revision: "0.2.4",
+    revision: "0.2.5",
     id: null,
     onAnimate: function() {},
     tickCount: 0,
