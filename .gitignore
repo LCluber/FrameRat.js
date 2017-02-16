@@ -1,8 +1,8 @@
 
 node_modules/
 doc/
-dist/
 zip/
+website/libs/
 website/static/
 website/public/fonts/
 website/public/css/
