@@ -153,7 +153,7 @@ module.exports = function(grunt){
       lib: {
         options: {
           beautify: true,
-          banner: '',
+          banner: banner,
           mangle: false,
           compress:false,
         },
@@ -164,7 +164,7 @@ module.exports = function(grunt){
         options: {
           sourceMap: false,
           sourceMapName: srcDir + 'sourcemap.map',
-          banner: '',
+          banner: banner,
           mangle: {
             except: [projectName.toUpperCase()],
           },
@@ -229,24 +229,24 @@ module.exports = function(grunt){
       }
     },
     concat:{
-      lib: {
-        options: {
-          separator: '\n',
-          stripBanners: false,
-          banner: banner
-        },
-        src: [distDir + projectName.toLowerCase() + '.js', nodeDir + 'Type6js/dist/type6.js', nodeDir + 'Taipanjs/dist/taipan.js'],
-        dest: distDir + projectName.toLowerCase() + '.js'
-      },
-      libmin: {
-        options: {
-          separator: '\n',
-          stripBanners: true,
-          banner: banner
-        },
-        src:[distDir + projectName.toLowerCase() + '.min.js', nodeDir + 'Type6js/dist/type6.min.js', nodeDir + 'Taipanjs/dist/taipan.min.js'],
-        dest: distDir + projectName.toLowerCase() + '.min.js'
-      },
+      // lib: {
+      //   options: {
+      //     separator: '\n',
+      //     stripBanners: false,
+      //     banner: banner
+      //   },
+      //   src: [distDir + projectName.toLowerCase() + '.js', nodeDir + 'Type6js/dist/type6.js', nodeDir + 'Taipanjs/dist/taipan.js'],
+      //   dest: distDir + projectName.toLowerCase() + '.js'
+      // },
+      // libmin: {
+      //   options: {
+      //     separator: '\n',
+      //     stripBanners: true,
+      //     banner: banner
+      //   },
+      //   src:[distDir + projectName.toLowerCase() + '.min.js', nodeDir + 'Type6js/dist/type6.min.js', nodeDir + 'Taipanjs/dist/taipan.min.js'],
+      //   dest: distDir + projectName.toLowerCase() + '.min.js'
+      // },
       webjs: {
         options: {
           separator: '',
@@ -256,7 +256,7 @@ module.exports = function(grunt){
         src: [
                 nodeDir + 'jquery/dist/jquery.min.js',
                 nodeDir + 'bootstrap/dist/js/bootstrap.min.js',
-                webDir + 'libs/*.min.js',
+                distDir + 'dependencies/**/*.min.js',
                 distDir + projectName.toLowerCase() + '.min.js',
                 publicDir + 'js/main.min.js'
             ],
@@ -280,13 +280,21 @@ module.exports = function(grunt){
         overwrite: false,
         force: false
       },
-      libs:{
+      dependencies:{
         expand: true,
-        cwd: nodeDir + 'Type6js/dist/',
-        src: ['*.js'],
-        dest: webDir + 'libs/',
+        cwd: nodeDir,
+        src: ['Type6js/dist/*.js', 'Taipanjs/dist/*.js'],
+        dest: distDir + 'dependencies/',
+        flatten: true,
         filter: 'isFile'
       },
+      // libs:{
+      //   expand: true,
+      //   cwd: nodeDir + 'Type6js/dist/',
+      //   src: ['*.js'],
+      //   dest: webDir + 'libs/',
+      //   filter: 'isFile'
+      // },
       fonts:{
         expand: true,
         cwd: nodeDir + 'bootstrap/dist/',
