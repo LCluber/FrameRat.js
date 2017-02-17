@@ -229,24 +229,6 @@ module.exports = function(grunt){
       }
     },
     concat:{
-      // lib: {
-      //   options: {
-      //     separator: '\n',
-      //     stripBanners: false,
-      //     banner: banner
-      //   },
-      //   src: [distDir + projectName.toLowerCase() + '.js', nodeDir + 'Type6js/dist/type6.js', nodeDir + 'Taipanjs/dist/taipan.js'],
-      //   dest: distDir + projectName.toLowerCase() + '.js'
-      // },
-      // libmin: {
-      //   options: {
-      //     separator: '\n',
-      //     stripBanners: true,
-      //     banner: banner
-      //   },
-      //   src:[distDir + projectName.toLowerCase() + '.min.js', nodeDir + 'Type6js/dist/type6.min.js', nodeDir + 'Taipanjs/dist/taipan.min.js'],
-      //   dest: distDir + projectName.toLowerCase() + '.min.js'
-      // },
       webjs: {
         options: {
           separator: '',
@@ -288,13 +270,6 @@ module.exports = function(grunt){
         flatten: true,
         filter: 'isFile'
       },
-      // libs:{
-      //   expand: true,
-      //   cwd: nodeDir + 'Type6js/dist/',
-      //   src: ['*.js'],
-      //   dest: webDir + 'libs/',
-      //   filter: 'isFile'
-      // },
       fonts:{
         expand: true,
         cwd: nodeDir + 'bootstrap/dist/',
@@ -407,7 +382,7 @@ module.exports = function(grunt){
   grunt.registerTask('default', [ 'jshint', 'clean', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify', 'symlink', 'concat', 'compress' ]); //build all for release
 
 
-  grunt.registerTask('prod', [ 'clean:web', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify:web', 'symlink', 'concat:webjs', 'concat:webcss', 'htmlmin', 'compress' ]); //build for prod on the server
+  grunt.registerTask('prod', [ 'clean:web', 'sass', 'cssmin', 'pug', 'uglify:web', 'symlink', 'concat:webjs', 'concat:webcss', 'htmlmin' ]); //build for prod on the server
   
   grunt.registerTask('serve', [ 'jshint', 'clean', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify', 'concat', 'symlink', 'compress', 'concurrent' ]); //serve files, open website watch for changes and.
 
