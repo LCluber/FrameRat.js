@@ -52,19 +52,17 @@ module.exports = function(grunt){
     pkg: grunt.file.readJSON('package.json'),
     clean: {
       lib:{
-        src: [  distDir + '*',
-                publicDir + 'js/*'
+        src: [  distDir + '*'
               ]
       },
       web:{
         src: [  docDir    + '*',
+                zipDir    + '*',
                 webDir    + 'static/*',
+                webDir    + 'sass/build/*',
                 publicDir + 'js/*',
                 publicDir + 'css/*',
-                webDir    + 'sass/build/*',
-                //webDir    + 'libs/',
-                //publicDir + 'fonts/*',
-                zipDir    + '*'
+                publicDir + 'fonts/*'    
         ]
       }
     },
@@ -153,7 +151,7 @@ module.exports = function(grunt){
       lib: {
         options: {
           beautify: true,
-          banner: '',
+          banner: banner,
           mangle: false,
           compress:false,
         },
@@ -164,7 +162,7 @@ module.exports = function(grunt){
         options: {
           sourceMap: false,
           sourceMapName: srcDir + 'sourcemap.map',
-          banner: '',
+          banner: banner,
           mangle: {
             except: [projectName.toUpperCase()],
           },
@@ -229,24 +227,6 @@ module.exports = function(grunt){
       }
     },
     concat:{
-      lib: {
-        options: {
-          separator: '\n',
-          stripBanners: false,
-          banner: banner
-        },
-        src: [distDir + projectName.toLowerCase() + '.js', nodeDir + 'Type6js/dist/type6.js', nodeDir + 'Taipanjs/dist/taipan.js'],
-        dest: distDir + projectName.toLowerCase() + '.js'
-      },
-      libmin: {
-        options: {
-          separator: '\n',
-          stripBanners: true,
-          banner: banner
-        },
-        src:[distDir + projectName.toLowerCase() + '.min.js', nodeDir + 'Type6js/dist/type6.min.js', nodeDir + 'Taipanjs/dist/taipan.min.js'],
-        dest: distDir + projectName.toLowerCase() + '.min.js'
-      },
       webjs: {
         options: {
           separator: '',
@@ -256,7 +236,7 @@ module.exports = function(grunt){
         src: [
                 nodeDir + 'jquery/dist/jquery.min.js',
                 nodeDir + 'bootstrap/dist/js/bootstrap.min.js',
-                webDir + 'libs/*.min.js',
+                distDir + 'dependencies/*.min.js',
                 distDir + projectName.toLowerCase() + '.min.js',
                 publicDir + 'js/main.min.js'
             ],
@@ -280,11 +260,12 @@ module.exports = function(grunt){
         overwrite: false,
         force: false
       },
-      libs:{
+      dependencies:{
         expand: true,
-        cwd: nodeDir + 'Type6js/dist/',
-        src: ['*.js'],
-        dest: webDir + 'libs/',
+        cwd: nodeDir,
+        src: ['Type6js/dist/*.js', 'Taipanjs/dist/*.js'],
+        dest: distDir + 'dependencies/',
+        flatten: true,
         filter: 'isFile'
       },
       fonts:{
@@ -396,20 +377,43 @@ module.exports = function(grunt){
   grunt.loadNpmTasks( 'grunt-open' );
 
 
-  grunt.registerTask('default', [ 'jshint', 'clean', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify', 'symlink', 'concat', 'compress' ]); //build all for release
+  grunt.registerTask( 'dist',
+                      'build release distribution for prosuction',
+                      [ 'jshint', 'clean', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify', 'symlink:dependencies', 'symlink:fonts', 'symlink:fontAwesome', 'concat', 'symlink:public', 'symlink:doc', 'htmlmin', 'compress' ]
+                    );
 
+  grunt.registerTask( 'serve',
+                      'serve files, open website and watch for changes.',
+                      [ 'jshint', 'clean', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify', 'symlink:dependencies', 'symlink:fonts', 'symlink:fontAwesome', 'concat', 'symlink:public', 'symlink:doc', 'compress', 'concurrent' ]
+                    );
 
-  grunt.registerTask('prod', [ 'clean:web', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify:web', 'symlink', 'concat:webjs', 'concat:webcss', 'htmlmin', 'compress' ]); //build for prod on the server
-  
-  grunt.registerTask('serve', [ 'jshint', 'clean', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify', 'concat', 'symlink', 'compress', 'concurrent' ]); //serve files, open website watch for changes and.
+  grunt.registerTask( 'doc',
+                      'build jsdoc into /doc',
+                      [ 'jsdoc' ]
+                    );
 
-  grunt.registerTask('doc', [ 'jsdoc' ]); //build jsdoc into /doc
-  grunt.registerTask('src', [ 'jshint:lib', 'clean:lib', 'uglify', 'concat:lib', 'concat:libmin', 'symlink:libs', 'concat:webjs' ]); //build into /dist
-  //website
-  grunt.registerTask('js', [ 'jshint:web', 'uglify:web', 'symlink:libs', 'concat:webjs' ]); //build js into /website/public/js
-  grunt.registerTask('css', [ 'sass', 'csslint', 'cssmin', 'concat:webcss' ]); //build sass into /website/public/css
-  grunt.registerTask('static', [ 'pug', 'htmlmin', 'symlink' ]); //build static site into /website/static
+  grunt.registerTask( 'src',
+                      'build library into /dist',
+                      [ 'jshint:lib', 'clean:lib', 'uglify', 'symlink:dependencies', 'concat:lib', 'concat:libmin']
+                    );
 
-  grunt.registerTask('zip', ['compress']); //compress the project in a downloadable static package
+  grunt.registerTask( 'website:js',
+                      'build necessary js files for website into /website/public/js',
+                      [ 'jshint:web', 'uglify:web', 'symlink:dependencies', 'concat:webjs' ]
+                    );
 
+  grunt.registerTask( 'website:css',
+                      'build sass for website into /website/public/css',
+                      [ 'sass', 'csslint', 'cssmin', 'concat:webcss' ]
+                    );
+
+  grunt.registerTask( 'website:static',
+                      'build static version of the website into /website/static',
+                      [ 'pug', 'htmlmin', 'symlink:fonts', 'symlink:fontAwesome', 'symlink:public', 'symlink:doc' ]
+                    );
+
+  grunt.registerTask( 'zip',
+                      'create the  package',
+                      ['compress']
+                    );
 };
