@@ -58,13 +58,12 @@ module.exports = function(grunt){
       },
       web:{
         src: [  docDir    + '*',
+                zipDir    + '*',
                 webDir    + 'static/*',
+                webDir    + 'sass/build/*',
                 publicDir + 'js/*',
                 publicDir + 'css/*',
-                webDir    + 'sass/build/*',
-                //webDir    + 'libs/',
-                //publicDir + 'fonts/*',
-                zipDir    + '*'
+                publicDir + 'fonts/*'    
         ]
       }
     },
@@ -379,16 +378,16 @@ module.exports = function(grunt){
   grunt.loadNpmTasks( 'grunt-open' );
 
 
-  grunt.registerTask('default', [ 'jshint', 'clean', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify', 'symlink:dependencies', 'symlink:fonts', 'symlink:fontAwesome', 'concat', 'symlink:public', 'symlink:doc', 'htmlmin', 'compress' ]); //build all for release
+  grunt.registerTask('dist', [ 'jshint', 'clean', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify', 'symlink:dependencies', 'symlink:fonts', 'symlink:fontAwesome', 'concat', 'symlink:public', 'symlink:doc', 'htmlmin', 'compress' ]); //build all for release
   
-  grunt.registerTask('serve', [ 'jshint', 'clean', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify', 'symlink:dependencies', 'symlink:fonts', 'symlink:fontAwesome', 'concat', 'symlink:public', 'symlink:doc', 'htmlmin', 'compress', 'concurrent' ]); //serve files, open website watch for changes and.
+  grunt.registerTask('serve', [ 'jshint', 'clean', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify', 'symlink:dependencies', 'symlink:fonts', 'symlink:fontAwesome', 'concat', 'symlink:public', 'symlink:doc', 'compress', 'concurrent' ]); //serve files, open website watch for changes and.
 
   grunt.registerTask('doc', [ 'jsdoc' ]); //build jsdoc into /doc
-  grunt.registerTask('src', [ 'jshint:lib', 'clean:lib', 'uglify', 'concat:lib', 'concat:libmin', 'symlink:dependencies', 'concat:webjs' ]); //build into /dist
+  grunt.registerTask('src', [ 'jshint:lib', 'clean:lib', 'uglify', 'symlink:dependencies', 'concat:lib', 'concat:libmin', 'concat:libmin']); //build into /dist
   //website
-  grunt.registerTask('js', [ 'jshint:web', 'uglify:web', 'symlink:libs', 'concat:webjs' ]); //build js into /website/public/js
+  grunt.registerTask('js', [ 'jshint:web', 'uglify:web', 'symlink:libs', 'symlink:dependencies', 'concat:webjs' ]); //build js into /website/public/js
   grunt.registerTask('css', [ 'sass', 'csslint', 'cssmin', 'concat:webcss' ]); //build sass into /website/public/css
-  grunt.registerTask('static', [ 'pug', 'htmlmin', 'symlink' ]); //build static site into /website/static
+  grunt.registerTask('static', [ 'pug', 'htmlmin', 'symlink:fonts', 'symlink:fontAwesome', 'symlink:public', 'symlink:doc' ]); //build static site into /website/static
 
   grunt.registerTask('zip', ['compress']); //compress the project in a downloadable static package
 
