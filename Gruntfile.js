@@ -301,13 +301,15 @@ module.exports = function(grunt){
           archive: zipDir + projectName.toLowerCase() + 'js.zip'
         },
         files: [
-          {src: [distDir + '*'], dest: '/', filter: 'isFile'},
-          {src: [docDir + '**'], dest: '/', filter: 'isFile'},
           {expand: true, cwd: webDir + 'static/', src: '**', dest: '/'},
           {expand: true, cwd: publicDir, src: '**', dest: '/public'},
-          {src: ['LICENCE.txt'], dest: '/'},
-          {src: ['README.md'], dest: '/'},
-          {src: ['RELEASE_NOTES.md'], dest: '/'},
+          {src: [ distDir + '**',
+                  docDir + '**',
+                  'LICENCE.md',
+                  'README.md',
+                  'RELEASE_NOTES.md'
+                ],
+                dest: '/', filter: 'isFile'}
         ]
       }
     },
