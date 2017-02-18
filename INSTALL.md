@@ -29,6 +29,7 @@ You just cloned FrameRat.js : git clone https://github.com/LCluber/FrameRat.js.g
 
 
 ### Workflow
+  - Use **grunt --help** to see the list of tasks.
   - Run **grunt dist** to build the app in production mode.
   - Run **grunt serve** to serve files in development mode, open the website, watch for changes and start working.
 
