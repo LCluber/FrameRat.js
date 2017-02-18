@@ -1,7 +1,6 @@
 Version 0.2.6 (February 18th 2017)
 ------------------------------
  * Type6.js and Taipan.js dependencies are built separately into the dist/dependencies/ folder instead of being directly inserted into the distribution FrameRat.js and FrameRat.min.js files
- * Updated Type6.js dependency to version 0.2.4
 
 Version 0.2.5 (January 30th 2017)
 ------------------------------
