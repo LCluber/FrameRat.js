@@ -21,6 +21,8 @@ module.exports = function(grunt){
                     srcDir + 'polyfills/performanceNow.js',
                     srcDir + 'polyfills/requestAnimationFrame.js'
                   ];
+                  
+  var dependencies = ['Type6js/dist/*.js', 'Taipanjs/dist/*.js'];
   
   var banner    = '/** MIT License\n' +
     '* \n' +
@@ -233,8 +235,7 @@ module.exports = function(grunt){
           stripBanners: true,
           banner: ''
         },
-        src: [
-                nodeDir + 'jquery/dist/jquery.min.js',
+        src: [  nodeDir + 'jquery/dist/jquery.min.js',
                 nodeDir + 'bootstrap/dist/js/bootstrap.min.js',
                 distDir + 'dependencies/*.min.js',
                 distDir + projectName.toLowerCase() + '.min.js',
@@ -248,9 +249,9 @@ module.exports = function(grunt){
           stripBanners: true,
           banner: ''
         },
-        src: [nodeDir + 'font-awesome/css/font-awesome.min.css',
-              nodeDir + 'bootstrap/dist/css/bootstrap.min.css',
-              publicDir + 'css/style.min.css'
+        src: [  nodeDir + 'font-awesome/css/font-awesome.min.css',
+                nodeDir + 'bootstrap/dist/css/bootstrap.min.css',
+                publicDir + 'css/style.min.css'
             ],
         dest: publicDir + 'css/style.min.css'
       }
@@ -263,7 +264,7 @@ module.exports = function(grunt){
       dependencies:{
         expand: true,
         cwd: nodeDir,
-        src: ['Type6js/dist/*.js', 'Taipanjs/dist/*.js'],
+        src: dependencies,
         dest: distDir + 'dependencies/',
         flatten: true,
         filter: 'isFile'
