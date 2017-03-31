@@ -21,6 +21,8 @@ module.exports = function(grunt){
                     srcDir + 'polyfills/performanceNow.js',
                     srcDir + 'polyfills/requestAnimationFrame.js'
                   ];
+                  
+  var dependencies = ['Type6js/dist/*.js', 'Taipanjs/dist/*.js'];
   
   var banner    = '/** MIT License\n' +
     '* \n' +
@@ -233,8 +235,7 @@ module.exports = function(grunt){
           stripBanners: true,
           banner: ''
         },
-        src: [
-                nodeDir + 'jquery/dist/jquery.min.js',
+        src: [  nodeDir + 'jquery/dist/jquery.min.js',
                 nodeDir + 'bootstrap/dist/js/bootstrap.min.js',
                 distDir + 'dependencies/*.min.js',
                 distDir + projectName.toLowerCase() + '.min.js',
@@ -248,9 +249,9 @@ module.exports = function(grunt){
           stripBanners: true,
           banner: ''
         },
-        src: [nodeDir + 'font-awesome/css/font-awesome.min.css',
-              nodeDir + 'bootstrap/dist/css/bootstrap.min.css',
-              publicDir + 'css/style.min.css'
+        src: [  nodeDir + 'font-awesome/css/font-awesome.min.css',
+                nodeDir + 'bootstrap/dist/css/bootstrap.min.css',
+                publicDir + 'css/style.min.css'
             ],
         dest: publicDir + 'css/style.min.css'
       }
@@ -263,7 +264,7 @@ module.exports = function(grunt){
       dependencies:{
         expand: true,
         cwd: nodeDir,
-        src: ['Type6js/dist/*.js', 'Taipanjs/dist/*.js'],
+        src: dependencies,
         dest: distDir + 'dependencies/',
         flatten: true,
         filter: 'isFile'
@@ -301,13 +302,15 @@ module.exports = function(grunt){
           archive: zipDir + projectName.toLowerCase() + 'js.zip'
         },
         files: [
-          {src: [distDir + '*'], dest: '/', filter: 'isFile'},
-          {src: [docDir + '**'], dest: '/', filter: 'isFile'},
           {expand: true, cwd: webDir + 'static/', src: '**', dest: '/'},
           {expand: true, cwd: publicDir, src: '**', dest: '/public'},
-          {src: ['LICENCE.txt'], dest: '/'},
-          {src: ['README.md'], dest: '/'},
-          {src: ['RELEASE_NOTES.md'], dest: '/'},
+          {src: [ distDir + '**',
+                  docDir + '**',
+                  'LICENCE.md',
+                  'README.md',
+                  'RELEASE_NOTES.md'
+                ],
+                dest: '/', filter: 'isFile'}
         ]
       }
     },
