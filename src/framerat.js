@@ -6,7 +6,7 @@ var FRAMERAT = {
   /**
   * @author Ludovic Cluber <http://www.lcluber.com>
   * @file Animation frame library.
-  * @version 0.2.6
+  * @version 0.2.7
   * @copyright (c) 2011 Ludovic Cluber
 
   * @license
@@ -31,7 +31,7 @@ var FRAMERAT = {
   * SOFTWARE.
   *
   */
-  revision: '0.2.6',
+  revision: '0.2.7',
 
   id: null, //animation frame ID
   onAnimate: function(){}, //call this functiion at each frame
@@ -44,9 +44,9 @@ var FRAMERAT = {
     refreshRate : 30
   },
   console : {},
-  formated : {
-    delta : 0
-  },
+  // formated : {
+  //   delta : 0
+  // },
 
   /**
   * Create a new animation frame.
@@ -169,9 +169,9 @@ var FRAMERAT = {
     return this.clock.getTotal();
   },
   
-  getFormatedTotalTime : function(){
-    return TYPE6.MathUtils.round( this.millisecondToSecond( this.getTotalTime() ), 2 );
-  },
+  // getFormatedTotalTime : function(){
+  //   return TYPE6.MathUtils.round( this.millisecondToSecond( this.getTotalTime() ), 2 );
+  // },
 
   /**
   * Get the elapsed time between the last two frames in second.
@@ -183,12 +183,12 @@ var FRAMERAT = {
     return this.millisecondToSecond( this.clock.getDelta() );
   },
   
-  getFormatedDelta : function(){
-    if( this.tickCount % this.options.refreshRate === 0 )
-      this.formated.delta = TYPE6.MathUtils.round( this.getDelta(), 5 );
-  
-    return this.formated.delta;
-  },
+  // getFormatedDelta : function(){
+  //   if( this.tickCount % this.options.refreshRate === 0 )
+  //     this.formated.delta = TYPE6.MathUtils.round( this.getDelta(), 5 );
+  // 
+  //   return this.formated.delta;
+  // },
 
   /**
   * Get the total number of frames since start.

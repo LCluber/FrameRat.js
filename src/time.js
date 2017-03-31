@@ -6,7 +6,7 @@ FRAMERAT.Time = {
 
   create : function( millisecond ) {
     var _this = Object.create(this);
-    _this.set(millisecond);
+    _this.set(millisecond || 0);
     return _this;
   },
 
@@ -25,6 +25,11 @@ FRAMERAT.Time = {
 
   getMillisecond : function(){
     return this.millisecond;
+  },
+  
+  //utils
+  millisecondToSecond : function( millisecond ){
+    return millisecond * 0.001;
   }
 
 };
