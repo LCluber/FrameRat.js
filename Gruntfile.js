@@ -64,7 +64,7 @@ module.exports = function(grunt){
                 webDir    + 'sass/build/*',
                 publicDir + 'js/*',
                 publicDir + 'css/*',
-                publicDir + 'fonts/*'    
+                publicDir + 'fonts/*'
         ]
       }
     },
@@ -381,7 +381,7 @@ module.exports = function(grunt){
 
 
   grunt.registerTask( 'dist',
-                      'build release distribution for prosuction',
+                      'build release distribution for production',
                       [ 'jshint', 'clean', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify', 'symlink:dependencies', 'symlink:fonts', 'symlink:fontAwesome', 'concat', 'symlink:public', 'symlink:doc', 'htmlmin', 'compress' ]
                     );
 
