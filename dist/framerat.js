@@ -23,7 +23,7 @@
 * http://frameratjs.lcluber.com
 */
 var FRAMERAT = {
-    revision: "0.2.6",
+    revision: "0.2.7",
     id: null,
     onAnimate: function() {},
     tickCount: 0,
@@ -50,7 +50,7 @@ var FRAMERAT = {
     },
     createConsole: function() {
         this.console = FRAMERAT.Console.create(TYPE6.Vector2D.create(), TYPE6.Vector2D.create(20, 20));
-        this.console.addLine("Elapsed time : {0}", this.getFormatedTotalTime, this);
+        this.console.addLine("Elapsed time : {0}", this.getFormatedElapsedTime, this);
         this.console.addLine("Frame count : {0}", this.getFrameNumber, this);
         this.console.addLine("Frame Per Second : {0}", this.getFramePerSecond, this);
         this.console.addLine("Frame duration : {0}", this.getFormatedDelta, this);
@@ -94,17 +94,17 @@ var FRAMERAT = {
         }
         return false;
     },
-    getTotalTime: function() {
-        return this.clock.getTotal();
+    getElapsedTime: function() {
+        return this.clock.getElapsed();
     },
-    getFormatedTotalTime: function() {
-        return TYPE6.MathUtils.round(this.millisecondToSecond(this.getTotalTime()), 2);
+    getFormatedElapsedTime: function() {
+        return TYPE6.MathUtils.round(this.getElapsedTime().getSecond(), 2);
     },
     getDelta: function() {
-        return this.millisecondToSecond(this.clock.getDelta());
+        return this.clock.getDelta();
     },
     getFormatedDelta: function() {
-        if (this.tickCount % this.options.refreshRate === 0) this.formated.delta = TYPE6.MathUtils.round(this.getDelta(), 5);
+        if (this.tickCount % this.options.refreshRate === 0) this.formated.delta = TYPE6.MathUtils.round(this.getDelta().getMillisecond(), 2);
         return this.formated.delta;
     },
     getFrameNumber: function() {
@@ -125,14 +125,37 @@ var FRAMERAT = {
     cancelAnimation: function() {
         window.cancelAnimationFrame(this.frameId);
     },
-    millisecondToSecond: function(millisecond) {
-        return millisecond * .001;
-    },
     drawConsole: function(context) {
         this.console.draw(context);
     },
     toggleConsole: function() {
         this.console.toggle();
+    }
+};
+
+FRAMERAT.Time = {
+    millisecond: 0,
+    second: 0,
+    create: function(millisecond) {
+        var _this = Object.create(this);
+        _this.set(millisecond || 0);
+        return _this;
+    },
+    set: function(value) {
+        this.millisecond = value;
+        this.second = this.millisecondToSecond(this.millisecond);
+    },
+    add: function(value) {
+        this.set(this.millisecond + value);
+    },
+    getSecond: function() {
+        return this.second;
+    },
+    getMillisecond: function() {
+        return this.millisecond;
+    },
+    millisecondToSecond: function(millisecond) {
+        return millisecond * .001;
     }
 };
 
@@ -203,38 +226,39 @@ FRAMERAT.Console.Line = {
 
 FRAMERAT.Clock = {
     old: performance.now(),
-    new: performance.now(),
+    "new": performance.now(),
     fps: 0,
     minimumTick: 16,
-    total: 0,
-    delta: 0,
+    elapsed: {},
+    delta: {},
     create: function() {
         var _this = Object.create(this);
-        _this.init();
+        _this.elapsed = FRAMERAT.Time.create(0);
+        _this.delta = FRAMERAT.Time.create(Math.max(0, _this.minimumTick));
         return _this;
     },
     init: function() {
         this.fps = 0;
-        this.total = 0;
-        this.delta = Math.max(0, this.minimumTick);
+        this.elapsed.set(0);
+        this.delta.set(Math.max(0, this.minimumTick));
     },
     start: function() {
         this.old = performance.now();
     },
     tick: function() {
         this.new = performance.now();
-        this.delta = Math.max(this.new - this.old, this.minimumTick);
+        this.delta.set(Math.max(this.new - this.old, this.minimumTick));
         this.old = this.new;
-        this.total += this.delta;
+        this.elapsed.add(this.delta.getMillisecond());
     },
-    getTotal: function() {
-        return this.total;
+    getElapsed: function() {
+        return this.elapsed;
     },
     getDelta: function() {
         return this.delta;
     },
     computeFramePerSecond: function() {
-        this.fps = Math.round(1e3 / this.delta);
+        this.fps = Math.round(1e3 / this.delta.getMillisecond());
     },
     getFramePerSecond: function() {
         return this.fps;

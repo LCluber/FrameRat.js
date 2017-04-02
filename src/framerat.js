@@ -6,7 +6,7 @@ var FRAMERAT = {
   /**
   * @author Ludovic Cluber <http://www.lcluber.com>
   * @file Animation frame library.
-  * @version 0.2.6
+  * @version 0.2.7
   * @copyright (c) 2011 Ludovic Cluber
 
   * @license
@@ -31,7 +31,7 @@ var FRAMERAT = {
   * SOFTWARE.
   *
   */
-  revision: '0.2.6',
+  revision: '0.2.7',
 
   id: null, //animation frame ID
   onAnimate: function(){}, //call this functiion at each frame
@@ -75,7 +75,7 @@ var FRAMERAT = {
 
   createConsole : function(){
     this.console = FRAMERAT.Console.create( TYPE6.Vector2D.create(), TYPE6.Vector2D.create(20,20) );
-    this.console.addLine('Elapsed time : {0}', this.getFormatedTotalTime, this );
+    this.console.addLine('Elapsed time : {0}', this.getFormatedElapsedTime, this );
     this.console.addLine('Frame count : {0}', this.getFrameNumber, this );
     this.console.addLine('Frame Per Second : {0}', this.getFramePerSecond, this );
     this.console.addLine('Frame duration : {0}', this.getFormatedDelta, this );
@@ -162,30 +162,29 @@ var FRAMERAT = {
   * Get the total elapsed time since start in seconds.
   * @since 0.1.0
   * @method
-  * @param {integer} decimals The number of decimals.
-  * @returns {integer}  the elapsed time in seconds
+  * @returns {Time}  a Time object containing the elapsed time in seconds and milliseconds
   */
-  getTotalTime : function(){
-    return this.clock.getTotal();
+  getElapsedTime : function(){
+    return this.clock.getElapsed();
   },
   
-  getFormatedTotalTime : function(){
-    return TYPE6.MathUtils.round( this.millisecondToSecond( this.getTotalTime() ), 2 );
+  getFormatedElapsedTime : function(){
+    return TYPE6.MathUtils.round( this.getElapsedTime().getSecond() , 2 );
   },
 
   /**
   * Get the elapsed time between the last two frames in second.
-  * @since 0.2.0
+  * @since 0.1.0
   * @method
-  * @returns {float}  a float number representing the delta in seconds
+  * @returns {Time}  a Time object containing the number representing the delta in seconds and milliseconds
   */
   getDelta : function(){
-    return this.millisecondToSecond( this.clock.getDelta() );
+    return this.clock.getDelta();
   },
   
   getFormatedDelta : function(){
     if( this.tickCount % this.options.refreshRate === 0 )
-      this.formated.delta = TYPE6.MathUtils.round( this.getDelta(), 5 );
+      this.formated.delta = TYPE6.MathUtils.round( this.getDelta().getMillisecond(), 2 );
   
     return this.formated.delta;
   },
@@ -234,11 +233,6 @@ var FRAMERAT = {
 
   cancelAnimation:function(){
     window.cancelAnimationFrame(this.frameId);
-  },
-  
-  //utils
-  millisecondToSecond : function( millisecond ){
-    return millisecond * 0.001;
   },
   
   /**

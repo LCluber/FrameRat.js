@@ -16,6 +16,7 @@ module.exports = function(grunt){
   var zipDir    = 'zip/';
 
   var src       = [ srcDir + projectName.toLowerCase() + '.js',
+                    srcDir + 'time.js',
                     srcDir + 'console.js',
                     srcDir + 'clock.js',
                     srcDir + 'polyfills/performanceNow.js',
@@ -397,7 +398,7 @@ module.exports = function(grunt){
 
   grunt.registerTask( 'src',
                       'build library into /dist',
-                      [ 'jshint:lib', 'clean:lib', 'uglify', 'symlink:dependencies', 'concat:lib', 'concat:libmin']
+                      [ 'jshint:lib', 'clean:lib', 'uglify', 'symlink:dependencies', 'concat:webjs' ]
                     );
 
   grunt.registerTask( 'website:js',

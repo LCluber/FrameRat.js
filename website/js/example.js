@@ -29,7 +29,7 @@
   }
 
   function draw(){
-    for( var i = 0 ; i < numObjects ; i += 1 ) {
+    for(var i = 0 ; i < numObjects ; i += 1) {
       var circle = smallCircles[i];
       if (i === Math.floor(step))
         circle.alpha = 1;
@@ -49,11 +49,6 @@
     context.beginPath();
     context.arc( circle.getPositionX(), circle.getPositionY(), circle.getRadius(), 0, TYPE6.Trigonometry.TWOPI, false);
     context.fill();
-  }
-
-  function write(text, posX, posY){
-    context.fillStyle = "rgba(0, 0, 0, 1)";
-    context.fillText( text, posX, posY );
   }
 
   function clearFrame(){
