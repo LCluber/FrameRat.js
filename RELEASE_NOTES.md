@@ -1,3 +1,8 @@
+Version 0.2.7 (April 2nd 2017)
+------------------------------
+ * Added Time class to handle time formats properly in seconds and milliseconds.
+ * elapsed and delta in the clock method are now Time classes.
+
 Version 0.2.6 (February 18th 2017)
 ------------------------------
  * Type6.js and Taipan.js dependencies are built separately into the dist/dependencies/ folder instead of being directly inserted into the distribution FrameRat.js and FrameRat.min.js files

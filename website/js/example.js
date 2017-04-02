@@ -51,11 +51,6 @@
     context.fill();
   }
 
-  // function write(text, posX, posY){
-  //   context.fillStyle = "rgba(0, 0, 0, 1)";
-  //   context.fillText( text, posX, posY );
-  // }
-
   function clearFrame(){
     context.clearRect(0, 0, width, height);
   }
