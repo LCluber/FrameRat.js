@@ -23,7 +23,7 @@
 * http://frameratjs.lcluber.com
 */
 var FRAMERAT = {
-    revision: "0.2.7",
+    revision: "0.2.8",
     id: null,
     onAnimate: function() {},
     tickCount: 0,
@@ -87,9 +87,9 @@ var FRAMERAT = {
         return this.fsm.getStatus();
     },
     stop: function() {
+        this.clock.init();
+        this.tickCount = 0;
         if (this.pause()) {
-            this.clock.init();
-            this.tickCount = 0;
             return true;
         }
         return false;

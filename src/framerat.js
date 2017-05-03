@@ -6,7 +6,7 @@ var FRAMERAT = {
   /**
   * @author Ludovic Cluber <http://www.lcluber.com>
   * @file Animation frame library.
-  * @version 0.2.7
+  * @version 0.2.8
   * @copyright (c) 2011 Ludovic Cluber
 
   * @license
@@ -31,7 +31,7 @@ var FRAMERAT = {
   * SOFTWARE.
   *
   */
-  revision: '0.2.7',
+  revision: '0.2.8',
 
   id: null, //animation frame ID
   onAnimate: function(){}, //call this functiion at each frame
@@ -149,9 +149,9 @@ var FRAMERAT = {
   * @returns {boolean} true if previous state was "running" false otherwise
   */
   stop:function(){
+    this.clock.init();
+    this.tickCount = 0;
     if( this.pause() ){
-      this.clock.init();
-      this.tickCount = 0;
       return true;
     }
     return false;

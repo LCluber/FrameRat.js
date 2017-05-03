@@ -1,3 +1,7 @@
+Version 0.2.8 (May 3rd 2017)
+------------------------------
+ * stop() method now initializes clock and tick count even if pause() method returns false. 
+
 Version 0.2.7 (April 2nd 2017)
 ------------------------------
  * Added Time class to handle time formats properly in seconds and milliseconds.
