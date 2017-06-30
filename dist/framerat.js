@@ -22,6 +22,7 @@
 *
 * http://frameratjs.lcluber.com
 */
+
 var FRAMERAT = {
     revision: "0.2.8",
     id: null,
