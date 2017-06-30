@@ -226,7 +226,7 @@ FRAMERAT.Console.Line = {
 
 FRAMERAT.Clock = {
     old: performance.now(),
-    "new": performance.now(),
+    new: performance.now(),
     fps: 0,
     minimumTick: 16,
     elapsed: {},

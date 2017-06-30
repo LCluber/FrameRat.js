@@ -22,8 +22,6 @@ module.exports = function(grunt){
                     srcDir + 'polyfills/performanceNow.js',
                     srcDir + 'polyfills/requestAnimationFrame.js'
                   ];
-                  
-  var dependencies = ['Type6js/dist/*.js', 'Taipanjs/dist/*.js'];
   
   var banner    = '/** MIT License\n' +
     '* \n' +
@@ -74,7 +72,7 @@ module.exports = function(grunt){
         jshintrc: 'config/.jshintrc'
       },
       lib: [ 'Gruntfile.js', srcDir + '**/*.js'],
-      web: [ webDir + 'js/**/*.js'],
+      web: [ webDir + 'js/*.js'],
     },
     sass: {
       dist: {
@@ -150,6 +148,21 @@ module.exports = function(grunt){
         dest: webDir + 'static/'
       }
     },
+    bower_concat: {
+      all: {
+        dest: {
+          'js': webDir + 'js/build/bower.js'
+          //'css': 'build/_bower.css'
+        },
+        exclude: [
+        ],
+        dependencies: {
+        },
+        bowerOptions: {
+          relative: false
+        }
+      }
+    },
     uglify: {
       lib: {
         options: {
@@ -197,7 +210,7 @@ module.exports = function(grunt){
           sourceMap: false,
           sourceMapName: srcDir + 'sourcemap.map',
           mangle: {
-            except: ['jQuery']
+            except: ['jQuery'/*, 'TYPE6', 'TAIPAN'*/]
           },
           banner: '',
           compress: {
@@ -238,7 +251,6 @@ module.exports = function(grunt){
         },
         src: [  nodeDir + 'jquery/dist/jquery.min.js',
                 nodeDir + 'bootstrap/dist/js/bootstrap.min.js',
-                distDir + 'dependencies/*.min.js',
                 distDir + projectName.toLowerCase() + '.min.js',
                 publicDir + 'js/main.min.js'
             ],
@@ -261,14 +273,6 @@ module.exports = function(grunt){
       options: {
         overwrite: false,
         force: false
-      },
-      dependencies:{
-        expand: true,
-        cwd: nodeDir,
-        src: dependencies,
-        dest: distDir + 'dependencies/',
-        flatten: true,
-        filter: 'isFile'
       },
       fonts:{
         expand: true,
@@ -363,6 +367,7 @@ module.exports = function(grunt){
     }
   });
 
+  grunt.loadNpmTasks( 'grunt-bower-concat' );
   grunt.loadNpmTasks( 'grunt-contrib-clean' );
   grunt.loadNpmTasks( 'grunt-contrib-jshint' );
   grunt.loadNpmTasks( 'grunt-contrib-uglify' );
@@ -383,12 +388,12 @@ module.exports = function(grunt){
 
   grunt.registerTask( 'dist',
                       'build release distribution for production',
-                      [ 'jshint', 'clean', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify', 'symlink:dependencies', 'symlink:fonts', 'symlink:fontAwesome', 'concat', 'symlink:public', 'symlink:doc', 'htmlmin', 'compress' ]
+                      [ 'jshint', 'clean', 'jsdoc', 'sass', 'cssmin', 'pug', 'bower_concat', 'uglify', 'symlink:fonts', 'symlink:fontAwesome', 'concat', 'symlink:public', 'symlink:doc', 'htmlmin', 'compress' ]
                     );
 
   grunt.registerTask( 'serve',
                       'serve files, open website and watch for changes.',
-                      [ 'jshint', 'clean', 'jsdoc', 'sass', 'cssmin', 'pug', 'uglify', 'symlink:dependencies', 'symlink:fonts', 'symlink:fontAwesome', 'concat', 'symlink:public', 'symlink:doc', 'compress', 'concurrent' ]
+                      [ 'jshint', 'clean', 'jsdoc', 'sass', 'cssmin', 'pug', 'bower_concat', 'uglify', 'symlink:fonts', 'symlink:fontAwesome', 'concat', 'symlink:public', 'symlink:doc', 'compress', 'concurrent' ]
                     );
 
   grunt.registerTask( 'doc',
@@ -398,12 +403,12 @@ module.exports = function(grunt){
 
   grunt.registerTask( 'src',
                       'build library into /dist',
-                      [ 'jshint:lib', 'clean:lib', 'uglify', 'symlink:dependencies', 'concat:webjs' ]
+                      [ 'jshint:lib', 'clean:lib', 'uglify', 'concat:webjs' ]
                     );
 
   grunt.registerTask( 'website:js',
                       'build necessary js files for website into /website/public/js',
-                      [ 'jshint:web', 'uglify:web', 'symlink:dependencies', 'concat:webjs' ]
+                      [ 'jshint:web', 'uglify:web', 'concat:webjs' ]
                     );
 
   grunt.registerTask( 'website:css',

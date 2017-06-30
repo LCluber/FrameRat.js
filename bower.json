@@ -1,0 +1,14 @@
+{
+  "author": "Ludovic Cluber",
+  "name": "frameratjs",
+  "license": "MIT",
+  "main": [
+    "dist/framerat.js"
+  ],
+  "description": "Animation frame library written in Javascript.",
+  "version": "0.2.8",
+  "dependencies": {
+    "Taipanjs": "git+https://github.com/LCluber/Taipan.js.git#0.2.1",
+    "Type6js":  "git+https://github.com/LCluber/Type6.js.git#0.3.0"
+  }
+}
