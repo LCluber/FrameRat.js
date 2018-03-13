@@ -1,13 +1,15 @@
 module.exports = function(grunt){
-
+  var path          = require('path');
   require('time-grunt')(grunt);
 
-  var projectName = 'FrameRat';
+  var projectName = 'FRAMERAT';
+  var projectNameLC = projectName.toLowerCase();
 
   var port      = 3005;
   var host      = 'localhost';
 
   var srcDir    = 'src/';
+  var compiledSrcDir  = srcDir + 'build/';
   var distDir   = 'dist/';
   var webDir    = 'website/';
   var publicDir = webDir + 'public/';
@@ -15,14 +17,6 @@ module.exports = function(grunt){
   var docDir    = 'doc/';
   var zipDir    = 'zip/';
 
-  var src       = [ srcDir + projectName.toLowerCase() + '.js',
-                    srcDir + 'time.js',
-                    srcDir + 'console.js',
-                    srcDir + 'clock.js',
-                    srcDir + 'polyfills/performanceNow.js',
-                    srcDir + 'polyfills/requestAnimationFrame.js'
-                  ];
-  
   var banner    = '/** MIT License\n' +
     '* \n' +
     '* Copyright (c) 2011 Ludovic CLUBER \n' +
@@ -48,20 +42,35 @@ module.exports = function(grunt){
     '* http://' + projectName.toLowerCase() + 'js.lcluber.com\n' +
     '*/\n';
 
+  //i18n configuration for static website translations
+  var i18n = require('i18next');
+  i18n.init({
+    lng: 'en',
+    resources: {
+      en: {
+        translation: grunt.file.readJSON( webDir + 'locales/en/translation.json' )
+      }
+    }
+  });
+  grunt.option('stack', true);
+
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     clean: {
       lib:{
-        src: [  distDir + '*'
+        src: [  distDir + '*',
+                compiledSrcDir + '*'
               ]
       },
       web:{
-        src: [  docDir    + '*',
-                zipDir    + '*',
+        src: [  zipDir    + '*',
                 webDir    + 'static/*',
-                webDir    + 'sass/build/*',
-                publicDir + 'js/*',
+                webDir    + 'sass/build/*'
+        ]
+      },
+      public: {
+        src: [  publicDir + 'js/*',
                 publicDir + 'css/*',
                 publicDir + 'fonts/*'
         ]
@@ -108,12 +117,12 @@ module.exports = function(grunt){
         }]
       }
     },
-    jsdoc: {
-      dist : {
-        src: src,
-        config: 'config/jsdoc-conf.json'
-      }
-    },
+    // jsdoc: {
+    //   dist : {
+    //     src: src,
+    //     config: 'config/jsdoc-conf.json'
+    //   }
+    // },
     pug: {
       compile: {
         options: {
@@ -125,7 +134,11 @@ module.exports = function(grunt){
           self        : false,
           debug       : false,
           compileDebug: true,
-          globals     : []
+          data: function() {
+            return {
+              t: i18n.t.bind(i18n)
+            };
+          }
         },
         files: [ {
           cwd: webDir + 'views',
@@ -163,24 +176,76 @@ module.exports = function(grunt){
         }
       }
     },
-    uglify: {
-      lib: {
-        options: {
-          beautify: true,
-          banner: banner,
-          mangle: false,
-          compress:false,
-        },
-        src: src,
-        dest: distDir + projectName.toLowerCase() + '.js'
+    tslint: {
+      options: {
+        configuration: 'config/tslint.json',
+        force: false
       },
+      lib: {
+        files: [{
+          expand: true,
+          cwd: srcDir, 
+          src: [ srcDir + '**/*.ts' ]
+        }]
+      }
+    },
+    ts: {
+      tsconfig: 'config/tsconfig.json',
+      lib : {
+        outDir: compiledSrcDir,
+        options: {
+          rootDir: srcDir + 'ts/',
+          declaration: true
+        },
+        src: [ srcDir + 'ts/**/*.ts', '!node_modules/**/*.ts' ]
+      }
+    },
+    rollup: {
+      options: {
+        format:'umd',
+        moduleName: projectName,
+        external: [
+          // 'type6',
+          // 'taipan',
+          // 'TAIPAN',
+          // 'TYPE6',
+          // 'type6js',
+          // 'taipanjs',
+          path.resolve( './bower_components/Taipanjs/dist/taipan.js' ),
+          path.resolve( './bower_components/Type6js/dist/type6.js' )//,
+          //path.resolve( '../../bower_components/Taipanjs/dist/taipan.js' ),
+          //path.resolve( '../../bower_components/Type6js/dist/type6.js' )
+        ],
+        banner: banner,
+        globals: {
+          //taipan: 'TAIPAN'
+        }
+      },
+      bundle:{
+        files: [ {
+          src : compiledSrcDir + projectNameLC + '.js', 
+          dest : distDir + projectNameLC + '.js' 
+        } ]
+      }
+    },
+    uglify: {
+      // lib: {
+      //   options: {
+      //     beautify: true,
+      //     banner: banner,
+      //     mangle: false,
+      //     compress:false,
+      //   },
+      //   src: distDir + projectNameLC + '.js',
+      //   dest: distDir + projectNameLC + '.js'
+      // },
       libmin: {
         options: {
           sourceMap: false,
           sourceMapName: srcDir + 'sourcemap.map',
           banner: banner,
           mangle: {
-            reserved: [projectName.toUpperCase()],
+            reserved: [projectName],
           },
           compress: {
             sequences: true,
@@ -202,8 +267,41 @@ module.exports = function(grunt){
             keep_fnames: false
           }
         },
-        src: src,
-        dest: distDir + projectName.toLowerCase() + '.min.js'
+        src: distDir + projectNameLC + '.js',
+        dest: distDir + projectNameLC + '.min.js'
+      },
+      bower: {
+        options: {
+          sourceMap: false,
+          sourceMapName: srcDir + 'sourcemap.map',
+          mangle: {
+            reserved: []
+          },
+          banner: '',
+          compress: {
+            sequences: true,
+            properties: true,
+            dead_code: true,
+            unsafe: false,
+            conditionals:true,
+            comparisons:true,
+            booleans:true,
+            loops:true,
+            unused: true,
+            hoist_funs:true,
+            if_return:true,
+            join_vars:true,
+            cascade:true,
+            warnings: true,
+            drop_console: false,
+            keep_fargs: false,
+            keep_fnames: false
+          }
+        },
+        files: [{
+          src: webDir + 'js/build/*.js',
+          dest : webDir + 'js/build/bower.min.js'
+        }]
       },
       web: {
         options: {
@@ -236,13 +334,23 @@ module.exports = function(grunt){
         files: [{
           src  : [
             nodeDir + 'jquery-easing/jquery.easing.1.3.js',
-            webDir + 'js/**/*.js'
+            //webDir + 'js/build/*.js',
+            webDir + 'js/*.js'
           ],
           dest : publicDir + 'js/main.min.js'
         }]
       }
     },
     concat:{
+      declaration: {
+        options: {
+          separator: '',
+          stripBanners: false,
+          banner: banner
+        },
+        src: srcDir + '**/*.d.ts',
+        dest: distDir + projectNameLC + '.d.ts'
+      },
       webjs: {
         options: {
           separator: '',
@@ -251,7 +359,8 @@ module.exports = function(grunt){
         },
         src: [  nodeDir + 'jquery/dist/jquery.min.js',
                 nodeDir + 'bootstrap/dist/js/bootstrap.min.js',
-                distDir + projectName.toLowerCase() + '.min.js',
+                webDir + 'js/build/bower.min.js',
+                distDir + projectNameLC + '.min.js',
                 publicDir + 'js/main.min.js'
             ],
         dest: publicDir + 'js/main.min.js'
@@ -269,11 +378,31 @@ module.exports = function(grunt){
         dest: publicDir + 'css/style.min.css'
       }
     },
+    strip_code: {
+      options: {
+        //import { IBase64Service } from '../services/base64.service';
+        // /// <reference path="../config/typings/index.d.ts" />
+        patterns: [ /import.*';/g,
+                    /export { .* } from '.*';/g,
+                    /\/\/\/ <reference path=.*\/>/g
+                  ]
+      },
+      declaration: {
+          src: distDir + projectName + '.d.ts'
+      }
+    },
     symlink: {
       options: {
         overwrite: false,
         force: false
       },
+      // declaration:{
+      //   expand: true,
+      //   cwd: compiledSrcDir,
+      //   src: ['*.d.ts'],
+      //   dest: distDir,
+      //   filter: 'isFile'
+      // },
       fonts:{
         expand: true,
         cwd: nodeDir + 'bootstrap/dist/',
@@ -293,18 +422,18 @@ module.exports = function(grunt){
         cwd: publicDir,
         src: ['**/*'],
         dest: webDir + 'static/public/'
-      },
-      doc: {
-        expand: true,
-        cwd: docDir,
-        src: ['**/*'],
-        dest: webDir + 'static/' + docDir
-      }
+      }//,
+      // doc: {
+      //   expand: true,
+      //   cwd: docDir,
+      //   src: ['**/*'],
+      //   dest: webDir + 'static/' + docDir
+      // }
     },
     compress: {
       main: {
         options: {
-          archive: zipDir + projectName.toLowerCase() + 'js.zip'
+          archive: zipDir + projectNameLC + 'js.zip'
         },
         files: [
           {expand: true, cwd: webDir + 'static/', src: '**', dest: '/'},
@@ -380,49 +509,90 @@ module.exports = function(grunt){
   grunt.loadNpmTasks( 'grunt-contrib-symlink' );
   grunt.loadNpmTasks( 'grunt-contrib-compress' );
   grunt.loadNpmTasks( 'grunt-contrib-watch' );
+  grunt.loadNpmTasks( 'grunt-strip-code' );
   grunt.loadNpmTasks( 'grunt-jsdoc' );
   grunt.loadNpmTasks( 'grunt-concurrent' );
   grunt.loadNpmTasks( 'grunt-nodemon' );
   grunt.loadNpmTasks( 'grunt-open' );
+  grunt.loadNpmTasks( 'grunt-tslint' );
+  grunt.loadNpmTasks( 'grunt-ts' );
+  grunt.loadNpmTasks( 'grunt-rollup' );
 
-
-  grunt.registerTask( 'dist',
-                      'build release distribution for production',
-                      [ 'jshint', 'clean', 'jsdoc', 'sass', 'cssmin', 'pug', 'bower_concat', 'uglify', 'symlink:fonts', 'symlink:fontAwesome', 'concat', 'symlink:public', 'symlink:doc', 'htmlmin', 'compress' ]
-                    );
-
-  grunt.registerTask( 'serve',
-                      'serve files, open website and watch for changes.',
-                      [ 'jshint', 'clean', 'jsdoc', 'sass', 'cssmin', 'pug', 'bower_concat', 'uglify', 'symlink:fonts', 'symlink:fontAwesome', 'concat', 'symlink:public', 'symlink:doc', 'compress', 'concurrent' ]
+  grunt.registerTask( 'lib',
+                      'build the library in the dist/ folder',
+                      [ 'tslint:lib',
+                        'clean:lib',
+                        'ts:lib',
+                        'rollup',
+                        'uglify:libmin',
+                        'concat:declaration',
+                        'strip_code:declaration'
+                        //'jsdoc'
+                      ]
                     );
 
   grunt.registerTask( 'doc',
-                      'build jsdoc into /doc',
+                      'build jsdoc in the doc/ folder',
                       [ 'jsdoc' ]
                     );
 
-  grunt.registerTask( 'src',
-                      'build library into /dist',
-                      [ 'jshint:lib', 'clean:lib', 'uglify', 'concat:webjs' ]
+  // grunt.registerTask( 'static',
+  //                     'build static version of the website into /website/static',
+  //                     [ 'pug',
+  //                       'htmlmin',
+  //                       'symlink:fonts', 'symlink:fontAwesome', 'symlink:public', 'symlink:doc'
+  //                     ]
+  //                   );
+                    
+  // grunt.registerTask( 'zip',
+  //                     'create the zip package',
+  //                     ['compress']
+  //                   );
+
+  grunt.registerTask( 'serve',
+                      'launch server, open website and watch for changes',
+                      [ 'concurrent' ]
                     );
 
-  grunt.registerTask( 'website:js',
-                      'build necessary js files for website into /website/public/js',
-                      [ 'jshint:web', 'uglify:web', 'concat:webjs' ]
+  grunt.registerTask( 'website',
+                      'build the website in the website/ folder',
+                      [ 'jshint:web',
+                        'clean:public', 'clean:web',
+                        //js
+                          'bower_concat',
+                          'uglify:bower',
+                          'uglify:web',
+                          'concat:webjs', 
+                        //css
+                          'sass',
+                          'cssmin',
+                          'symlink:fonts', 'symlink:fontAwesome',
+                          'concat:webcss',
+                        //static
+                          'pug',
+                          'htmlmin',
+                          'symlink:public',
+                          'compress'
+                      ]
                     );
 
-  grunt.registerTask( 'website:css',
-                      'build sass for website into /website/public/css',
-                      [ 'sass', 'csslint', 'cssmin', 'concat:webcss' ]
+  grunt.registerTask( 'dist',
+                      'build library and website',
+                      function() {
+                        //build lib
+                        grunt.task.run('lib');
+                        //build site
+                        grunt.task.run('website');
+                      }
                     );
 
-  grunt.registerTask( 'website:static',
-                      'build static version of the website into /website/static',
-                      [ 'pug', 'htmlmin', 'symlink:fonts', 'symlink:fontAwesome', 'symlink:public', 'symlink:doc' ]
-                    );
-
-  grunt.registerTask( 'zip',
-                      'create the  package',
-                      ['compress']
+  grunt.registerTask( 'default',
+                      'build library, website, launch server, open website and watch for changes.',
+                      function() {
+                        //build library and website
+                        grunt.task.run('dist');
+                        // launch server and watch for changes
+                        grunt.task.run('serve');
+                      }
                     );
 };

@@ -9,6 +9,10 @@ You just cloned FrameRat.js : git clone https://github.com/LCluber/FrameRat.js.g
     - **sudo apt-get install -y nodejs**
 
 
+### Install bower :
+  - Run **npm install -g bower**
+
+
 ### Install ruby :
   - Windows : **http://rubyinstaller.org/downloads/**
   - OSX : already installed

@@ -1,15 +1,21 @@
+Version 0.3.0 (March 12th 2018)
+------------------------------
+ * Library is written in TypeScript
+ * Updated Type6.js dependency to version 0.4.1 
+ * Updated Taipan.js dependency to version 0.3.1 
+
 Version 0.2.8 (May 3rd 2017)
 ------------------------------
- * stop() method now initializes clock and tick count even if pause() method returns false. 
+ * stop() method now initializes clock and tick count even if pause() method returns false
 
 Version 0.2.7 (April 2nd 2017)
 ------------------------------
- * Added Time class to handle time formats properly in seconds and milliseconds.
- * elapsed and delta in the clock method are now Time classes.
+ * Added Time class to handle time formats properly in seconds and milliseconds
+ * elapsed and delta in the clock method are now Time classes
 
 Version 0.2.6 (February 18th 2017)
 ------------------------------
- * Type6.js and Taipan.js dependencies are built separately into the dist/dependencies/ folder instead of being directly inserted into the distribution FrameRat.js and FrameRat.min.js files
+ * Type6.js and Taipan.js dependencies not inserted into the distribution FrameRat.js and FrameRat.min.js files anymore
 
 Version 0.2.5 (January 30th 2017)
 ------------------------------

@@ -7,18 +7,13 @@ section( id='source' class='container content-section text-center' )
       
       p Instantiate an animation with an onAnimate callback .
       pre. 
-        var animation = FRAMERAT.create(render);
+        var animation = new FRAMERAT.Player(render);
       
       p Render function
       pre.
         function render(){
           clearFrame();
           drawStuff();
-          writeStuff('Elapsed time : '     + animation.getTotalTime(0) + ' seconds');
-          writeStuff('Frame number : '     + animation.getFrameNumber());
-          writeStuff('Frame Per Second : ' + animation.getFramePerSecond(30, 0));
-          writeStuff('Frame duration : '   + animation.getDelta().getSecond();
-          writeStuff('Rounded Frame duration : ' + animation.getRoundedDelta(30, 0).getMillisecond() + ' ms');
           animation.newFrame();
         }
       

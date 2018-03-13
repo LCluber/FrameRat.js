@@ -23,284 +23,114 @@
 * http://frameratjs.lcluber.com
 */
 
-var FRAMERAT = {
-    revision: "0.2.8",
-    id: null,
-    onAnimate: function() {},
-    tickCount: 0,
-    fsm: {},
-    clock: {},
-    frameId: 0,
-    options: {
-        refreshRate: 30
-    },
-    console: {},
-    formated: {
-        delta: 0
-    },
-    create: function(onAnimate, scope) {
-        var _this = Object.create(this);
-        _this.createOnAnimateCallback(onAnimate, scope);
-        _this.createFiniteStateMachine();
-        _this.createConsole();
-        _this.clock = FRAMERAT.Clock.create();
-        return _this;
-    },
-    createOnAnimateCallback: function(onAnimate, scope) {
-        if (!scope) this.onAnimate = onAnimate; else this.onAnimate = onAnimate.bind(scope);
-    },
-    createConsole: function() {
-        this.console = FRAMERAT.Console.create(TYPE6.Vector2D.create(), TYPE6.Vector2D.create(20, 20));
-        this.console.addLine("Elapsed time : {0}", this.getFormatedElapsedTime, this);
-        this.console.addLine("Frame count : {0}", this.getFrameNumber, this);
-        this.console.addLine("Frame Per Second : {0}", this.getFramePerSecond, this);
-        this.console.addLine("Frame duration : {0}", this.getFormatedDelta, this);
-        this.toggleConsole();
-    },
-    createFiniteStateMachine: function() {
-        this.fsm = TAIPAN.create([ {
-            name: "play",
-            from: "paused",
-            to: "running"
-        }, {
-            name: "pause",
-            from: "running",
-            to: "paused"
-        } ]);
-    },
-    play: function() {
-        if (this.fsm.play()) {
-            this.clock.start();
-            this.requestNewFrame();
-            return true;
-        }
-        return false;
-    },
-    pause: function() {
-        if (this.fsm.pause()) {
-            this.cancelAnimation();
-            return true;
-        }
-        return false;
-    },
-    toggle: function() {
-        if (!this.play()) this.pause();
-        return this.fsm.getStatus();
-    },
-    stop: function() {
-        this.clock.init();
-        this.tickCount = 0;
-        if (this.pause()) {
-            return true;
-        }
-        return false;
-    },
-    getElapsedTime: function() {
-        return this.clock.getElapsed();
-    },
-    getFormatedElapsedTime: function() {
-        return TYPE6.MathUtils.round(this.getElapsedTime().getSecond(), 2);
-    },
-    getDelta: function() {
-        return this.clock.getDelta();
-    },
-    getFormatedDelta: function() {
-        if (this.tickCount % this.options.refreshRate === 0) this.formated.delta = TYPE6.MathUtils.round(this.getDelta().getMillisecond(), 2);
-        return this.formated.delta;
-    },
-    getFrameNumber: function() {
-        return this.tickCount;
-    },
-    getFramePerSecond: function() {
-        if (this.tickCount % this.options.refreshRate === 0) this.clock.computeFramePerSecond();
-        return this.clock.getFramePerSecond();
-    },
-    newFrame: function() {
-        this.requestNewFrame();
-        this.clock.tick();
-    },
-    requestNewFrame: function() {
-        this.frameId = window.requestAnimationFrame(this.onAnimate);
-        this.tickCount++;
-    },
-    cancelAnimation: function() {
-        window.cancelAnimationFrame(this.frameId);
-    },
-    drawConsole: function(context) {
-        this.console.draw(context);
-    },
-    toggleConsole: function() {
-        this.console.toggle();
-    }
-};
+(function (global, factory) {
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('../../bower_components/Taipanjs/dist/taipan.js'), require('../../bower_components/Type6js/dist/type6.js')) :
+    typeof define === 'function' && define.amd ? define(['exports', '../../bower_components/Taipanjs/dist/taipan.js', '../../bower_components/Type6js/dist/type6.js'], factory) :
+    (factory((global.FRAMERAT = {}),global.TAIPAN,global.TYPE6));
+}(this, (function (exports,TAIPAN,TYPE6) { 'use strict';
 
-FRAMERAT.Time = {
-    millisecond: 0,
-    second: 0,
-    create: function(millisecond) {
-        var _this = Object.create(this);
-        _this.set(millisecond || 0);
-        return _this;
-    },
-    set: function(value) {
-        this.millisecond = value;
-        this.second = this.millisecondToSecond(this.millisecond);
-    },
-    add: function(value) {
-        this.set(this.millisecond + value);
-    },
-    getSecond: function() {
-        return this.second;
-    },
-    getMillisecond: function() {
-        return this.millisecond;
-    },
-    millisecondToSecond: function(millisecond) {
-        return millisecond * .001;
-    }
-};
-
-FRAMERAT.Console = {
-    fontFamily: "Georgia",
-    fontSize: 20,
-    fontColor: "rgba(60, 60, 60, 1)",
-    font: "",
-    position: null,
-    padding: null,
-    color: null,
-    lineHeight: 30,
-    lines: [],
-    nbLines: 0,
-    show: false,
-    create: function(position, padding) {
-        var _this = Object.create(this);
-        _this.position = position;
-        _this.padding = padding;
-        _this.lines = [];
-        _this.setFont(_this.fontSize, _this.fontFamily);
-        return _this;
-    },
-    setFont: function(fontSize, fontFamily) {
-        this.font = fontSize + "px " + fontFamily;
-    },
-    setFontColor: function(r, g, b, a) {
-        this.fontColor = "rgba(" + r + ", " + g + ", " + b + ", " + a + ")";
-    },
-    addLine: function(text, callback, scope) {
-        var positionY = this.lineHeight;
-        var positionX = this.padding.getX();
-        if (this.nbLines) positionY += this.lines[this.nbLines - 1].position.getY(); else positionY += this.padding.getY();
-        this.nbLines++;
-        var line = this.Line.create(TYPE6.Vector2D.create(positionX, positionY), text, callback, scope);
-        this.lines.push(line);
-    },
-    draw: function(context) {
-        if (this.show) {
-            context.font = this.font;
-            context.fillStyle = this.fontColor;
-            for (var i = 0; i < this.nbLines; i++) {
-                var line = this.lines[i];
-                this.write(line.text.replace("{0}", line.callback), line.position, context);
-            }
+    var Utils$1 = (function () {
+        function Utils$$1() {
         }
-    },
-    write: function(text, position, context) {
-        context.fillText(text, position.getX(), position.getY());
-    },
-    toggle: function() {
-        this.show = this.show ? false : true;
-    }
-};
-
-FRAMERAT.Console.Line = {
-    position: null,
-    callback: null,
-    text: "",
-    create: function(position, text, callback, scope) {
-        var _this = Object.create(this);
-        _this.position = position;
-        _this.callback = callback.bind(scope);
-        _this.text = text;
-        return _this;
-    }
-};
-
-FRAMERAT.Clock = {
-    old: performance.now(),
-    new: performance.now(),
-    fps: 0,
-    minimumTick: 16,
-    elapsed: {},
-    delta: {},
-    create: function() {
-        var _this = Object.create(this);
-        _this.elapsed = FRAMERAT.Time.create(0);
-        _this.delta = FRAMERAT.Time.create(Math.max(0, _this.minimumTick));
-        return _this;
-    },
-    init: function() {
-        this.fps = 0;
-        this.elapsed.set(0);
-        this.delta.set(Math.max(0, this.minimumTick));
-    },
-    start: function() {
-        this.old = performance.now();
-    },
-    tick: function() {
-        this.new = performance.now();
-        this.delta.set(Math.max(this.new - this.old, this.minimumTick));
-        this.old = this.new;
-        this.elapsed.add(this.delta.getMillisecond());
-    },
-    getElapsed: function() {
-        return this.elapsed;
-    },
-    getDelta: function() {
-        return this.delta;
-    },
-    computeFramePerSecond: function() {
-        this.fps = Math.round(1e3 / this.delta.getMillisecond());
-    },
-    getFramePerSecond: function() {
-        return this.fps;
-    }
-};
-
-(function() {
-    if ("performance" in window === false) {
-        window.performance = {};
-    }
-    Date.now = Date.now || function() {
-        return new Date().getTime();
-    };
-    if ("now" in window.performance === false) {
-        var nowOffset = Date.now();
-        if (performance.timing && performance.timing.navigationStart) {
-            nowOffset = performance.timing.navigationStart;
-        }
-        window.performance.now = function now() {
-            return Date.now() - nowOffset;
+        Utils$$1.millisecondToSecond = function (millisecond) {
+            return millisecond * 0.001;
         };
-    }
-})();
+        Utils$$1.secondToMilliecond = function (second) {
+            return second / 1000;
+        };
+        Utils$$1.framePerSecond = function (millisecond) {
+            return Math.round(1000 / millisecond);
+        };
+        return Utils$$1;
+    }());
 
-(function() {
-    var lastTime = 0;
-    var vendors = [ "ms", "moz", "webkit", "o" ];
-    for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-        window.requestAnimationFrame = window[vendors[x] + "RequestAnimationFrame"];
-        window.cancelAnimationFrame = window[vendors[x] + "CancelAnimationFrame"] || window[vendors[x] + "CancelRequestAnimationFrame"];
-    }
-    if (!window.requestAnimationFrame) window.requestAnimationFrame = function(callback, element) {
-        var currTime = new Date().getTime();
-        var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-        var id = window.setTimeout(function() {
-            callback(currTime + timeToCall);
-        }, timeToCall);
-        lastTime = currTime + timeToCall;
-        return id;
-    };
-    if (!window.cancelAnimationFrame) window.cancelAnimationFrame = function(id) {
-        clearTimeout(id);
-    };
-})();
+    var Clock = (function () {
+        function Clock(refreshRate) {
+            this.minimumTick = 16.7;
+            this.minimumTick = refreshRate ? TYPE6.Utils.round(1000 / refreshRate, 1) : this.minimumTick;
+            this.reset();
+        }
+        Clock.prototype.reset = function () {
+            this.total = 0;
+            this.delta = this.minimumTick;
+            this.fps = 0;
+            this.tickCount = 0;
+        };
+        Clock.prototype.start = function () {
+            this.now = performance.now();
+        };
+        Clock.prototype.tick = function () {
+            var now = performance.now();
+            this.delta = now - this.now;
+            if (this.delta >= this.minimumTick) {
+                this.now = now;
+                this.total += this.delta;
+                this.tickCount++;
+                this.fps = Utils$1.framePerSecond(this.delta);
+                return true;
+            }
+            return false;
+        };
+        return Clock;
+    }());
+
+    var Player = (function () {
+        function Player(onAnimate, refreshRate) {
+            this.clock = new Clock(refreshRate);
+            this.createFiniteStateMachine();
+            this.onAnimate = onAnimate;
+        }
+        Player.prototype.createFiniteStateMachine = function () {
+            this.fsm = new TAIPAN.FSM([
+                { name: 'play', from: 'paused', to: 'running' },
+                { name: 'pause', from: 'running', to: 'paused' },
+            ]);
+        };
+        Player.prototype.setScope = function (scope) {
+            this.onAnimate.bind(scope);
+        };
+        Player.prototype.play = function () {
+            if (this.fsm['play']()) {
+                this.requestNewFrame();
+                this.clock.start();
+                return true;
+            }
+            return false;
+        };
+        Player.prototype.pause = function () {
+            if (this.fsm['pause']()) {
+                this.cancelAnimation();
+                return true;
+            }
+            return false;
+        };
+        Player.prototype.toggle = function () {
+            if (!this.play()) {
+                this.pause();
+            }
+        };
+        Player.prototype.stop = function () {
+            this.clock.reset();
+            if (this.pause()) {
+                return true;
+            }
+            return false;
+        };
+        Player.prototype.newFrame = function () {
+            this.requestNewFrame();
+            return this.clock.tick();
+        };
+        Player.prototype.requestNewFrame = function () {
+            this.frameId = window.requestAnimationFrame(this.onAnimate);
+        };
+        Player.prototype.cancelAnimation = function () {
+            window.cancelAnimationFrame(this.frameId);
+        };
+        return Player;
+    }());
+
+    exports.Player = Player;
+
+    Object.defineProperty(exports, '__esModule', { value: true });
+
+})));
