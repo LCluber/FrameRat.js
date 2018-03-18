@@ -1,6 +1,6 @@
 /** MIT License
 * 
-* Copyright (c) 2011 Ludovic CLUBER 
+* Copyright (c) 2015 Ludovic CLUBER 
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -20,40 +20,11 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 *
-* http://frameratjs.lcluber.com
+* http://mouettejs.lcluber.com
 */
-export declare class Clock {
-    private now;
-    fps: number;
-    sixteenLastFps: Array<number>;
-    minimumTick: number;
-    ticks: number;
-    total: number;
-    delta: number;
-    constructor(refreshRate?: number);
-    reset(): void;
-    start(): void;
-    log(): void;
-    tick(): boolean;
-    computeAverageFps(): number;
-    private updateSixteenLastFps();
-}
 
-
-export declare class Player {
-    id: number;
-    private onAnimate;
-    fsm: TAIPAN.FSM;
-    clock: Clock;
-    frameId: number;
-    constructor(onAnimate: FrameRequestCallback, refreshRate: number);
-    private createFiniteStateMachine();
-    setScope(scope: any): void;
-    play(): string | false;
-    toggle(): string;
-    stop(): string;
-    requestNewFrame(): boolean;
-    private startAnimation();
-    private stopAnimation();
-    private newFrame();
-}
+<div class="col-xs-4 absolute-wrapper">
+  <div class="panel panel-default panel-transparent">
+    <div class="panel-body panel-resizable" id="Mouette">  </div>
+  </div>
+</div>

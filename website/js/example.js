@@ -1,4 +1,4 @@
-
+  var playButton = findById('play');
   var canvas  = document.getElementById("canvas");
   var context = canvas.getContext("2d");
   var width   = canvas.width = window.innerWidth;
@@ -59,22 +59,28 @@
     clearFrame();
     draw();
     //animation.drawConsole( context );
-    animation.newFrame();
+    animation.requestNewFrame();
   }
 
   //create animation frame
   var animation = new FRAMERAT.Player(render);
 
   function playAnimation(){
-    animation.play();
-  }
-
-  function pauseAnimation () {
-    animation.toggle();
+    var state = animation.toggle();
+    if(state === 'running') {
+      playButton.innerHTML = "<span class='glyphicon glyphicon-pause'></span>";
+    }else if (state === 'paused') {
+      playButton.innerHTML = "<span class='glyphicon glyphicon-play'></span>";
+    }
   }
 
   function stopAnimation () {
     animation.stop();
     clearFrame();
+    playButton.innerHTML = "<span class='glyphicon glyphicon-play'></span>";
     //animation.drawConsole( context ); //draw the console one time to show the reset
+  }
+  
+  function findById( id ) {
+    return document.getElementById(id);
   }

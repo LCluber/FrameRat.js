@@ -24,40 +24,33 @@
 */
 
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('../../bower_components/Taipanjs/dist/taipan.js'), require('../../bower_components/Type6js/dist/type6.js')) :
-    typeof define === 'function' && define.amd ? define(['exports', '../../bower_components/Taipanjs/dist/taipan.js', '../../bower_components/Type6js/dist/type6.js'], factory) :
-    (factory((global.FRAMERAT = {}),global.TAIPAN,global.TYPE6));
-}(this, (function (exports,TAIPAN,TYPE6) { 'use strict';
-
-    var Utils$1 = (function () {
-        function Utils$$1() {
-        }
-        Utils$$1.millisecondToSecond = function (millisecond) {
-            return millisecond * 0.001;
-        };
-        Utils$$1.secondToMilliecond = function (second) {
-            return second / 1000;
-        };
-        Utils$$1.framePerSecond = function (millisecond) {
-            return Math.round(1000 / millisecond);
-        };
-        return Utils$$1;
-    }());
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('../../bower_components/Taipanjs/dist/taipan.js'), require('../../bower_components/Mouettejs/dist/mouette.js'), require('../../bower_components/Type6js/dist/type6.js')) :
+    typeof define === 'function' && define.amd ? define(['exports', '../../bower_components/Taipanjs/dist/taipan.js', '../../bower_components/Mouettejs/dist/mouette.js', '../../bower_components/Type6js/dist/type6.js'], factory) :
+    (factory((global.FRAMERAT = {}),global.TAIPAN,global.MOUETTE,global.TYPE6));
+}(this, (function (exports,TAIPAN,MOUETTE,TYPE6) { 'use strict';
 
     var Clock = (function () {
         function Clock(refreshRate) {
             this.minimumTick = 16.7;
-            this.minimumTick = refreshRate ? TYPE6.Utils.round(1000 / refreshRate, 1) : this.minimumTick;
+            this.minimumTick = refreshRate ? TYPE6.Time.framePerSecondToMillisecond(refreshRate) : this.minimumTick;
             this.reset();
         }
         Clock.prototype.reset = function () {
             this.total = 0;
             this.delta = this.minimumTick;
             this.fps = 0;
-            this.tickCount = 0;
+            this.ticks = 0;
+            this.sixteenLastFps = [];
         };
         Clock.prototype.start = function () {
             this.now = performance.now();
+        };
+        Clock.prototype.log = function () {
+            if (this.total) {
+                MOUETTE.Logger.debug('Elapsed time : ' + TYPE6.Utils.round(TYPE6.Time.millisecondToSecond(this.total), 2) + 'seconds');
+                MOUETTE.Logger.debug('ticks : ' + this.ticks);
+                MOUETTE.Logger.debug('Average FPS : ' + this.computeAverageFps());
+            }
         };
         Clock.prototype.tick = function () {
             var now = performance.now();
@@ -65,11 +58,27 @@
             if (this.delta >= this.minimumTick) {
                 this.now = now;
                 this.total += this.delta;
-                this.tickCount++;
-                this.fps = Utils$1.framePerSecond(this.delta);
+                this.ticks++;
+                this.fps = TYPE6.Time.millisecondToFramePerSecond(this.delta);
+                this.updateSixteenLastFps();
                 return true;
             }
             return false;
+        };
+        Clock.prototype.computeAverageFps = function () {
+            var _this = this;
+            var totalFps = function () {
+                var total = 0;
+                for (var _i = 0, _a = _this.sixteenLastFps; _i < _a.length; _i++) {
+                    var fps = _a[_i];
+                    total += fps;
+                }
+                return total;
+            };
+            return TYPE6.Utils.validate(TYPE6.Utils.round(totalFps() / this.sixteenLastFps.length, 2));
+        };
+        Clock.prototype.updateSixteenLastFps = function () {
+            this.sixteenLastFps[this.ticks % 60] = this.fps;
         };
         return Clock;
     }());
@@ -83,48 +92,43 @@
         Player.prototype.createFiniteStateMachine = function () {
             this.fsm = new TAIPAN.FSM([
                 { name: 'play', from: 'paused', to: 'running' },
-                { name: 'pause', from: 'running', to: 'paused' },
+                { name: 'pause', from: 'running', to: 'paused' }
             ]);
         };
         Player.prototype.setScope = function (scope) {
             this.onAnimate.bind(scope);
         };
         Player.prototype.play = function () {
-            if (this.fsm['play']()) {
-                this.requestNewFrame();
-                this.clock.start();
-                return true;
-            }
-            return false;
-        };
-        Player.prototype.pause = function () {
-            if (this.fsm['pause']()) {
-                this.cancelAnimation();
-                return true;
-            }
-            return false;
+            return this.startAnimation();
         };
         Player.prototype.toggle = function () {
-            if (!this.play()) {
-                this.pause();
-            }
+            return this.startAnimation() || this.stopAnimation();
         };
         Player.prototype.stop = function () {
+            this.clock.log();
             this.clock.reset();
-            if (this.pause()) {
-                return true;
+            return this.stopAnimation();
+        };
+        Player.prototype.requestNewFrame = function () {
+            this.newFrame();
+            return this.clock.tick();
+        };
+        Player.prototype.startAnimation = function () {
+            if (this.fsm['play']()) {
+                this.clock.start();
+                this.newFrame();
+                return this.fsm.state;
             }
             return false;
         };
+        Player.prototype.stopAnimation = function () {
+            if (this.fsm['pause']()) {
+                window.cancelAnimationFrame(this.frameId);
+            }
+            return this.fsm.state;
+        };
         Player.prototype.newFrame = function () {
-            this.requestNewFrame();
-            return this.clock.tick();
-        };
-        Player.prototype.requestNewFrame = function () {
             this.frameId = window.requestAnimationFrame(this.onAnimate);
-        };
-        Player.prototype.cancelAnimation = function () {
-            window.cancelAnimationFrame(this.frameId);
         };
         return Player;
     }());

@@ -1,7 +1,6 @@
 
-//import {FSM} from '../../bower_components/Taipanjs/dist/taipan';
 import * as TAIPAN from '../../bower_components/Taipanjs/dist/taipan';
-import {Utils} from './utils';
+
 import {Clock} from './clock';
 
 export class Player {
@@ -14,11 +13,7 @@ export class Player {
   //public refreshRate: number;
   // options   : {
   //   refreshRate : 30
-  // },
-  // console : {},
-  // formated : {
-  //   delta : 0
-  // },
+  // }
 
   constructor(onAnimate: FrameRequestCallback, refreshRate: number) {
     this.clock = new Clock(refreshRate);
@@ -30,7 +25,7 @@ export class Player {
     this.fsm = new TAIPAN.FSM([
                 //{ name: 'start',    from: 'idle',    to: 'running' },
                 { name: 'play',  from: 'paused',  to: 'running' },
-                { name: 'pause', from: 'running', to: 'paused' },
+                { name: 'pause', from: 'running', to: 'paused' }
                 //{ name: 'stop',     from: 'paused',  to: 'idle' },
               ]);
   }
@@ -40,59 +35,44 @@ export class Player {
     this.onAnimate.bind(scope);
   }
 
-  // start:function(){
-  //     if( this.fsm.start() ){
-  //       this.reset();
-  //       this.play();
-  //     }
-  //     return this.fsm.getStatus();
-  // },
-
-  public play(): boolean {
-    if(this.fsm['play']()) {
-      this.requestNewFrame();
-      this.clock.start();
-      return true;
-    }
-    return false;
+  public play(): string|false {
+    return this.startAnimation();
+  }
+ 
+  public toggle(): string {
+    return this.startAnimation() || this.stopAnimation(); 
   }
 
-  public pause(): boolean {
-    if(this.fsm['pause']()) {
-      this.cancelAnimation();
-      return true;
+  public stop(): string {
+    this.clock.log();
+    this.clock.reset();
+    return this.stopAnimation();
+  }
+
+  //call this function to animate
+  public requestNewFrame(): boolean {
+    this.newFrame();
+    return this.clock.tick();
+  }
+  
+  private startAnimation() : string|false {
+    if(this.fsm['play']()) {
+      this.clock.start();
+      this.newFrame();
+      return this.fsm.state;
     }
     return false;
   }
   
-  public toggle(): void {
-    if(!this.play()) {
-      this.pause();
+  private stopAnimation(): string {
+    if(this.fsm['pause']()) {
+      window.cancelAnimationFrame(this.frameId);
     }
-    //return this.fsm.getStatus();
+    return this.fsm.state;
   }
 
-  public stop(): boolean {
-    this.clock.reset();
-    if(this.pause()) {
-      return true;
-    }
-    return false;
-    //return this.fsm.getStatus();
-  }
-
-  //call this function to animate
-  public newFrame(): boolean {
-    this.requestNewFrame();
-    return this.clock.tick();
-  }
-
-  private requestNewFrame(): void {
+  private newFrame(): void {
     this.frameId = window.requestAnimationFrame(this.onAnimate);
-  }
-
-  public cancelAnimation(): void {
-    window.cancelAnimationFrame(this.frameId);
   }
 
 }

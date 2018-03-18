@@ -1,18 +1,19 @@
-
+import * as MOUETTE from '../../bower_components/Mouettejs/dist/mouette';
 import * as TYPE6 from '../../bower_components/Type6js/dist/type6';
-import {Utils} from './utils'
 
 export class Clock {
 
-  private now        : number;
-  public fps         : number;
-  public minimumTick : number = 16.7;
-  public tickCount   : number;
-  public total       : number;
-  public delta       : number;
+  private now           : number;
+  public fps            : number;
+  //public averageFps     : number;
+  public sixteenLastFps : Array<number>;
+  public minimumTick    : number = 16.7; //better if multiple of 16.7
+  public ticks          : number;
+  public total          : number;
+  public delta          : number;
 
   constructor(refreshRate?: number ) {
-    this.minimumTick = refreshRate ? TYPE6.Utils.round(1000 / refreshRate, 1) : this.minimumTick;
+    this.minimumTick = refreshRate ? TYPE6.Time.framePerSecondToMillisecond(refreshRate) : this.minimumTick;
     this.reset();
   }
 
@@ -20,11 +21,20 @@ export class Clock {
     this.total = 0;
     this.delta = this.minimumTick; //Math.max(0, this.minimumTick);
     this.fps = 0;
-    this.tickCount = 0;
+    this.ticks = 0;
+    this.sixteenLastFps = [];
   }
 
   public start(): void {
     this.now = performance.now();
+  }
+
+  public log(): void {
+    if (this.total){
+      MOUETTE.Logger.debug('Elapsed time : ' + TYPE6.Utils.round(TYPE6.Time.millisecondToSecond(this.total), 2) + 'seconds');
+      MOUETTE.Logger.debug('ticks : ' + this.ticks);
+      MOUETTE.Logger.debug('Average FPS : ' + this.computeAverageFps());
+    }
   }
 
   public tick(): boolean {
@@ -33,8 +43,9 @@ export class Clock {
     if (this.delta >= this.minimumTick) {
       this.now = now;
       this.total += this.delta;
-      this.tickCount++;
-      this.fps = Utils.framePerSecond(this.delta);
+      this.ticks++;
+      this.fps = TYPE6.Time.millisecondToFramePerSecond(this.delta);
+      this.updateSixteenLastFps();
       return true;
     }
     return false;
@@ -48,6 +59,21 @@ export class Clock {
 
         // Put your drawing code here
     
+  }
+  
+  public computeAverageFps(): number {
+    let totalFps = ():number => {
+      let total = 0;
+      for (let fps of this.sixteenLastFps) {
+        total += fps; //use + because fps is typed as a string otherwise
+      }
+      return total;
+    };
+    return TYPE6.Utils.validate(TYPE6.Utils.round( totalFps()/this.sixteenLastFps.length, 2));
+  }
+  
+  private updateSixteenLastFps(): void {
+    this.sixteenLastFps[this.ticks % 60] = this.fps;
   }
 
 }

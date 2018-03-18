@@ -1,6 +1,6 @@
 {
   "name": "FrameRatjs",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "javascript library",
   "keywords": [
     "animation frame"
@@ -46,6 +46,7 @@
     "grunt-contrib-uglify": "3.0.1",
     "grunt-contrib-cssmin": "2.2.0",
     "grunt-contrib-concat": "1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-pug": "1.0.0",
     "grunt-contrib-sass": "1.0.0",
     "grunt-contrib-htmlmin": "2.4.0",

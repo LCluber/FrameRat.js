@@ -8,14 +8,15 @@ module.exports = function(grunt){
   var port      = 3005;
   var host      = 'localhost';
 
-  var srcDir    = 'src/';
+  var srcDir          = 'src/';
   var compiledSrcDir  = srcDir + 'build/';
-  var distDir   = 'dist/';
-  var webDir    = 'website/';
-  var publicDir = webDir + 'public/';
-  var nodeDir   = 'node_modules/';
-  var docDir    = 'doc/';
-  var zipDir    = 'zip/';
+  var distDir         = 'dist/';
+  var webDir          = 'website/';
+  var publicDir       = webDir + 'public/';
+  var nodeDir         = 'node_modules/';
+  var bowerDir        = 'bower_components/';
+  var docDir          = 'doc/';
+  var zipDir          = 'zip/';
 
   var banner    = '/** MIT License\n' +
     '* \n' +
@@ -66,7 +67,8 @@ module.exports = function(grunt){
       web:{
         src: [  zipDir    + '*',
                 webDir    + 'static/*',
-                webDir    + 'sass/build/*'
+                webDir    + 'sass/build/*',
+                webDir    + 'js/build/*'
         ]
       },
       public: {
@@ -81,7 +83,7 @@ module.exports = function(grunt){
         jshintrc: 'config/.jshintrc'
       },
       lib: [ 'Gruntfile.js', srcDir + '**/*.js'],
-      web: [ webDir + 'js/*.js'],
+      web: [ webDir + 'js/*.js']
     },
     sass: {
       dist: {
@@ -211,10 +213,10 @@ module.exports = function(grunt){
           // 'TYPE6',
           // 'type6js',
           // 'taipanjs',
+          path.resolve( './bower_components/Mouettejs/dist/mouette.js' ),
           path.resolve( './bower_components/Taipanjs/dist/taipan.js' ),
-          path.resolve( './bower_components/Type6js/dist/type6.js' )//,
-          //path.resolve( '../../bower_components/Taipanjs/dist/taipan.js' ),
-          //path.resolve( '../../bower_components/Type6js/dist/type6.js' )
+          path.resolve( './bower_components/Type6js/dist/type6.js' )
+          
         ],
         banner: banner,
         globals: {
@@ -373,6 +375,7 @@ module.exports = function(grunt){
         },
         src: [  nodeDir + 'font-awesome/css/font-awesome.min.css',
                 nodeDir + 'bootstrap/dist/css/bootstrap.min.css',
+                bowerDir + 'Mouettejs/dist/mouette.css',
                 publicDir + 'css/style.min.css'
             ],
         dest: publicDir + 'css/style.min.css'
@@ -391,18 +394,20 @@ module.exports = function(grunt){
           src: distDir + projectName + '.d.ts'
       }
     },
+    copy: {
+      mouette:{
+        expand: true,
+        cwd: bowerDir + 'mouettejs/dist/',
+        src: ['*.htm'],
+        dest: webDir + 'views/',
+        filter: 'isFile'
+      }
+    },
     symlink: {
       options: {
         overwrite: false,
         force: false
       },
-      // declaration:{
-      //   expand: true,
-      //   cwd: compiledSrcDir,
-      //   src: ['*.d.ts'],
-      //   dest: distDir,
-      //   filter: 'isFile'
-      // },
       fonts:{
         expand: true,
         cwd: nodeDir + 'bootstrap/dist/',
@@ -497,6 +502,7 @@ module.exports = function(grunt){
   });
 
   grunt.loadNpmTasks( 'grunt-bower-concat' );
+  grunt.loadNpmTasks( 'grunt-contrib-copy' );
   grunt.loadNpmTasks( 'grunt-contrib-clean' );
   grunt.loadNpmTasks( 'grunt-contrib-jshint' );
   grunt.loadNpmTasks( 'grunt-contrib-uglify' );
@@ -567,6 +573,7 @@ module.exports = function(grunt){
                           'sass',
                           'cssmin',
                           'symlink:fonts', 'symlink:fontAwesome',
+                          'copy:mouette',
                           'concat:webcss',
                         //static
                           'pug',

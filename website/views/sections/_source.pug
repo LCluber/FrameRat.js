@@ -14,20 +14,22 @@ section( id='source' class='container content-section text-center' )
         function render(){
           clearFrame();
           drawStuff();
-          animation.newFrame();
+          animation.requestNewFrame();
         }
       
       p Play, Pause, Stop functions
       pre.
-        function playAnimation(){ //bind a button to this function
-          animation.play();
+        function playAnimation(){
+          var state = animation.toggle();
+          if(state === 'running') {
+            playButton.innerHTML = "<span class='glyphicon glyphicon-pause'></span>";
+          }else if (state === 'paused') {
+            playButton.innerHTML = "<span class='glyphicon glyphicon-play'></span>";
+          }
         }
 
-        function pauseAnimation () { //bind a button to this function
-          animation.pause();
-        }
-
-        function stopAnimation () { //bind a button to this function
+        function stopAnimation () {
           animation.stop();
           clearFrame();
+          playButton.innerHTML = "<span class='glyphicon glyphicon-play'></span>";
         }

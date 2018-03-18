@@ -1,3 +1,10 @@
+Version 0.3.1 (March 18th 2018)
+------------------------------
+ * Updated Type6.js dependency to version 0.4.3
+ * Updated Taipan.js dependency to version 0.3.2 
+ * Utils class deleted. Now using Type6.js Time utility functions 
+ * Added logs with Mouette.js
+
 Version 0.3.0 (March 12th 2018)
 ------------------------------
  * Library is written in TypeScript
