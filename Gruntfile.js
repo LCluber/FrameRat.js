@@ -231,16 +231,6 @@ module.exports = function(grunt){
       }
     },
     uglify: {
-      // lib: {
-      //   options: {
-      //     beautify: true,
-      //     banner: banner,
-      //     mangle: false,
-      //     compress:false,
-      //   },
-      //   src: distDir + projectNameLC + '.js',
-      //   dest: distDir + projectNameLC + '.js'
-      // },
       libmin: {
         options: {
           sourceMap: false,
