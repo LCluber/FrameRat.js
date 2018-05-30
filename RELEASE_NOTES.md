@@ -1,15 +1,19 @@
+Version 0.3.2 (May 30th 2018)
+------------------------------
+ * added getters getDelta(), getTotal(), getFPS()
+
 Version 0.3.1 (March 18th 2018)
 ------------------------------
  * Updated Type6.js dependency to version 0.4.3
- * Updated Taipan.js dependency to version 0.3.2 
- * Utils class deleted. Now using Type6.js Time utility functions 
+ * Updated Taipan.js dependency to version 0.3.2
+ * Utils class deleted. Now using Type6.js Time utility functions
  * Added logs with Mouette.js
 
 Version 0.3.0 (March 12th 2018)
 ------------------------------
  * Library is written in TypeScript
- * Updated Type6.js dependency to version 0.4.1 
- * Updated Taipan.js dependency to version 0.3.1 
+ * Updated Type6.js dependency to version 0.4.1
+ * Updated Taipan.js dependency to version 0.3.1
 
 Version 0.2.8 (May 3rd 2017)
 ------------------------------
@@ -26,7 +30,7 @@ Version 0.2.6 (February 18th 2017)
 
 Version 0.2.5 (January 30th 2017)
 ------------------------------
- * Updated Type6.js dependency to version 0.2.3 
+ * Updated Type6.js dependency to version 0.2.3
 
 Version 0.2.4 (January 29th 2017)
 ------------------------------
@@ -35,7 +39,7 @@ Version 0.2.4 (January 29th 2017)
 Version 0.2.3 (January 28th 2017)
 ------------------------------
  * Added a console to display frame rate information on the canvas
- * New drawConsole() method to draw the console on the canvas when needed 
+ * New drawConsole() method to draw the console on the canvas when needed
  * New toggleConsole() method to show or hide the console on the canvas
  * Simplified clock class
  * The callback's scope is now passed on creation rather than in the new frame request

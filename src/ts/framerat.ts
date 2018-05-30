@@ -1,4 +1,4 @@
-
+import * as TYPE6 from '../../bower_components/Type6js/dist/type6';
 import * as TAIPAN from '../../bower_components/Taipanjs/dist/taipan';
 
 import {Clock} from './clock';
@@ -20,7 +20,7 @@ export class Player {
     this.createFiniteStateMachine();
     this.onAnimate = onAnimate;
   }
-  
+
   private createFiniteStateMachine(): void {
     this.fsm = new TAIPAN.FSM([
                 //{ name: 'start',    from: 'idle',    to: 'running' },
@@ -29,7 +29,19 @@ export class Player {
                 //{ name: 'stop',     from: 'paused',  to: 'idle' },
               ]);
   }
-  
+
+  public getDelta():number {
+    return TYPE6.Time.millisecondToSecond(this.clock.delta);
+  }
+
+  public getTotal():number {
+    return TYPE6.Time.millisecondToSecond(this.clock.total);
+  }
+
+  public getFPS():number {
+    return this.clock.computeAverageFps();
+  }
+
   //If using Framerat in a library
   public setScope(scope: any): void {
     this.onAnimate.bind(scope);
@@ -38,9 +50,9 @@ export class Player {
   public play(): string|false {
     return this.startAnimation();
   }
- 
+
   public toggle(): string {
-    return this.startAnimation() || this.stopAnimation(); 
+    return this.startAnimation() || this.stopAnimation();
   }
 
   public stop(): string {
@@ -54,7 +66,7 @@ export class Player {
     this.newFrame();
     return this.clock.tick();
   }
-  
+
   private startAnimation() : string|false {
     if(this.fsm['play']()) {
       this.clock.start();
@@ -63,7 +75,7 @@ export class Player {
     }
     return false;
   }
-  
+
   private stopAnimation(): string {
     if(this.fsm['pause']()) {
       window.cancelAnimationFrame(this.frameId);

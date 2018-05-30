@@ -462,18 +462,18 @@ module.exports = function(grunt){
     watch: {
       lib: {
         files: srcDir + '**/*.js',
-        tasks: ['src', 'doc'],  
+        tasks: ['src', 'doc']  
       },
       webpug:{
         files: webDir + 'views/**/*.pug'
       },
       webjs: {
         files: webDir + 'js/**/*.js',
-        tasks: ['js'],
+        tasks: ['website:js']
       },
       webcss: {
         files: webDir + 'sass/**/*.scss',
-        tasks: ['css', 'static'],
+        tasks: ['css', 'static']
       },
       options: {
         interrupt: true,

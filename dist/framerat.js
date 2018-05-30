@@ -24,10 +24,10 @@
 */
 
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('../../bower_components/Taipanjs/dist/taipan.js'), require('../../bower_components/Mouettejs/dist/mouette.js'), require('../../bower_components/Type6js/dist/type6.js')) :
-    typeof define === 'function' && define.amd ? define(['exports', '../../bower_components/Taipanjs/dist/taipan.js', '../../bower_components/Mouettejs/dist/mouette.js', '../../bower_components/Type6js/dist/type6.js'], factory) :
-    (factory((global.FRAMERAT = {}),global.TAIPAN,global.MOUETTE,global.TYPE6));
-}(this, (function (exports,TAIPAN,MOUETTE,TYPE6) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('../../bower_components/Type6js/dist/type6.js'), require('../../bower_components/Taipanjs/dist/taipan.js'), require('../../bower_components/Mouettejs/dist/mouette.js')) :
+    typeof define === 'function' && define.amd ? define(['exports', '../../bower_components/Type6js/dist/type6.js', '../../bower_components/Taipanjs/dist/taipan.js', '../../bower_components/Mouettejs/dist/mouette.js'], factory) :
+    (factory((global.FRAMERAT = {}),global.TYPE6,global.TAIPAN,global.MOUETTE));
+}(this, (function (exports,TYPE6,TAIPAN,MOUETTE) { 'use strict';
 
     var Clock = (function () {
         function Clock(refreshRate) {
@@ -94,6 +94,15 @@
                 { name: 'play', from: 'paused', to: 'running' },
                 { name: 'pause', from: 'running', to: 'paused' }
             ]);
+        };
+        Player.prototype.getDelta = function () {
+            return TYPE6.Time.millisecondToSecond(this.clock.delta);
+        };
+        Player.prototype.getTotal = function () {
+            return TYPE6.Time.millisecondToSecond(this.clock.total);
+        };
+        Player.prototype.getFPS = function () {
+            return this.clock.computeAverageFps();
         };
         Player.prototype.setScope = function (scope) {
             this.onAnimate.bind(scope);

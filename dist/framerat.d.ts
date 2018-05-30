@@ -48,6 +48,9 @@ export declare class Player {
     frameId: number;
     constructor(onAnimate: FrameRequestCallback, refreshRate: number);
     private createFiniteStateMachine();
+    getDelta(): number;
+    getTotal(): number;
+    getFPS(): number;
     setScope(scope: any): void;
     play(): string | false;
     toggle(): string;
