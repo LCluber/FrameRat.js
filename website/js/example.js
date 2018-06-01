@@ -59,6 +59,8 @@
     clearFrame();
     draw();
     //animation.drawConsole( context );
+    majTime();
+    majFPS();
     animation.requestNewFrame();
   }
 
@@ -80,7 +82,33 @@
     playButton.innerHTML = "<span class='glyphicon glyphicon-play'></span>";
     //animation.drawConsole( context ); //draw the console one time to show the reset
   }
-  
+
+  function majTime() {
+    findById('time').innerHTML = formatTime(TYPE6.Utils.round(animation.getTotal(), 2));
+  }
+
+  function majFPS() {
+    findById('fps').innerHTML = formatFPS(Math.round(animation.getFPS()));
+    //findById('fps').innerHTML = animation.getFramePerSecond() + ' fps - ' + animation.getFormatedDelta() + ' ms';
+  }
+
+  function formatTime(value){
+    var zeros = '';
+    for (var i = 100 ; i > 1 ; i /= 10) {
+      if (value < i) {
+        zeros += '0';
+      }
+    }
+    return zeros + value.toFixed(2);
+  }
+
+  function formatFPS(value){
+    if (value < 10) {
+      return '0' + value + ' fps';
+    }
+    return value + ' fps';
+  }
+
   function findById( id ) {
     return document.getElementById(id);
   }
