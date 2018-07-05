@@ -1,3 +1,11 @@
+Version 0.3.3 (July 4th 2018)
+------------------------------
+ * Documentation automatically generated in /doc folder
+ * Typedoc and grunt-typedoc added in devDependencies
+ * New "typedoc" task in Gruntfile.js
+ * Typescript upgraded to version 2.9.2
+ * INSTALL.md becomes NOTICE.md and RELEASE_NOTES.md becomes CHANGELOG.md
+
 Version 0.3.2 (May 30th 2018)
 ------------------------------
  * added getters getDelta(), getTotal(), getFPS()
