@@ -36,7 +36,7 @@ export declare class Clock {
     log(): void;
     tick(): boolean;
     computeAverageFps(): number;
-    private updateSixteenLastFps();
+    private updateSixteenLastFps;
 }
 
 
@@ -47,7 +47,7 @@ export declare class Player {
     clock: Clock;
     frameId: number;
     constructor(onAnimate: FrameRequestCallback, refreshRate: number);
-    private createFiniteStateMachine();
+    private createFiniteStateMachine;
     getDelta(): number;
     getTotal(): number;
     getFPS(): number;
@@ -56,7 +56,7 @@ export declare class Player {
     toggle(): string;
     stop(): string;
     requestNewFrame(): boolean;
-    private startAnimation();
-    private stopAnimation();
-    private newFrame();
+    private startAnimation;
+    private stopAnimation;
+    private newFrame;
 }

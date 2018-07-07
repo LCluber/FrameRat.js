@@ -60,7 +60,6 @@
     "grunt-ts": "5.5.1",
     "grunt-typedoc": "0.2.4",
     "grunt-tslint": "5.0.1",
-    "grunt-typedoc": "0.2.4",
     "grunt-rollup": "9.0.0",
     "time-grunt": "1.4.0",
     "tslint": "5.8.0",
