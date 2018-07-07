@@ -28,6 +28,10 @@ You just cloned FrameRat.js : git clone https://github.com/LCluber/FrameRat.js.g
   - Run **npm install -g grunt-cli**
 
 
+### Install typescript :
+  - Run **npm install -g typescript**
+
+
 ### Install project dependencies
   - Run **npm install** from your project directory
   - Run **bower install** from your project directory
@@ -51,8 +55,8 @@ You just cloned FrameRat.js : git clone https://github.com/LCluber/FrameRat.js.g
       - Linux / OSX : Run **DEBUG=FrameRatjs:* npm start**
     - Go to **http://localhost:3005/** to test the app.
     - Keep in mind running **grunt serve** once will do all this automatically.
-    
-    
-  - Set node environment if needed : 
+
+
+  - Set node environment if needed :
     - Run **export NODE_ENV=development**
     - Or **export NODE_ENV=production**
