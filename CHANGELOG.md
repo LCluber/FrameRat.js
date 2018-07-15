@@ -1,7 +1,7 @@
 Version 0.3.4 (July 15th 2018)
 ------------------------------
  * Library exported as ES6 and IIFE modules instead of UMD.
- * TYPE6 namespace becomes Type6
+ * FRAMERAT namespace becomes Framerat
 
 Version 0.3.3 (July 4th 2018)
 ------------------------------
