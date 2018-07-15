@@ -1,5 +1,5 @@
-import * as TYPE6 from '../../bower_components/Type6js/dist/type6';
-import * as TAIPAN from '../../bower_components/Taipanjs/dist/taipan';
+import { Time } from 'type6js';
+import { FSM } from 'taipanjs';
 
 import {Clock} from './clock';
 
@@ -7,7 +7,7 @@ export class Player {
 
   public id        : number; //animation frame ID
   private onAnimate: FrameRequestCallback;
-  public fsm       : TAIPAN.FSM;
+  public fsm       : FSM;
   public clock     : Clock;
   public frameId   : number;
   //public refreshRate: number;
@@ -22,7 +22,7 @@ export class Player {
   }
 
   private createFiniteStateMachine(): void {
-    this.fsm = new TAIPAN.FSM([
+    this.fsm = new FSM([
                 //{ name: 'start',    from: 'idle',    to: 'running' },
                 { name: 'play',  from: 'paused',  to: 'running' },
                 { name: 'pause', from: 'running', to: 'paused' }
@@ -31,11 +31,11 @@ export class Player {
   }
 
   public getDelta():number {
-    return TYPE6.Time.millisecondToSecond(this.clock.delta);
+    return Time.millisecondToSecond(this.clock.delta);
   }
 
   public getTotal():number {
-    return TYPE6.Time.millisecondToSecond(this.clock.total);
+    return Time.millisecondToSecond(this.clock.total);
   }
 
   public getFPS():number {

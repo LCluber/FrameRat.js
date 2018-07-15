@@ -1,5 +1,5 @@
-import * as MOUETTE from '../../bower_components/Mouettejs/dist/mouette';
-import * as TYPE6 from '../../bower_components/Type6js/dist/type6';
+import { Logger } from 'mouettejs';
+import { Time, Utils} from 'type6js';
 
 export class Clock {
 
@@ -13,7 +13,7 @@ export class Clock {
   public delta          : number;
 
   constructor(refreshRate?: number ) {
-    this.minimumTick = refreshRate ? TYPE6.Time.framePerSecondToMillisecond(refreshRate) : this.minimumTick;
+    this.minimumTick = refreshRate ? Time.framePerSecondToMillisecond(refreshRate) : this.minimumTick;
     this.reset();
   }
 
@@ -31,9 +31,9 @@ export class Clock {
 
   public log(): void {
     if (this.total){
-      MOUETTE.Logger.debug('Elapsed time : ' + TYPE6.Utils.round(TYPE6.Time.millisecondToSecond(this.total), 2) + 'seconds');
-      MOUETTE.Logger.debug('ticks : ' + this.ticks);
-      MOUETTE.Logger.debug('Average FPS : ' + this.computeAverageFps());
+      Logger.debug('Elapsed time : ' + Utils.round(Time.millisecondToSecond(this.total), 2) + 'seconds');
+      Logger.debug('ticks : ' + this.ticks);
+      Logger.debug('Average FPS : ' + this.computeAverageFps());
     }
   }
 
@@ -44,7 +44,7 @@ export class Clock {
       this.now = now;
       this.total += this.delta;
       this.ticks++;
-      this.fps = TYPE6.Time.millisecondToFramePerSecond(this.delta);
+      this.fps = Time.millisecondToFramePerSecond(this.delta);
       this.updateSixteenLastFps();
       return true;
     }
@@ -58,9 +58,9 @@ export class Clock {
         //then = now - (elapsed % fpsInterval);
 
         // Put your drawing code here
-    
+
   }
-  
+
   public computeAverageFps(): number {
     let totalFps = ():number => {
       let total = 0;
@@ -69,9 +69,9 @@ export class Clock {
       }
       return total;
     };
-    return TYPE6.Utils.validate(TYPE6.Utils.round( totalFps()/this.sixteenLastFps.length, 2));
+    return Utils.validate(Utils.round( totalFps()/this.sixteenLastFps.length, 2));
   }
-  
+
   private updateSixteenLastFps(): void {
     this.sixteenLastFps[this.ticks % 60] = this.fps;
   }
