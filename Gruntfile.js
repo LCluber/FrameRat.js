@@ -16,7 +16,7 @@ module.exports = function(grunt){
   var compiledES5Dir  = compiledSrcDir + 'es5/';
   var compiledES6Dir  = compiledSrcDir + 'es6/';
   var distDir         = 'dist/';
-  var webDir          = 'website/';
+  var webDir          = 'web/';
   var publicDir       = webDir + 'public/';
   var nodeDir         = 'node_modules/';
   var docDir          = 'doc/';
@@ -43,7 +43,7 @@ module.exports = function(grunt){
     '* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n' +
     '* SOFTWARE.\n' +
     '*\n' +
-    '* http://' + projectName.toLowerCase() + 'js.lcluber.com\n' +
+    '* http://' + projectNameLC + 'js.lcluber.com\n' +
     '*/\n';
 
 

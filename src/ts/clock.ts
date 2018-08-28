@@ -31,9 +31,9 @@ export class Clock {
 
   public log(): void {
     if (this.total){
-      Logger.debug('Elapsed time : ' + Utils.round(Time.millisecondToSecond(this.total), 2) + 'seconds');
-      Logger.debug('ticks : ' + this.ticks);
-      Logger.debug('Average FPS : ' + this.computeAverageFps());
+      Logger.info('Elapsed time : ' + Utils.round(Time.millisecondToSecond(this.total), 2) + 'seconds');
+      Logger.info('ticks : ' + this.ticks);
+      Logger.info('Average FPS : ' + this.computeAverageFps());
     }
   }
 
