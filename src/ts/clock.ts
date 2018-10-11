@@ -1,5 +1,5 @@
-import { Logger } from 'mouettejs';
-import { Time, Utils} from 'type6js';
+import { Logger } from '@lcluber/mouettejs';
+import { Time, Utils} from '@lcluber/type6js';
 
 export class Clock {
 

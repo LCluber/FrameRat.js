@@ -1718,7 +1718,7 @@ var Framerat = (function (exports) {
                 var newElement = document.createElement(childElementType);
                 if (childElementOptions !== undefined) {
                     Object.keys(childElementOptions).forEach(function (key) {
-                        if (key === 'content') {
+                        if (key === 'textContent') {
                             newElement.textContent = childElementOptions[key];
                         } else {
                             newElement.setAttribute(key, childElementOptions[key]);

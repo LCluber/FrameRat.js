@@ -1,10 +1,6 @@
 ## Synopsis
 
-  FrameRat.js is an animation frame library written in Javascript.
-
-## Code Example
-
- [See a basic example on the dedicated website](http://frameratjs.lcluber.com/#example).
+[FrameRat.js](http://frameratjs.lcluber.com) is an animation frame library written in TypeScript.
 
 ## Motivation
 
@@ -12,11 +8,22 @@ The purpose of this library is to provide a simple way to control an animation w
 
 ## Installation
 
-To use **FrameRat.js** download it **[here](http://frameratjs.lcluber.com/#download)** and learn how to use it **[there](http://frameratjs.lcluber.com/#example)**.
+```bash
+$ npm install @lcluber/frameratjs
+```
+Or download it **[here](http://frameratjs.lcluber.com/#download)**.
+
+## Demo
+
+See a basic example **[here](http://frameratjs.lcluber.com/#example)**.
+
+## Usage
+
+Learn how to use it **[here](http://frameratjs.lcluber.com/#source)**.
 
 ## API Reference
 
-[See the documentation on the dedicated website](http://frameratjs.lcluber.com/doc/).
+Read the documentation **[here](http://frameratjs.lcluber.com/doc/)**.
 
 ## Tests
 

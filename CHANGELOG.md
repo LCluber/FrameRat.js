@@ -1,3 +1,8 @@
+Version 0.3.5 (October 08th 2018)
+-----------------------------
+ * FrameRat.js published on NPM at @lcluber/frameratjs.
+ * Updated README.md with NPM installation procedure.
+
 Version 0.3.4 (July 15th 2018)
 ------------------------------
  * Library exported as ES6 and IIFE modules instead of UMD.

@@ -1,5 +1,5 @@
-import { Time } from 'type6js';
-import { FSM } from 'taipanjs';
+import { Time } from '@lcluber/type6js';
+import { FSM } from '@lcluber/taipanjs';
 
 import {Clock} from './clock';
 

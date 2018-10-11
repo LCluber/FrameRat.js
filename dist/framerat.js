@@ -23,9 +23,9 @@
 * http://frameratjs.lcluber.com
 */
 
-import { Time, Utils } from 'type6js';
-import { FSM } from 'taipanjs';
-import { Logger } from 'mouettejs';
+import { Time, Utils } from '@lcluber/type6js';
+import { FSM } from '@lcluber/taipanjs';
+import { Logger } from '@lcluber/mouettejs';
 
 class Clock {
     constructor(refreshRate) {
