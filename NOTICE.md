@@ -20,7 +20,6 @@ You just cloned FrameRat.js : git clone https://github.com/LCluber/FrameRat.js.g
 
 ### Install project dependencies
   - Run **npm install** from your project directory
-  - Run **bower install** from your project directory
 
 
 ### Workflow

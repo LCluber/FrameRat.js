@@ -319,7 +319,7 @@ module.exports = function(grunt){
         },
         src: [  // nodeDir + 'font-awesome/css/font-awesome.min.css',
                 nodeDir + 'bootstrap/dist/css/bootstrap.min.css',
-                nodeDir + 'mouettejs/dist/mouette.css',
+                // nodeDir + 'mouettejs/dist/mouette.css',
                 publicDir + 'css/style.min.css'
             ],
         dest: publicDir + 'css/style.min.css'
@@ -339,13 +339,13 @@ module.exports = function(grunt){
       }
     },
     copy: {
-      mouette:{
-        expand: true,
-        cwd: nodeDir + 'mouettejs/dist/',
-        src: ['*.htm'],
-        dest: webDir + 'views/',
-        filter: 'isFile'
-      },
+      // mouette:{
+      //   expand: true,
+      //   cwd: nodeDir + 'mouettejs/dist/',
+      //   src: ['*.htm'],
+      //   dest: webDir + 'views/',
+      //   filter: 'isFile'
+      // },
       fonts:{
         expand: true,
         cwd: nodeDir + 'bootstrap/dist/',
