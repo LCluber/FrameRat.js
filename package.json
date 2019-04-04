@@ -46,8 +46,8 @@
     "morgan": "1.8.1",
     "pug": "2.0.0-beta11",
     "serve-favicon": "2.4.0",
-    "@lcluber/mouettejs": "0.2.7",
-    "@lcluber/taipanjs": "0.3.6",
+    "@lcluber/mouettejs": "0.2.11",
+    "@lcluber/taipanjs": "0.3.7",
     "@lcluber/type6js": "1.0.1"
   },
   "devDependencies": {
@@ -77,7 +77,7 @@
     "grunt-tslint": "5.0.1",
     "grunt-rollup": "9.0.0",
     "grunt-sass": "3.0.1",
-    "node-sass": "4.9.3",
+    "node-sass": "4.11.0",
     "rollup-plugin-babel": "3.0.4",
     "rollup-plugin-node-resolve": "3.3.0",
     "time-grunt": "1.4.0",

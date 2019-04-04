@@ -2209,6 +2209,115 @@ var Framerat = (function (exports) {
         }
     };
 
+    var _createClass$3 = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+    function _classCallCheck$4(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+    /** MIT License
+    * 
+    * Copyright (c) 2015 Ludovic CLUBER 
+    * 
+    * Permission is hereby granted, free of charge, to any person obtaining a copy
+    * of this software and associated documentation files (the "Software"), to deal
+    * in the Software without restriction, including without limitation the rights
+    * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    * copies of the Software, and to permit persons to whom the Software is
+    * furnished to do so, subject to the following conditions:
+    *
+    * The above copyright notice and this permission notice shall be included in all
+    * copies or substantial portions of the Software.
+    *
+    * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    * SOFTWARE.
+    *
+    * http://mouettejs.lcluber.com
+    */
+
+    var LEVELS$1 = {
+        info: { id: 1, name: 'info', color: '#28a745' },
+        trace: { id: 2, name: 'trace', color: '#17a2b8' },
+        warn: { id: 3, name: 'warn', color: '#ffc107' },
+        error: { id: 4, name: 'error', color: '#dc3545' },
+        off: { id: 99, name: 'off', color: null }
+    };
+
+    var Message$1 = function () {
+        function Message(level, content) {
+            _classCallCheck$4(this, Message);
+
+            this.id = level.id;
+            this.name = level.name;
+            this.color = level.color;
+            this.content = content;
+        }
+
+        _createClass$3(Message, [{
+            key: 'display',
+            value: function display() {
+                console[this.name]('%c' + this.content, 'color:' + this.color + ';');
+            }
+        }]);
+
+        return Message;
+    }();
+
+    var Logger$1 = function () {
+        function Logger() {
+            _classCallCheck$4(this, Logger);
+        }
+
+        _createClass$3(Logger, [{
+            key: 'level',
+            set: function set(name) {
+                Logger._level = LEVELS$1.hasOwnProperty(name) ? LEVELS$1[name] : LEVELS$1.info;
+            },
+            get: function get() {
+                return Logger._level.name;
+            }
+        }], [{
+            key: 'info',
+            value: function info(message) {
+                Logger.log(LEVELS$1.info, message);
+            }
+        }, {
+            key: 'trace',
+            value: function trace(message) {
+                Logger.log(LEVELS$1.trace, message);
+            }
+        }, {
+            key: 'warn',
+            value: function warn(message) {
+                Logger.log(LEVELS$1.warn, message);
+            }
+        }, {
+            key: 'error',
+            value: function error(message) {
+                Logger.log(LEVELS$1.error, message);
+            }
+        }, {
+            key: 'log',
+            value: function log(level, messageContent) {
+                var message = new Message$1(level, messageContent);
+                this.messages.push(message);
+                this.nbMessages++;
+                if (this._level.id <= message.id) {
+                    message.display();
+                }
+            }
+        }]);
+
+        return Logger;
+    }();
+
+    Logger$1._level = LEVELS$1.info;
+    Logger$1.messages = [];
+    Logger$1.nbMessages = 0;
+
     var Clock = function () {
         function Clock(refreshRate) {
             this.minimumTick = 16.7;
@@ -2227,9 +2336,9 @@ var Framerat = (function (exports) {
         };
         Clock.prototype.log = function () {
             if (this.total) {
-                Logger.info('Elapsed time : ' + Utils.round(Time.millisecondToSecond(this.total), 2) + 'seconds');
-                Logger.info('ticks : ' + this.ticks);
-                Logger.info('Average FPS : ' + this.computeAverageFps());
+                Logger$1.info('Elapsed time : ' + Utils.round(Time.millisecondToSecond(this.total), 2) + 'seconds');
+                Logger$1.info('ticks : ' + this.ticks);
+                Logger$1.info('Average FPS : ' + this.computeAverageFps());
             }
         };
         Clock.prototype.tick = function () {

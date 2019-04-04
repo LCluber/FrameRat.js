@@ -68,7 +68,7 @@ export class Player {
   }
 
   private startAnimation() : string|false {
-    if(this.fsm['play']()) {
+    if((this.fsm['play'])()) {
       this.clock.start();
       this.newFrame();
       return this.fsm.state;
@@ -77,7 +77,7 @@ export class Player {
   }
 
   private stopAnimation(): string {
-    if(this.fsm['pause']()) {
+    if((this.fsm['pause'])()) {
       window.cancelAnimationFrame(this.frameId);
     }
     return this.fsm.state;

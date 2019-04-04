@@ -118,7 +118,7 @@ class Player {
         return this.clock.tick();
     }
     startAnimation() {
-        if (this.fsm['play']()) {
+        if ((this.fsm['play'])()) {
             this.clock.start();
             this.newFrame();
             return this.fsm.state;
@@ -126,7 +126,7 @@ class Player {
         return false;
     }
     stopAnimation() {
-        if (this.fsm['pause']()) {
+        if ((this.fsm['pause'])()) {
             window.cancelAnimationFrame(this.frameId);
         }
         return this.fsm.state;
