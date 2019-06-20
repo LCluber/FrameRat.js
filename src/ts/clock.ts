@@ -18,6 +18,7 @@ export class Clock {
   }
 
   public reset(): void {
+    this.now = 0;
     this.total = 0;
     this.delta = this.minimumTick; //Math.max(0, this.minimumTick);
     this.fps = 0;

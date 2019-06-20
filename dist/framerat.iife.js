@@ -2318,113 +2318,186 @@ var Framerat = (function (exports) {
     Logger$1.messages = [];
     Logger$1.nbMessages = 0;
 
+    var _createClass$4 = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+    function _classCallCheck$5(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
     var Clock = function () {
         function Clock(refreshRate) {
+            _classCallCheck$5(this, Clock);
+
             this.minimumTick = 16.7;
             this.minimumTick = refreshRate ? Time.framePerSecondToMillisecond(refreshRate) : this.minimumTick;
             this.reset();
         }
-        Clock.prototype.reset = function () {
-            this.total = 0;
-            this.delta = this.minimumTick;
-            this.fps = 0;
-            this.ticks = 0;
-            this.sixteenLastFps = [];
-        };
-        Clock.prototype.start = function () {
-            this.now = performance.now();
-        };
-        Clock.prototype.log = function () {
-            if (this.total) {
-                Logger$1.info('Elapsed time : ' + Utils.round(Time.millisecondToSecond(this.total), 2) + 'seconds');
-                Logger$1.info('ticks : ' + this.ticks);
-                Logger$1.info('Average FPS : ' + this.computeAverageFps());
+
+        _createClass$4(Clock, [{
+            key: 'reset',
+            value: function reset() {
+                this.now = 0;
+                this.total = 0;
+                this.delta = this.minimumTick;
+                this.fps = 0;
+                this.ticks = 0;
+                this.sixteenLastFps = [];
             }
-        };
-        Clock.prototype.tick = function () {
-            var now = performance.now();
-            this.delta = now - this.now;
-            if (this.delta >= this.minimumTick) {
-                this.now = now;
-                this.total += this.delta;
-                this.ticks++;
-                this.fps = Time.millisecondToFramePerSecond(this.delta);
-                this.updateSixteenLastFps();
-                return true;
+        }, {
+            key: 'start',
+            value: function start() {
+                this.now = performance.now();
             }
-            return false;
-        };
-        Clock.prototype.computeAverageFps = function () {
-            var _this = this;
-            var totalFps = function totalFps() {
-                var total = 0;
-                for (var _i = 0, _a = _this.sixteenLastFps; _i < _a.length; _i++) {
-                    var fps = _a[_i];
-                    total += fps;
+        }, {
+            key: 'log',
+            value: function log() {
+                if (this.total) {
+                    Logger$1.info('Elapsed time : ' + Utils.round(Time.millisecondToSecond(this.total), 2) + 'seconds');
+                    Logger$1.info('ticks : ' + this.ticks);
+                    Logger$1.info('Average FPS : ' + this.computeAverageFps());
                 }
-                return total;
-            };
-            return Utils.validate(Utils.round(totalFps() / this.sixteenLastFps.length, 2));
-        };
-        Clock.prototype.updateSixteenLastFps = function () {
-            this.sixteenLastFps[this.ticks % 60] = this.fps;
-        };
+            }
+        }, {
+            key: 'tick',
+            value: function tick() {
+                var now = performance.now();
+                this.delta = now - this.now;
+                if (this.delta >= this.minimumTick) {
+                    this.now = now;
+                    this.total += this.delta;
+                    this.ticks++;
+                    this.fps = Time.millisecondToFramePerSecond(this.delta);
+                    this.updateSixteenLastFps();
+                    return true;
+                }
+                return false;
+            }
+        }, {
+            key: 'computeAverageFps',
+            value: function computeAverageFps() {
+                var _this = this;
+
+                var totalFps = function totalFps() {
+                    var total = 0;
+                    var _iteratorNormalCompletion = true;
+                    var _didIteratorError = false;
+                    var _iteratorError = undefined;
+
+                    try {
+                        for (var _iterator = _this.sixteenLastFps[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                            var fps = _step.value;
+
+                            total += fps;
+                        }
+                    } catch (err) {
+                        _didIteratorError = true;
+                        _iteratorError = err;
+                    } finally {
+                        try {
+                            if (!_iteratorNormalCompletion && _iterator.return) {
+                                _iterator.return();
+                            }
+                        } finally {
+                            if (_didIteratorError) {
+                                throw _iteratorError;
+                            }
+                        }
+                    }
+
+                    return total;
+                };
+                return Utils.validate(Utils.round(totalFps() / this.sixteenLastFps.length, 2));
+            }
+        }, {
+            key: 'updateSixteenLastFps',
+            value: function updateSixteenLastFps() {
+                this.sixteenLastFps[this.ticks % 60] = this.fps;
+            }
+        }]);
+
         return Clock;
     }();
 
+    var _createClass$5 = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+    function _classCallCheck$6(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
     var Player = function () {
         function Player(onAnimate, refreshRate) {
+            _classCallCheck$6(this, Player);
+
+            this.frameId = 0;
             this.clock = new Clock(refreshRate);
-            this.createFiniteStateMachine();
             this.onAnimate = onAnimate;
-        }
-        Player.prototype.createFiniteStateMachine = function () {
             this.fsm = new FSM([{ name: 'play', from: 'paused', to: 'running' }, { name: 'pause', from: 'running', to: 'paused' }]);
-        };
-        Player.prototype.getDelta = function () {
-            return Time.millisecondToSecond(this.clock.delta);
-        };
-        Player.prototype.getTotal = function () {
-            return Time.millisecondToSecond(this.clock.total);
-        };
-        Player.prototype.getFPS = function () {
-            return this.clock.computeAverageFps();
-        };
-        Player.prototype.setScope = function (scope) {
-            this.onAnimate.bind(scope);
-        };
-        Player.prototype.play = function () {
-            return this.startAnimation();
-        };
-        Player.prototype.toggle = function () {
-            return this.startAnimation() || this.stopAnimation();
-        };
-        Player.prototype.stop = function () {
-            this.clock.log();
-            this.clock.reset();
-            return this.stopAnimation();
-        };
-        Player.prototype.requestNewFrame = function () {
-            this.newFrame();
-            return this.clock.tick();
-        };
-        Player.prototype.startAnimation = function () {
-            if (this.fsm['play']()) {
-                this.clock.start();
+        }
+
+        _createClass$5(Player, [{
+            key: 'getDelta',
+            value: function getDelta() {
+                return Time.millisecondToSecond(this.clock.delta);
+            }
+        }, {
+            key: 'getTotal',
+            value: function getTotal() {
+                return Time.millisecondToSecond(this.clock.total);
+            }
+        }, {
+            key: 'getFPS',
+            value: function getFPS() {
+                return this.clock.computeAverageFps();
+            }
+        }, {
+            key: 'setScope',
+            value: function setScope(scope) {
+                this.onAnimate.bind(scope);
+            }
+        }, {
+            key: 'play',
+            value: function play() {
+                return this.startAnimation();
+            }
+        }, {
+            key: 'toggle',
+            value: function toggle() {
+                return this.startAnimation() || this.stopAnimation();
+            }
+        }, {
+            key: 'stop',
+            value: function stop() {
+                this.clock.log();
+                this.clock.reset();
+                return this.stopAnimation();
+            }
+        }, {
+            key: 'requestNewFrame',
+            value: function requestNewFrame() {
                 this.newFrame();
+                return this.clock.tick();
+            }
+        }, {
+            key: 'startAnimation',
+            value: function startAnimation() {
+                if (this.fsm['play']()) {
+                    this.clock.start();
+                    this.newFrame();
+                    return this.fsm.state;
+                }
+                return false;
+            }
+        }, {
+            key: 'stopAnimation',
+            value: function stopAnimation() {
+                if (this.fsm['pause']()) {
+                    window.cancelAnimationFrame(this.frameId);
+                }
                 return this.fsm.state;
             }
-            return false;
-        };
-        Player.prototype.stopAnimation = function () {
-            if (this.fsm['pause']()) {
-                window.cancelAnimationFrame(this.frameId);
+        }, {
+            key: 'newFrame',
+            value: function newFrame() {
+                this.frameId = window.requestAnimationFrame(this.onAnimate);
             }
-            return this.fsm.state;
-        };
-        Player.prototype.newFrame = function () {
-            this.frameId = window.requestAnimationFrame(this.onAnimate);
-        };
+        }]);
+
         return Player;
     }();
 

@@ -178,9 +178,9 @@ module.exports = function(grunt){
           banner: banner,
           // sourceMap: 'inline'
           plugins: [
-            resolve({
-            //   //exclude: './node_modules/**'
-            })
+            // resolve({
+            // //   //exclude: './node_modules/**'
+            // })
           ],
           external: [
             '@lcluber/mouettejs',
@@ -200,11 +200,13 @@ module.exports = function(grunt){
           moduleName: projectName,
           banner: banner,
           plugins: [
+            resolve({
+              module: true,
+              browser: true
+              //   //exclude: './node_modules/**'
+            }),
             babel({
             //   //exclude: './node_modules/**'
-            }),
-            resolve({
-              //   //exclude: './node_modules/**'
             })
           ]
           // sourceMap: 'inline'
@@ -213,7 +215,7 @@ module.exports = function(grunt){
           // ]
         },
         files: [ {
-          src : compiledES5Dir + projectNameLC + '.js',
+          src : compiledES6Dir + projectNameLC + '.js',
           dest : distDir + projectNameLC + '.iife.js'
         } ]
       }
@@ -294,7 +296,7 @@ module.exports = function(grunt){
           stripBanners: false,
           banner: banner
         },
-        src: srcDir + '**/*.d.ts',
+        src: compiledES6Dir + '**/*.d.ts',
         dest: distDir + projectNameLC + '.d.ts'
       },
       webjs: {
@@ -319,7 +321,6 @@ module.exports = function(grunt){
         },
         src: [  // nodeDir + 'font-awesome/css/font-awesome.min.css',
                 nodeDir + 'bootstrap/dist/css/bootstrap.min.css',
-                // nodeDir + 'mouettejs/dist/mouette.css',
                 publicDir + 'css/style.min.css'
             ],
         dest: publicDir + 'css/style.min.css'
@@ -329,9 +330,10 @@ module.exports = function(grunt){
       options: {
         //import { IBase64Service } from '../services/base64.service';
         // /// <reference path="../config/typings/index.d.ts" />
-        patterns: [ /import.*';/g,
+        patterns: [
+                    /import.*';/g,
                     /export { .* } from '.*';/g,
-                    /\/\/\/ <reference path=.*\/>/g
+                    // /\/\/\/ <reference path=.*\/>/g
                   ]
       },
       declaration: {
@@ -339,13 +341,6 @@ module.exports = function(grunt){
       }
     },
     copy: {
-      // mouette:{
-      //   expand: true,
-      //   cwd: nodeDir + 'mouettejs/dist/',
-      //   src: ['*.htm'],
-      //   dest: webDir + 'views/',
-      //   filter: 'isFile'
-      // },
       fonts:{
         expand: true,
         cwd: nodeDir + 'bootstrap/dist/',
@@ -429,7 +424,7 @@ module.exports = function(grunt){
                         'ts:es6',
                         'rollup:es6',
                         //lib es5
-                        'ts:es5',
+                        // 'ts:es5',
                         'rollup:iife',
                         'uglify:libIife',
                         //declaration

@@ -1,3 +1,7 @@
+Version 0.3.6 (June 20th 2019)
+-----------------------------
+ * Fixed declaration file.
+
 Version 0.3.5 (October 08th 2018)
 -----------------------------
  * FrameRat.js published on NPM at @lcluber/frameratjs.

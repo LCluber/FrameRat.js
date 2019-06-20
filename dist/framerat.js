@@ -34,6 +34,7 @@ class Clock {
         this.reset();
     }
     reset() {
+        this.now = 0;
         this.total = 0;
         this.delta = this.minimumTick;
         this.fps = 0;
@@ -80,11 +81,9 @@ class Clock {
 
 class Player {
     constructor(onAnimate, refreshRate) {
+        this.frameId = 0;
         this.clock = new Clock(refreshRate);
-        this.createFiniteStateMachine();
         this.onAnimate = onAnimate;
-    }
-    createFiniteStateMachine() {
         this.fsm = new FSM([
             { name: 'play', from: 'paused', to: 'running' },
             { name: 'pause', from: 'running', to: 'paused' }

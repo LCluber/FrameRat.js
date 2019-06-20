@@ -5,7 +5,7 @@ import {Clock} from './clock';
 
 export class Player {
 
-  public id        : number; //animation frame ID
+  //public id        : number; //animation frame ID
   private onAnimate: FrameRequestCallback;
   public fsm       : FSM;
   public clock     : Clock;
@@ -16,18 +16,17 @@ export class Player {
   // }
 
   constructor(onAnimate: FrameRequestCallback, refreshRate: number) {
+    this.frameId = 0;
     this.clock = new Clock(refreshRate);
-    this.createFiniteStateMachine();
     this.onAnimate = onAnimate;
-  }
 
-  private createFiniteStateMachine(): void {
     this.fsm = new FSM([
                 //{ name: 'start',    from: 'idle',    to: 'running' },
                 { name: 'play',  from: 'paused',  to: 'running' },
                 { name: 'pause', from: 'running', to: 'paused' }
                 //{ name: 'stop',     from: 'paused',  to: 'idle' },
               ]);
+              
   }
 
   public getDelta():number {

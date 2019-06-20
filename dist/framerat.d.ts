@@ -22,3 +22,39 @@
 *
 * http://frameratjs.lcluber.com
 */
+export declare class Clock {
+    private now;
+    fps: number;
+    sixteenLastFps: Array<number>;
+    minimumTick: number;
+    ticks: number;
+    total: number;
+    delta: number;
+    constructor(refreshRate?: number);
+    reset(): void;
+    start(): void;
+    log(): void;
+    tick(): boolean;
+    computeAverageFps(): number;
+    private updateSixteenLastFps;
+}
+
+
+export declare class Player {
+    private onAnimate;
+    fsm: FSM;
+    clock: Clock;
+    frameId: number;
+    constructor(onAnimate: FrameRequestCallback, refreshRate: number);
+    getDelta(): number;
+    getTotal(): number;
+    getFPS(): number;
+    setScope(scope: any): void;
+    play(): string | false;
+    toggle(): string;
+    stop(): string;
+    requestNewFrame(): boolean;
+    private startAnimation;
+    private stopAnimation;
+    private newFrame;
+}
