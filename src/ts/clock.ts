@@ -12,7 +12,7 @@ export class Clock {
   public total          : number;
   public delta          : number;
 
-  constructor(refreshRate?: number ) {
+  constructor(refreshRate?: number|null ) {
     this.minimumTick = refreshRate ? Time.framePerSecondToMillisecond(refreshRate) : this.minimumTick;
     this.reset();
   }

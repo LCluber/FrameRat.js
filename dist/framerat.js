@@ -99,7 +99,7 @@ class Player {
         return this.clock.computeAverageFps();
     }
     setScope(scope) {
-        this.onAnimate.bind(scope);
+        this.onAnimate = this.onAnimate.bind(scope);
     }
     play() {
         return this.startAnimation();

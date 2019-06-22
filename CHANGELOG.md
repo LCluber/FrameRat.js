@@ -1,3 +1,8 @@
+Version 0.3.7 (June 22th 2019)
+-----------------------------
+ * Fixed setScope() method.
+ * RefreshRate parameter can be null.
+
 Version 0.3.6 (June 20th 2019)
 -----------------------------
  * Fixed declaration file.

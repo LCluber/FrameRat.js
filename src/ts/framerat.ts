@@ -1,7 +1,7 @@
 import { Time } from '@lcluber/type6js';
 import { FSM } from '@lcluber/taipanjs';
 
-import {Clock} from './clock';
+import { Clock } from './clock';
 
 export class Player {
 
@@ -15,7 +15,7 @@ export class Player {
   //   refreshRate : 30
   // }
 
-  constructor(onAnimate: FrameRequestCallback, refreshRate: number) {
+  constructor(onAnimate: FrameRequestCallback, refreshRate?: number|null) {
     this.frameId = 0;
     this.clock = new Clock(refreshRate);
     this.onAnimate = onAnimate;
@@ -26,7 +26,7 @@ export class Player {
                 { name: 'pause', from: 'running', to: 'paused' }
                 //{ name: 'stop',     from: 'paused',  to: 'idle' },
               ]);
-              
+
   }
 
   public getDelta():number {
@@ -43,7 +43,7 @@ export class Player {
 
   //If using Framerat in a library
   public setScope(scope: any): void {
-    this.onAnimate.bind(scope);
+    this.onAnimate = this.onAnimate.bind(scope);
   }
 
   public play(): string|false {

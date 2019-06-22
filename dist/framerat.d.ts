@@ -30,7 +30,7 @@ export declare class Clock {
     ticks: number;
     total: number;
     delta: number;
-    constructor(refreshRate?: number);
+    constructor(refreshRate?: number | null);
     reset(): void;
     start(): void;
     log(): void;
@@ -38,14 +38,14 @@ export declare class Clock {
     computeAverageFps(): number;
     private updateSixteenLastFps;
 }
-
+import { FSM } from '@lcluber/taipanjs';
 
 export declare class Player {
     private onAnimate;
     fsm: FSM;
     clock: Clock;
     frameId: number;
-    constructor(onAnimate: FrameRequestCallback, refreshRate: number);
+    constructor(onAnimate: FrameRequestCallback, refreshRate?: number | null);
     getDelta(): number;
     getTotal(): number;
     getFPS(): number;
