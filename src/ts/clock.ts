@@ -1,4 +1,4 @@
-import { Logger } from '@lcluber/mouettejs';
+import { Logger, Group } from '@lcluber/mouettejs';
 import { Time, Utils} from '@lcluber/type6js';
 
 export class Clock {
@@ -11,10 +11,12 @@ export class Clock {
   public ticks          : number;
   public total          : number;
   public delta          : number;
+  private logger        : Group;
 
   constructor(refreshRate?: number|null ) {
     this.minimumTick = refreshRate ? Time.framePerSecondToMillisecond(refreshRate) : this.minimumTick;
     this.reset();
+    this.logger = Logger.addGroup('FrameRat');
   }
 
   public reset(): void {
@@ -32,9 +34,9 @@ export class Clock {
 
   public log(): void {
     if (this.total){
-      Logger.info('Elapsed time : ' + Utils.round(Time.millisecondToSecond(this.total), 2) + 'seconds');
-      Logger.info('ticks : ' + this.ticks);
-      Logger.info('Average FPS : ' + this.computeAverageFps());
+      this.logger.info('Elapsed time : ' + Utils.round(Time.millisecondToSecond(this.total), 2) + 'seconds');
+      this.logger.info('ticks : ' + this.ticks);
+      this.logger.info('Average FPS : ' + this.computeAverageFps());
     }
   }
 

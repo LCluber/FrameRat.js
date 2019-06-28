@@ -1625,6 +1625,16 @@ var Framerat = (function (exports) {
         off: { id: 99, name: 'off', color: null }
     };
 
+    function addZero(value) {
+        return value < 10 ? '0' + value : value;
+    }
+    function formatDate() {
+        var now = new Date();
+        var date = [addZero(now.getMonth() + 1), addZero(now.getDate()), now.getFullYear().toString().substr(-2)];
+        var time = [addZero(now.getHours()), addZero(now.getMinutes()), addZero(now.getSeconds())];
+        return date.join("/") + " " + time.join(":");
+    }
+
     var Message = function () {
         function Message(level, content) {
             _classCallCheck$1(this, Message);
@@ -1633,16 +1643,69 @@ var Framerat = (function (exports) {
             this.name = level.name;
             this.color = level.color;
             this.content = content;
+            this.date = formatDate();
         }
 
         _createClass$1(Message, [{
             key: 'display',
-            value: function display() {
-                console[this.name]('%c' + this.content, 'color:' + this.color + ';');
+            value: function display(groupName) {
+                console[this.name]('%c[' + groupName + '] ' + this.date + ' : ', 'color:' + this.color + ';', this.content);
             }
         }]);
 
         return Message;
+    }();
+
+    var Group = function () {
+        function Group(name, level) {
+            _classCallCheck$1(this, Group);
+
+            this.messages = [];
+            this.name = name;
+            this.messages = [];
+            this._level = level;
+        }
+
+        _createClass$1(Group, [{
+            key: 'info',
+            value: function info(message) {
+                this.log(LEVELS.info, message);
+            }
+        }, {
+            key: 'trace',
+            value: function trace(message) {
+                this.log(LEVELS.trace, message);
+            }
+        }, {
+            key: 'warn',
+            value: function warn(message) {
+                this.log(LEVELS.warn, message);
+            }
+        }, {
+            key: 'error',
+            value: function error(message) {
+                this.log(LEVELS.error, message);
+            }
+        }, {
+            key: 'log',
+            value: function log(level, messageContent) {
+                var message = new Message(level, messageContent);
+                this.messages.push(message);
+                if (this._level.id <= message.id) {
+                    message.display(this.name);
+                }
+            }
+        }, {
+            key: 'level',
+            set: function set(name) {
+                this._level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this._level;
+            },
+            get: function get() {
+                return this._level.name;
+            }
+        }]);
+
+        return Group;
     }();
 
     var Logger = function () {
@@ -1650,52 +1713,91 @@ var Framerat = (function (exports) {
             _classCallCheck$1(this, Logger);
         }
 
-        _createClass$1(Logger, [{
-            key: 'level',
-            set: function set(name) {
-                Logger._level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : LEVELS.info;
-            },
-            get: function get() {
-                return Logger._level.name;
-            }
-        }], [{
-            key: 'info',
-            value: function info(message) {
-                Logger.log(LEVELS.info, message);
-            }
-        }, {
-            key: 'trace',
-            value: function trace(message) {
-                Logger.log(LEVELS.trace, message);
-            }
-        }, {
-            key: 'warn',
-            value: function warn(message) {
-                Logger.log(LEVELS.warn, message);
-            }
-        }, {
-            key: 'error',
-            value: function error(message) {
-                Logger.log(LEVELS.error, message);
-            }
-        }, {
-            key: 'log',
-            value: function log(level, messageContent) {
-                var message = new Message(level, messageContent);
-                this.messages.push(message);
-                this.nbMessages++;
-                if (this._level.id <= message.id) {
-                    message.display();
+        _createClass$1(Logger, null, [{
+            key: 'setLevel',
+            value: function setLevel(name) {
+                Logger.level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : Logger.level;
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                    for (var _iterator = Logger.groups[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var group = _step.value;
+
+                        group.level = Logger.level.name;
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+                    } finally {
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
                 }
+            }
+        }, {
+            key: 'getLevel',
+            value: function getLevel() {
+                return Logger.level.name;
+            }
+        }, {
+            key: 'getGroup',
+            value: function getGroup(name) {
+                var _iteratorNormalCompletion2 = true;
+                var _didIteratorError2 = false;
+                var _iteratorError2 = undefined;
+
+                try {
+                    for (var _iterator2 = Logger.groups[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                        var group = _step2.value;
+
+                        if (group.name === name) {
+                            return group;
+                        }
+                    }
+                } catch (err) {
+                    _didIteratorError2 = true;
+                    _iteratorError2 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                            _iterator2.return();
+                        }
+                    } finally {
+                        if (_didIteratorError2) {
+                            throw _iteratorError2;
+                        }
+                    }
+                }
+
+                return null;
+            }
+        }, {
+            key: 'addGroup',
+            value: function addGroup(name) {
+                return this.getGroup(name) || this.pushGroup(name);
+            }
+        }, {
+            key: 'pushGroup',
+            value: function pushGroup(name) {
+                var group = new Group(name, Logger.level);
+                Logger.groups.push(group);
+                return group;
             }
         }]);
 
         return Logger;
     }();
 
-    Logger._level = LEVELS.info;
-    Logger.messages = [];
-    Logger.nbMessages = 0;
+    Logger.level = LEVELS.error;
+    Logger.groups = [];
 
     function _classCallCheck$2(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1730,6 +1832,7 @@ var Framerat = (function (exports) {
         _classCallCheck$2(this, FSM);
 
         this.state = events[0].from;
+        this.log = Logger.getGroup('Taipan') || Logger.addGroup('Taipan');
         var _iteratorNormalCompletion = true;
         var _didIteratorError = false;
         var _iteratorError = undefined;
@@ -1740,13 +1843,13 @@ var Framerat = (function (exports) {
 
                 if (!_this.hasOwnProperty(event.name)) {
                     _this[event.name] = function () {
-                        Logger.info('- Event ' + event.name + ' triggered');
+                        _this.log.info('- Event ' + event.name + ' triggered');
                         if (_this.state === event.from) {
                             _this.state = event.to;
-                            Logger.info('from ' + event.from + ' to ' + _this.state);
+                            _this.log.info('from ' + event.from + ' to ' + _this.state);
                             return true;
                         }
-                        Logger.warn('Cannot transition from ' + _this.state + ' to ' + event.to);
+                        _this.log.warn('Cannot transition from ' + _this.state + ' to ' + event.to);
                         return false;
                     };
                 }
@@ -1782,6 +1885,7 @@ var Framerat = (function (exports) {
             this.minimumTick = 16.7;
             this.minimumTick = refreshRate ? Time.framePerSecondToMillisecond(refreshRate) : this.minimumTick;
             this.reset();
+            this.logger = Logger.addGroup('FrameRat');
         }
 
         _createClass$2(Clock, [{
@@ -1803,9 +1907,9 @@ var Framerat = (function (exports) {
             key: 'log',
             value: function log() {
                 if (this.total) {
-                    Logger.info('Elapsed time : ' + Utils.round(Time.millisecondToSecond(this.total), 2) + 'seconds');
-                    Logger.info('ticks : ' + this.ticks);
-                    Logger.info('Average FPS : ' + this.computeAverageFps());
+                    this.logger.info('Elapsed time : ' + Utils.round(Time.millisecondToSecond(this.total), 2) + 'seconds');
+                    this.logger.info('ticks : ' + this.ticks);
+                    this.logger.info('Average FPS : ' + this.computeAverageFps());
                 }
             }
         }, {

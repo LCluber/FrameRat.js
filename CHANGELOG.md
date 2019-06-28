@@ -1,3 +1,7 @@
+Version 0.3.8 (June 28th 2019)
+-----------------------------
+ * Updated Mouette logger for log groups management
+
 Version 0.3.7 (June 22th 2019)
 -----------------------------
  * Fixed setScope() method.

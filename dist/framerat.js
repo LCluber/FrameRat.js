@@ -32,6 +32,7 @@ class Clock {
         this.minimumTick = 16.7;
         this.minimumTick = refreshRate ? Time.framePerSecondToMillisecond(refreshRate) : this.minimumTick;
         this.reset();
+        this.logger = Logger.addGroup('FrameRat');
     }
     reset() {
         this.now = 0;
@@ -46,9 +47,9 @@ class Clock {
     }
     log() {
         if (this.total) {
-            Logger.info('Elapsed time : ' + Utils.round(Time.millisecondToSecond(this.total), 2) + 'seconds');
-            Logger.info('ticks : ' + this.ticks);
-            Logger.info('Average FPS : ' + this.computeAverageFps());
+            this.logger.info('Elapsed time : ' + Utils.round(Time.millisecondToSecond(this.total), 2) + 'seconds');
+            this.logger.info('ticks : ' + this.ticks);
+            this.logger.info('Average FPS : ' + this.computeAverageFps());
         }
     }
     tick() {

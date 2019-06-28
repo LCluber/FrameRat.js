@@ -30,6 +30,7 @@ export declare class Clock {
     ticks: number;
     total: number;
     delta: number;
+    private logger;
     constructor(refreshRate?: number | null);
     reset(): void;
     start(): void;
