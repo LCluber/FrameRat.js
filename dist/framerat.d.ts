@@ -50,6 +50,7 @@ export declare class Player {
     getDelta(): number;
     getTotal(): number;
     getFPS(): number;
+    getTicks(): number;
     setScope(scope: any): void;
     play(): string | false;
     toggle(): string;

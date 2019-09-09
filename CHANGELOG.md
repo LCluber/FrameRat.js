@@ -1,3 +1,7 @@
+Version 0.3.9 (September 9th 2019)
+-----------------------------
+ * Added getTicks() method to Player class
+
 Version 0.3.8 (June 28th 2019)
 -----------------------------
  * Updated Mouette logger for log groups management

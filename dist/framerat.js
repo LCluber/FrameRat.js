@@ -99,6 +99,9 @@ class Player {
     getFPS() {
         return this.clock.computeAverageFps();
     }
+    getTicks() {
+        return this.clock.ticks;
+    }
     setScope(scope) {
         this.onAnimate = this.onAnimate.bind(scope);
     }

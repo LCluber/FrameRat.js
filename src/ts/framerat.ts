@@ -41,6 +41,10 @@ export class Player {
     return this.clock.computeAverageFps();
   }
 
+  public getTicks():number {
+    return this.clock.ticks;
+  }
+
   //If using Framerat in a library
   public setScope(scope: any): void {
     this.onAnimate = this.onAnimate.bind(scope);
