@@ -7,7 +7,7 @@ export class Clock {
   public fps            : number;
   //public averageFps     : number;
   public sixtyLastFps : Array<number>;
-  public minimumTick    : number = 16.7; //better if multiple of 16.7
+  public minimumTick    : number = 16;
   public ticks          : number;
   public total          : number;
   public delta          : number;
@@ -22,7 +22,7 @@ export class Clock {
   public reset(): void {
     this.now = 0;
     this.total = 0;
-    this.delta = this.minimumTick; //Math.max(0, this.minimumTick);
+    this.delta = this.minimumTick;
     this.fps = 0;
     this.ticks = 0;
     this.sixtyLastFps = [];
