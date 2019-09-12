@@ -6,7 +6,7 @@ export class Clock {
   private now           : number;
   public fps            : number;
   //public averageFps     : number;
-  public sixteenLastFps : Array<number>;
+  public sixtyLastFps : Array<number>;
   public minimumTick    : number = 16.7; //better if multiple of 16.7
   public ticks          : number;
   public total          : number;
@@ -25,7 +25,7 @@ export class Clock {
     this.delta = this.minimumTick; //Math.max(0, this.minimumTick);
     this.fps = 0;
     this.ticks = 0;
-    this.sixteenLastFps = [];
+    this.sixtyLastFps = [];
   }
 
   public start(): void {
@@ -48,7 +48,7 @@ export class Clock {
       this.total += this.delta;
       this.ticks++;
       this.fps = Time.millisecondToFramePerSecond(this.delta);
-      this.updateSixteenLastFps();
+      this.updateSixtyLastFps();
       return true;
     }
     return false;
@@ -65,18 +65,15 @@ export class Clock {
   }
 
   public computeAverageFps(): number {
-    let totalFps = ():number => {
-      let total = 0;
-      for (let fps of this.sixteenLastFps) {
-        total += fps;
-      }
-      return total;
-    };
-    return Utils.validate(Utils.round( totalFps()/this.sixteenLastFps.length, 2));
+    let totalFps = 0;
+    for (let fps of this.sixtyLastFps) {
+      totalFps += fps;
+    }
+    return Utils.validate(Utils.round( totalFps/this.sixtyLastFps.length, 2));
   }
 
-  private updateSixteenLastFps(): void {
-    this.sixteenLastFps[this.ticks % 60] = this.fps;
+  private updateSixtyLastFps(): void {
+    this.sixtyLastFps[this.ticks % 60] = this.fps;
   }
 
 }
