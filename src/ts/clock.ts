@@ -68,7 +68,7 @@ export class Clock {
     let totalFps = ():number => {
       let total = 0;
       for (let fps of this.sixteenLastFps) {
-        total += fps; //use + because fps is typed as a string otherwise
+        total += fps;
       }
       return total;
     };
