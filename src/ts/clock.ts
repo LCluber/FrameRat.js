@@ -7,16 +7,19 @@ export class Clock {
   public fps            : number;
   //public averageFps     : number;
   public sixtyLastFps : Array<number>;
-  public minimumTick    : number = 16;
+  public minimumTick    : number = 4;
   public ticks          : number;
   public total          : number;
   public delta          : number;
   private logger        : Group;
+  private callback      : FrameRequestCallback;
 
-  constructor(refreshRate?: number|null ) {
+  constructor(callback: FrameRequestCallback, , refreshRate?: number|null ) {
     this.minimumTick = refreshRate ? Time.framePerSecondToMillisecond(refreshRate) : this.minimumTick;
     this.reset();
     this.logger = Logger.addGroup('FrameRat');
+    this.callback = callback;
+
   }
 
   public reset(): void {
@@ -26,7 +29,7 @@ export class Clock {
     this.fps = 0;
     this.ticks = 0;
     this.sixtyLastFps = [];
-  }
+  }l
 
   public start(): void {
     this.now = performance.now();
@@ -40,8 +43,8 @@ export class Clock {
     }
   }
 
-  public tick(): boolean {
-    let now = performance.now();
+  public tick(now: number): boolean {
+    // llet now = performance.now();
     this.delta = now - this.now;
     if (this.delta >= this.minimumTick) {
       this.now = now;
@@ -49,18 +52,16 @@ export class Clock {
       this.ticks++;
       this.fps = Time.millisecondToFramePerSecond(this.delta);
       this.updateSixtyLastFps();
+      this.callback();
       return true;
     }
     return false;
-    // if enough time has elapsed, draw the next frame
-
-    //if (elapsed > fpsInterval) {
-
-        // Get ready for next frame by setting then=now, but also adjust for your
-        // specified fpsInterval not being a multiple of RAF's interval (16.7ms)
-        //then = now - (elapsed % fpsInterval);
-
-        // Put your drawing code here
+  //   if (!start) start = timestamp;
+  // var progress = timestamp - start;
+  // element.style.transform = 'translateX(' + Math.min(progress / 10, 200) + 'px)';
+  // if (progress < 2000) {
+  //   window.requestAnimationFrame(step);
+  // }
 
   }
 

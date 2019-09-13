@@ -6,7 +6,7 @@ import { Clock } from './clock';
 export class Player {
 
   //public id        : number; //animation frame ID
-  private onAnimate: FrameRequestCallback;
+  
   public fsm       : FSM;
   public clock     : Clock;
   public frameId   : number;
@@ -45,7 +45,6 @@ export class Player {
     return this.clock.ticks;
   }
 
-  //If using Framerat in a library
   public setScope(scope: any): void {
     this.onAnimate = this.onAnimate.bind(scope);
   }
@@ -58,6 +57,10 @@ export class Player {
     return this.startAnimation() || this.stopAnimation();
   }
 
+  public pause(): string {
+    return this.stopAnimation();
+  }
+
   public stop(): string {
     this.clock.log();
     this.clock.reset();
@@ -66,8 +69,11 @@ export class Player {
 
   //call this function to animate
   public requestNewFrame(): boolean {
-    this.newFrame();
-    return this.clock.tick();
+    if (this.clock.tick()) {
+      this.newFrame();
+      return true;
+    }
+    return false;
   }
 
   private startAnimation() : string|false {
