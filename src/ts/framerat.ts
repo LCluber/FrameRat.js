@@ -1,6 +1,6 @@
 import { Time } from '@lcluber/type6js';
 import { FSM } from '@lcluber/taipanjs';
-
+import { isNumber } from '@lcluber/chjs';
 import { Clock } from './clock';
 
 export class Player {
@@ -9,15 +9,11 @@ export class Player {
   public clock        : Clock;
   public frameId      : number;
   private callback    : FrameRequestCallback;
-  private minDelta    : number = 0;
-  //public minFPS: number;
-  // options   : {
-  //   minFPS : 30
-  // }
+  private minDelta    : number;
 
-  constructor(callback: FrameRequestCallback, minFPS?: number|null) {
+  constructor(callback: FrameRequestCallback) {
     this.frameId = 0;
-    this.minDelta = minFPS ? Time.framePerSecondToMillisecond(minFPS) : this.minDelta;
+    this.minDelta = 0;
     this.clock = new Clock();
     this.callback = callback;
 
@@ -28,6 +24,10 @@ export class Player {
                 //{ name: 'stop',     from: 'paused',  to: 'idle' },
               ]);
 
+  }
+
+  public setMinDelta(minFPS: number): void {
+    this.minDelta = isNumber(minFPS) ? Time.framePerSecondToMillisecond(minFPS) : this.minDelta;
   }
 
   public getDelta():number {

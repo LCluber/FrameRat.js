@@ -5,9 +5,7 @@ export class Clock {
 
   private now           : number;
   public fps            : number;
-  //public averageFps     : number;
-  public sixtyLastFps : Array<number>;
-  
+  public sixtyLastFps   : Array<number>;
   public ticks          : number;
   public total          : number;
   public delta          : number;
@@ -25,7 +23,7 @@ export class Clock {
     this.fps = 0;
     this.ticks = 0;
     this.sixtyLastFps = [];
-  }l
+  }
 
   public start(): void {
     this.now = performance.now();
@@ -43,8 +41,11 @@ export class Clock {
     this.now = now;
     this.total += this.delta;
     this.ticks++;
-    this.fps = Math.round(Time.millisecondToFramePerSecond(this.delta));
     this.updateSixtyLastFps();
+  }
+
+  private computeFPS(): number {
+    return this.fps = Math.round(Time.millisecondToFramePerSecond(this.delta));
   }
 
   public computeDelta(now: number): number {
@@ -60,7 +61,7 @@ export class Clock {
   }
 
   private updateSixtyLastFps(): void {
-    this.sixtyLastFps[this.ticks % 60] = this.fps;
+    this.sixtyLastFps[this.ticks % 60] = this.computeFPS();
   }
 
 }
