@@ -7,19 +7,16 @@ export class Clock {
   public fps            : number;
   //public averageFps     : number;
   public sixtyLastFps : Array<number>;
-  public minimumTick    : number = 4;
+  
   public ticks          : number;
   public total          : number;
   public delta          : number;
   private logger        : Group;
-  private callback      : FrameRequestCallback;
 
-  constructor(callback: FrameRequestCallback, , refreshRate?: number|null ) {
+  constructor(refreshRate?: number|null ) {
     this.minimumTick = refreshRate ? Time.framePerSecondToMillisecond(refreshRate) : this.minimumTick;
     this.reset();
     this.logger = Logger.addGroup('FrameRat');
-    this.callback = callback;
-
   }
 
   public reset(): void {
@@ -43,26 +40,16 @@ export class Clock {
     }
   }
 
-  public tick(now: number): boolean {
-    // llet now = performance.now();
-    this.delta = now - this.now;
-    if (this.delta >= this.minimumTick) {
-      this.now = now;
-      this.total += this.delta;
-      this.ticks++;
-      this.fps = Time.millisecondToFramePerSecond(this.delta);
-      this.updateSixtyLastFps();
-      this.callback();
-      return true;
-    }
-    return false;
-  //   if (!start) start = timestamp;
-  // var progress = timestamp - start;
-  // element.style.transform = 'translateX(' + Math.min(progress / 10, 200) + 'px)';
-  // if (progress < 2000) {
-  //   window.requestAnimationFrame(step);
-  // }
+  public tick(now: number): void {
+    this.now = now;
+    this.total += this.delta;
+    this.ticks++;
+    this.fps = Time.millisecondToFramePerSecond(this.delta);
+    this.updateSixtyLastFps();
+  }
 
+  public computeDelta(now: number): number {
+    return this.delta = now - this.now;
   }
 
   public computeAverageFps(): number {

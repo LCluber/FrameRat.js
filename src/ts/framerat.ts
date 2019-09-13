@@ -5,20 +5,21 @@ import { Clock } from './clock';
 
 export class Player {
 
-  //public id        : number; //animation frame ID
-  
-  public fsm       : FSM;
-  public clock     : Clock;
-  public frameId   : number;
-  //public refreshRate: number;
+  public fsm          : FSM;
+  public clock        : Clock;
+  public frameId      : number;
+  private callback    : FrameRequestCallback;
+  private minDelta    : number = 4;
+  //public minFPS: number;
   // options   : {
-  //   refreshRate : 30
+  //   minFPS : 30
   // }
 
-  constructor(onAnimate: FrameRequestCallback, refreshRate?: number|null) {
+  constructor(callback: FrameRequestCallback, minFPS?: number|null) {
     this.frameId = 0;
-    this.clock = new Clock(refreshRate);
-    this.onAnimate = onAnimate;
+    this.minDelta = minFPS ? Time.framePerSecondToMillisecond(minFPS) : this.minDelta;
+    this.clock = new Clock(minFPS);
+    this.callback = callback;
 
     this.fsm = new FSM([
                 //{ name: 'start',    from: 'idle',    to: 'running' },
@@ -46,54 +47,55 @@ export class Player {
   }
 
   public setScope(scope: any): void {
-    this.onAnimate = this.onAnimate.bind(scope);
+    this.callback = this.callback.bind(scope);
   }
 
-  public play(): string|false {
+  public play(): boolean {
     return this.startAnimation();
   }
 
-  public toggle(): string {
+  public toggle(): boolean {
     return this.startAnimation() || this.stopAnimation();
   }
 
-  public pause(): string {
+  public pause(): boolean {
     return this.stopAnimation();
   }
 
-  public stop(): string {
+  public stop(): boolean {
     this.clock.log();
     this.clock.reset();
     return this.stopAnimation();
   }
 
-  //call this function to animate
-  public requestNewFrame(): boolean {
-    if (this.clock.tick()) {
-      this.newFrame();
-      return true;
-    }
-    return false;
+  private tick(now: number): void{
+    let delta = this.clock.computeDelta(now);
+    if (delta >= this.minDelta) {
+      this.clock.tick(now);
+      this.callback(now);
+    } 
+    this.requestNewFrame();
   }
 
-  private startAnimation() : string|false {
-    if((this.fsm['play'])()) {
+  private startAnimation() : boolean {
+    let play = this.fsm['play']();
+    if(play) {
       this.clock.start();
-      this.newFrame();
-      return this.fsm.state;
+      this.requestNewFrame();
     }
-    return false;
+    return play;
   }
 
-  private stopAnimation(): string {
-    if((this.fsm['pause'])()) {
+  private stopAnimation(): boolean {
+    let pause = this.fsm['pause']();
+    if(pause) {
       window.cancelAnimationFrame(this.frameId);
     }
-    return this.fsm.state;
+    return pause;
   }
 
-  private newFrame(): void {
-    this.frameId = window.requestAnimationFrame(this.onAnimate);
+  private requestNewFrame(): void {
+    this.frameId = window.requestAnimationFrame(this.tick);
   }
 
 }
