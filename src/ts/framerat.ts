@@ -9,7 +9,7 @@ export class Player {
   public clock        : Clock;
   public frameId      : number;
   private callback    : FrameRequestCallback;
-  private minDelta    : number = 4;
+  private minDelta    : number = 0;
   //public minFPS: number;
   // options   : {
   //   minFPS : 30
@@ -18,7 +18,7 @@ export class Player {
   constructor(callback: FrameRequestCallback, minFPS?: number|null) {
     this.frameId = 0;
     this.minDelta = minFPS ? Time.framePerSecondToMillisecond(minFPS) : this.minDelta;
-    this.clock = new Clock(minFPS);
+    this.clock = new Clock();
     this.callback = callback;
 
     this.fsm = new FSM([
@@ -69,8 +69,7 @@ export class Player {
   }
 
   private tick(now: number): void{
-    let delta = this.clock.computeDelta(now);
-    if (delta >= this.minDelta) {
+    if (!this.minDelta || this.clock.computeDelta(now) >= this.minDelta) {
       this.clock.tick(now);
       this.callback(now);
     } 

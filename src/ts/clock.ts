@@ -13,8 +13,7 @@ export class Clock {
   public delta          : number;
   private logger        : Group;
 
-  constructor(refreshRate?: number|null ) {
-    this.minimumTick = refreshRate ? Time.framePerSecondToMillisecond(refreshRate) : this.minimumTick;
+  constructor() {
     this.reset();
     this.logger = Logger.addGroup('FrameRat');
   }
@@ -22,7 +21,7 @@ export class Clock {
   public reset(): void {
     this.now = 0;
     this.total = 0;
-    this.delta = this.minimumTick;
+    this.delta = 0;
     this.fps = 0;
     this.ticks = 0;
     this.sixtyLastFps = [];
@@ -33,7 +32,7 @@ export class Clock {
   }
 
   public log(): void {
-    if (this.total){
+    if (this.total) {
       this.logger.info('Elapsed time : ' + Utils.round(Time.millisecondToSecond(this.total), 2) + 'seconds');
       this.logger.info('ticks : ' + this.ticks);
       this.logger.info('Average FPS : ' + this.computeAverageFps());
@@ -44,7 +43,7 @@ export class Clock {
     this.now = now;
     this.total += this.delta;
     this.ticks++;
-    this.fps = Time.millisecondToFramePerSecond(this.delta);
+    this.fps = Math.round(Time.millisecondToFramePerSecond(this.delta));
     this.updateSixtyLastFps();
   }
 

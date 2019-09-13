@@ -66,11 +66,10 @@
     //animation.drawConsole( context );
     majTime();
     majFPS();
-    animation.requestNewFrame();
   }
 
   //create animation frame
-  var animation = new Framerat.Player(render);
+  var animation = new Framerat.Player(render, null);
 
   function playAnimation(){
     var state = animation.toggle();
