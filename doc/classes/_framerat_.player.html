@@ -90,10 +90,11 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_framerat_.player.html#clock" class="tsd-kind-icon">clock</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_framerat_.player.html#callback" class="tsd-kind-icon">callback</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_framerat_.player.html#clock" class="tsd-kind-icon">clock</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_framerat_.player.html#frameid" class="tsd-kind-icon">frame<wbr>Id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_framerat_.player.html#fsm" class="tsd-kind-icon">fsm</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_framerat_.player.html#onanimate" class="tsd-kind-icon">on<wbr>Animate</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_framerat_.player.html#mindelta" class="tsd-kind-icon">min<wbr>Delta</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -101,15 +102,17 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_framerat_.player.html#getdelta" class="tsd-kind-icon">get<wbr>Delta</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_framerat_.player.html#getfps" class="tsd-kind-icon">getFPS</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_framerat_.player.html#getstate" class="tsd-kind-icon">get<wbr>State</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_framerat_.player.html#getticks" class="tsd-kind-icon">get<wbr>Ticks</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_framerat_.player.html#gettotal" class="tsd-kind-icon">get<wbr>Total</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_framerat_.player.html#newframe" class="tsd-kind-icon">new<wbr>Frame</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_framerat_.player.html#pause" class="tsd-kind-icon">pause</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_framerat_.player.html#play" class="tsd-kind-icon">play</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_framerat_.player.html#requestnewframe" class="tsd-kind-icon">request<wbr>New<wbr>Frame</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_framerat_.player.html#setscope" class="tsd-kind-icon">set<wbr>Scope</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_framerat_.player.html#requestnewframe" class="tsd-kind-icon">request<wbr>New<wbr>Frame</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_framerat_.player.html#setmaxrefreshrate" class="tsd-kind-icon">set<wbr>Max<wbr>Refresh<wbr>Rate</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_framerat_.player.html#startanimation" class="tsd-kind-icon">start<wbr>Animation</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_framerat_.player.html#stop" class="tsd-kind-icon">stop</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_framerat_.player.html#stopanimation" class="tsd-kind-icon">stop<wbr>Animation</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_framerat_.player.html#tick" class="tsd-kind-icon">tick</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_framerat_.player.html#toggle" class="tsd-kind-icon">toggle</a></li>
 							</ul>
 						</section>
@@ -122,22 +125,19 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Player<span class="tsd-signature-symbol">(</span>onAnimate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">FrameRequestCallback</span>, refreshRate<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_framerat_.player.html" class="tsd-signature-type">Player</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Player<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_framerat_.player.html" class="tsd-signature-type">Player</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/framerat.ts#L12">framerat.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/framerat.ts#L12">framerat.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>onAnimate: <span class="tsd-signature-type">FrameRequestCallback</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> refreshRate: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+									<h5>callback: <span class="tsd-signature-type">Function</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_framerat_.player.html" class="tsd-signature-type">Player</a></h4>
@@ -147,13 +147,23 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="callback" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> callback</h3>
+					<div class="tsd-signature tsd-kind-icon">callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/framerat.ts#L11">framerat.ts:11</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="clock" class="tsd-anchor"></a>
-					<h3>clock</h3>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> clock</h3>
 					<div class="tsd-signature tsd-kind-icon">clock<span class="tsd-signature-symbol">:</span> <a href="_clock_.clock.html" class="tsd-signature-type">Clock</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/framerat.ts#L11">framerat.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/framerat.ts#L9">framerat.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -163,7 +173,7 @@
 					<div class="tsd-signature tsd-kind-icon">frame<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/framerat.ts#L12">framerat.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/framerat.ts#L10">framerat.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -173,17 +183,17 @@
 					<div class="tsd-signature tsd-kind-icon">fsm<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">FSM</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/framerat.ts#L10">framerat.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/framerat.ts#L8">framerat.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="onanimate" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> on<wbr>Animate</h3>
-					<div class="tsd-signature tsd-kind-icon">on<wbr>Animate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">FrameRequestCallback</span></div>
+					<a name="mindelta" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> min<wbr>Delta</h3>
+					<div class="tsd-signature tsd-kind-icon">min<wbr>Delta<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/framerat.ts#L9">framerat.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/framerat.ts#L12">framerat.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -200,7 +210,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/framerat.ts#L32">framerat.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/framerat.ts#L31">framerat.ts:31</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -217,10 +227,32 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/framerat.ts#L40">framerat.ts:40</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/framerat.ts#L39">framerat.ts:39</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getstate" class="tsd-anchor"></a>
+					<h3>get<wbr>State</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>State<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/framerat.ts#L47">framerat.ts:47</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">number</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">boolean</span>
+							</h4>
 						</li>
 					</ul>
 				</section>
@@ -234,7 +266,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/framerat.ts#L44">framerat.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/framerat.ts#L43">framerat.ts:43</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -251,27 +283,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/framerat.ts#L36">framerat.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/framerat.ts#L35">framerat.ts:35</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<a name="newframe" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> new<wbr>Frame</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">new<wbr>Frame<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="pause" class="tsd-anchor"></a>
+					<h3>pause</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">pause<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">false</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/framerat.ts#L89">framerat.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/framerat.ts#L67">framerat.ts:67</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">false</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -279,56 +311,53 @@
 					<a name="play" class="tsd-anchor"></a>
 					<h3>play</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">play<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></li>
+						<li class="tsd-signature tsd-kind-icon">play<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/framerat.ts#L53">framerat.ts:53</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">false</span>
-							</h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="requestnewframe" class="tsd-anchor"></a>
-					<h3>request<wbr>New<wbr>Frame</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">request<wbr>New<wbr>Frame<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/framerat.ts#L68">framerat.ts:68</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/framerat.ts#L55">framerat.ts:55</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="setscope" class="tsd-anchor"></a>
-					<h3>set<wbr>Scope</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Scope<span class="tsd-signature-symbol">(</span>scope<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="requestnewframe" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> request<wbr>New<wbr>Frame</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">request<wbr>New<wbr>Frame<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/framerat.ts#L49">framerat.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/framerat.ts#L98">framerat.ts:98</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setmaxrefreshrate" class="tsd-anchor"></a>
+					<h3>set<wbr>Max<wbr>Refresh<wbr>Rate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Max<wbr>Refresh<wbr>Rate<span class="tsd-signature-symbol">(</span>maxFPS<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/framerat.ts#L27">framerat.ts:27</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>scope: <span class="tsd-signature-type">any</span></h5>
+									<h5>maxFPS: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -339,19 +368,16 @@
 					<a name="startanimation" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> start<wbr>Animation</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">start<wbr>Animation<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></li>
+						<li class="tsd-signature tsd-kind-icon">start<wbr>Animation<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/framerat.ts#L73">framerat.ts:73</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/framerat.ts#L89">framerat.ts:89</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">false</span>
-							</h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -359,16 +385,16 @@
 					<a name="stop" class="tsd-anchor"></a>
 					<h3>stop</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">stop<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">stop<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/framerat.ts#L61">framerat.ts:61</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/framerat.ts#L74">framerat.ts:74</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -376,16 +402,39 @@
 					<a name="stopanimation" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> stop<wbr>Animation</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">stop<wbr>Animation<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">stop<wbr>Animation<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/framerat.ts#L82">framerat.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/framerat.ts#L94">framerat.ts:94</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="tick" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> tick</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">tick<span class="tsd-signature-symbol">(</span>now<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/framerat.ts#L80">framerat.ts:80</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>now: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -393,16 +442,16 @@
 					<a name="toggle" class="tsd-anchor"></a>
 					<h3>toggle</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">toggle<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">toggle<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/framerat.ts#L57">framerat.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/framerat.ts#L63">framerat.ts:63</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -432,7 +481,10 @@
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="_framerat_.player.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_framerat_.player.html#callback" class="tsd-kind-icon">callback</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_framerat_.player.html#clock" class="tsd-kind-icon">clock</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
@@ -442,7 +494,7 @@
 								<a href="_framerat_.player.html#fsm" class="tsd-kind-icon">fsm</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_framerat_.player.html#onanimate" class="tsd-kind-icon">on<wbr>Animate</a>
+								<a href="_framerat_.player.html#mindelta" class="tsd-kind-icon">min<wbr>Delta</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_framerat_.player.html#getdelta" class="tsd-kind-icon">get<wbr>Delta</a>
@@ -451,22 +503,25 @@
 								<a href="_framerat_.player.html#getfps" class="tsd-kind-icon">getFPS</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_framerat_.player.html#getstate" class="tsd-kind-icon">get<wbr>State</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_framerat_.player.html#getticks" class="tsd-kind-icon">get<wbr>Ticks</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_framerat_.player.html#gettotal" class="tsd-kind-icon">get<wbr>Total</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
-								<a href="_framerat_.player.html#newframe" class="tsd-kind-icon">new<wbr>Frame</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_framerat_.player.html#pause" class="tsd-kind-icon">pause</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_framerat_.player.html#play" class="tsd-kind-icon">play</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="_framerat_.player.html#requestnewframe" class="tsd-kind-icon">request<wbr>New<wbr>Frame</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_framerat_.player.html#setscope" class="tsd-kind-icon">set<wbr>Scope</a>
+								<a href="_framerat_.player.html#setmaxrefreshrate" class="tsd-kind-icon">set<wbr>Max<wbr>Refresh<wbr>Rate</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="_framerat_.player.html#startanimation" class="tsd-kind-icon">start<wbr>Animation</a>
@@ -476,6 +531,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="_framerat_.player.html#stopanimation" class="tsd-kind-icon">stop<wbr>Animation</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_framerat_.player.html#tick" class="tsd-kind-icon">tick</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_framerat_.player.html#toggle" class="tsd-kind-icon">toggle</a>

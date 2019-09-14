@@ -6,28 +6,26 @@ import { Clock } from './clock';
 export class Player {
 
   public fsm          : FSM;
-  public clock        : Clock;
+  private clock       : Clock;
   public frameId      : number;
-  private callback    : FrameRequestCallback;
+  private callback    : Function;
   private minDelta    : number;
 
-  constructor(callback: FrameRequestCallback) {
+  constructor(callback: Function) {
     this.frameId = 0;
     this.minDelta = 0;
     this.clock = new Clock();
     this.callback = callback;
 
     this.fsm = new FSM([
-                //{ name: 'start',    from: 'idle',    to: 'running' },
-                { name: 'play',  from: 'paused',  to: 'running' },
-                { name: 'pause', from: 'running', to: 'paused' }
-                //{ name: 'stop',     from: 'paused',  to: 'idle' },
+                { name: 'play',  from: false,  to: true },
+                { name: 'stop', from: true, to: false }
               ]);
 
   }
 
-  public setMinDelta(minFPS: number): void {
-    this.minDelta = isNumber(minFPS) ? Time.framePerSecondToMillisecond(minFPS) : this.minDelta;
+  public setMaxRefreshRate(maxFPS: number): void {
+    this.minDelta = isNumber(maxFPS) ? Time.framePerSecondToMillisecond(maxFPS) : this.minDelta;
   }
 
   public getDelta():number {
@@ -39,62 +37,66 @@ export class Player {
   }
 
   public getFPS():number {
-    return this.clock.computeAverageFps();
+    return this.clock.computeAverageFPS();
   }
 
   public getTicks():number {
     return this.clock.ticks;
   }
 
-  public setScope(scope: any): void {
-    this.callback = this.callback.bind(scope);
+  public getState(): string|number|boolean {
+    return this.fsm.state;
   }
+
+  // public setScope(scope: any): void {
+  //   this.callback = this.callback.bind(scope);
+  // }
 
   public play(): boolean {
-    return this.startAnimation();
-  }
-
-  public toggle(): boolean {
-    return this.startAnimation() || this.stopAnimation();
-  }
-
-  public pause(): boolean {
-    return this.stopAnimation();
-  }
-
-  public stop(): boolean {
-    this.clock.log();
-    this.clock.reset();
-    return this.stopAnimation();
-  }
-
-  private tick(now: number): void{
-    if (!this.minDelta || this.clock.computeDelta(now) >= this.minDelta) {
-      this.clock.tick(now);
-      this.callback(now);
-    } 
-    this.requestNewFrame();
-  }
-
-  private startAnimation() : boolean {
     let play = this.fsm['play']();
     if(play) {
-      this.clock.start();
-      this.requestNewFrame();
+      this.startAnimation();
     }
     return play;
   }
 
-  private stopAnimation(): boolean {
-    let pause = this.fsm['pause']();
-    if(pause) {
-      window.cancelAnimationFrame(this.frameId);
+  public toggle(): boolean {
+    return this.play() || this.pause();
+  }
+
+  public pause(): false {
+    if(this.fsm['stop']()) {
+      this.stopAnimation();
     }
-    return pause;
+    return false;
+  }
+
+  public stop(): void {
+    this.fsm['stop']()
+    this.clock.reset();
+    this.stopAnimation();
+  }
+
+  private tick(now: number): void{
+    let delta = this.clock.computeDelta(now);
+    if (!this.minDelta || delta >= this.minDelta) {
+      this.clock.tick(now);
+      this.callback();
+    } 
+    this.requestNewFrame();
+  }
+
+  private startAnimation() : void {
+    this.clock.start();
+    this.requestNewFrame();
+  }
+
+  private stopAnimation(): void {
+    window.cancelAnimationFrame(this.frameId);
   }
 
   private requestNewFrame(): void {
-    this.frameId = window.requestAnimationFrame(this.tick);
+    this.frameId = window.requestAnimationFrame(this.tick.bind(this));
   }
 
 }

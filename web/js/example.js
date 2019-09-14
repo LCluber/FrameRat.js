@@ -63,19 +63,18 @@
   function render(){
     clearFrame();
     draw();
-    //animation.drawConsole( context );
     majTime();
     majFPS();
   }
 
   //create animation frame
-  var animation = new Framerat.Player(render, null);
+  var animation = new Framerat.Player(render);
 
   function playAnimation(){
     var state = animation.toggle();
-    if(state === 'running') {
+    if(state) {
       playButton.innerHTML = "<span class='glyphicon glyphicon-pause'></span>";
-    }else if (state === 'paused') {
+    } else {
       playButton.innerHTML = "<span class='glyphicon glyphicon-play'></span>";
     }
   }

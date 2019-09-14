@@ -91,11 +91,9 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_clock_.clock.html#delta" class="tsd-kind-icon">delta</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_clock_.clock.html#fps" class="tsd-kind-icon">fps</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_clock_.clock.html#logger" class="tsd-kind-icon">logger</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_clock_.clock.html#minimumtick" class="tsd-kind-icon">minimum<wbr>Tick</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_clock_.clock.html#fpsarray" class="tsd-kind-icon">fps<wbr>Array</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_clock_.clock.html#fpsarraylength" class="tsd-kind-icon">fps<wbr>Array<wbr>Length</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_clock_.clock.html#now" class="tsd-kind-icon">now</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_clock_.clock.html#sixteenlastfps" class="tsd-kind-icon">sixteen<wbr>Last<wbr>Fps</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_clock_.clock.html#ticks" class="tsd-kind-icon">ticks</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_clock_.clock.html#total" class="tsd-kind-icon">total</a></li>
 							</ul>
@@ -103,12 +101,11 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_clock_.clock.html#computeaveragefps" class="tsd-kind-icon">compute<wbr>Average<wbr>Fps</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_clock_.clock.html#log" class="tsd-kind-icon">log</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_clock_.clock.html#computeaveragefps" class="tsd-kind-icon">compute<wbr>AverageFPS</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_clock_.clock.html#computedelta" class="tsd-kind-icon">compute<wbr>Delta</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_clock_.clock.html#reset" class="tsd-kind-icon">reset</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_clock_.clock.html#start" class="tsd-kind-icon">start</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_clock_.clock.html#tick" class="tsd-kind-icon">tick</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_clock_.clock.html#updatesixteenlastfps" class="tsd-kind-icon">update<wbr>Sixteen<wbr>Last<wbr>Fps</a></li>
 							</ul>
 						</section>
 					</div>
@@ -120,21 +117,15 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Clock<span class="tsd-signature-symbol">(</span>refreshRate<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_clock_.clock.html" class="tsd-signature-type">Clock</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Clock<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_clock_.clock.html" class="tsd-signature-type">Clock</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/clock.ts#L14">clock.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/clock.ts#L11">clock.ts:11</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> refreshRate: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
-								</li>
-							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_clock_.clock.html" class="tsd-signature-type">Clock</a></h4>
 						</li>
 					</ul>
@@ -148,37 +139,27 @@
 					<div class="tsd-signature tsd-kind-icon">delta<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/clock.ts#L13">clock.ts:13</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="fps" class="tsd-anchor"></a>
-					<h3>fps</h3>
-					<div class="tsd-signature tsd-kind-icon">fps<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/clock.ts#L7">clock.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/clock.ts#L8">clock.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="logger" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> logger</h3>
-					<div class="tsd-signature tsd-kind-icon">logger<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Group</span></div>
+					<a name="fpsarray" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> fps<wbr>Array</h3>
+					<div class="tsd-signature tsd-kind-icon">fps<wbr>Array<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;Array(this.fpsArrayLength)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/clock.ts#L14">clock.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/clock.ts#L11">clock.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="minimumtick" class="tsd-anchor"></a>
-					<h3>minimum<wbr>Tick</h3>
-					<div class="tsd-signature tsd-kind-icon">minimum<wbr>Tick<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;16.7</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="fpsarraylength" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> fps<wbr>Array<wbr>Length</h3>
+					<div class="tsd-signature tsd-kind-icon">fps<wbr>Array<wbr>Length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;60</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/clock.ts#L10">clock.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/clock.ts#L10">clock.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -188,17 +169,7 @@
 					<div class="tsd-signature tsd-kind-icon">now<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/clock.ts#L6">clock.ts:6</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="sixteenlastfps" class="tsd-anchor"></a>
-					<h3>sixteen<wbr>Last<wbr>Fps</h3>
-					<div class="tsd-signature tsd-kind-icon">sixteen<wbr>Last<wbr>Fps<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/clock.ts#L9">clock.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/clock.ts#L9">clock.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -208,7 +179,7 @@
 					<div class="tsd-signature tsd-kind-icon">ticks<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/clock.ts#L11">clock.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/clock.ts#L6">clock.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -218,7 +189,7 @@
 					<div class="tsd-signature tsd-kind-icon">total<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/clock.ts#L12">clock.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/clock.ts#L7">clock.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -227,15 +198,15 @@
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="computeaveragefps" class="tsd-anchor"></a>
-					<h3>compute<wbr>Average<wbr>Fps</h3>
+					<h3>compute<wbr>AverageFPS</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">compute<wbr>Average<wbr>Fps<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon">compute<wbr>AverageFPS<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/clock.ts#L67">clock.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/clock.ts#L42">clock.ts:42</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -243,19 +214,25 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="log" class="tsd-anchor"></a>
-					<h3>log</h3>
+					<a name="computedelta" class="tsd-anchor"></a>
+					<h3>compute<wbr>Delta</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">log<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">compute<wbr>Delta<span class="tsd-signature-symbol">(</span>now<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/clock.ts#L35">clock.ts:35</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/clock.ts#L38">clock.ts:38</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>now: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -269,7 +246,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/clock.ts#L22">clock.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/clock.ts#L19">clock.ts:19</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -286,7 +263,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/clock.ts#L31">clock.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/clock.ts#L27">clock.ts:27</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -297,32 +274,21 @@
 					<a name="tick" class="tsd-anchor"></a>
 					<h3>tick</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">tick<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">tick<span class="tsd-signature-symbol">(</span>now<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/clock.ts#L43">clock.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/d234920/src/ts/clock.ts#L31">clock.ts:31</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<a name="updatesixteenlastfps" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> update<wbr>Sixteen<wbr>Last<wbr>Fps</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">update<wbr>Sixteen<wbr>Last<wbr>Fps<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/FrameRat.js/blob/1bf4be1/src/ts/clock.ts#L78">clock.ts:78</a></li>
-								</ul>
-							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>now: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -356,20 +322,14 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_clock_.clock.html#delta" class="tsd-kind-icon">delta</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_clock_.clock.html#fps" class="tsd-kind-icon">fps</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_clock_.clock.html#fpsarray" class="tsd-kind-icon">fps<wbr>Array</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_clock_.clock.html#logger" class="tsd-kind-icon">logger</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_clock_.clock.html#minimumtick" class="tsd-kind-icon">minimum<wbr>Tick</a>
+								<a href="_clock_.clock.html#fpsarraylength" class="tsd-kind-icon">fps<wbr>Array<wbr>Length</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_clock_.clock.html#now" class="tsd-kind-icon">now</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_clock_.clock.html#sixteenlastfps" class="tsd-kind-icon">sixteen<wbr>Last<wbr>Fps</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_clock_.clock.html#ticks" class="tsd-kind-icon">ticks</a>
@@ -378,10 +338,10 @@
 								<a href="_clock_.clock.html#total" class="tsd-kind-icon">total</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_clock_.clock.html#computeaveragefps" class="tsd-kind-icon">compute<wbr>Average<wbr>Fps</a>
+								<a href="_clock_.clock.html#computeaveragefps" class="tsd-kind-icon">compute<wbr>AverageFPS</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_clock_.clock.html#log" class="tsd-kind-icon">log</a>
+								<a href="_clock_.clock.html#computedelta" class="tsd-kind-icon">compute<wbr>Delta</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_clock_.clock.html#reset" class="tsd-kind-icon">reset</a>
@@ -391,9 +351,6 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_clock_.clock.html#tick" class="tsd-kind-icon">tick</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
-								<a href="_clock_.clock.html#updatesixteenlastfps" class="tsd-kind-icon">update<wbr>Sixteen<wbr>Last<wbr>Fps</a>
 							</li>
 						</ul>
 					</li>

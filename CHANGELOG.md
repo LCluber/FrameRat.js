@@ -1,3 +1,8 @@
+Version 0.3.10 (September 14th 2019)
+-----------------------------
+ * Added setMaxRefreshRate() method
+ * Added getState() method
+
 Version 0.3.9 (September 9th 2019)
 -----------------------------
  * Added getTicks() method to Player class
@@ -8,21 +13,21 @@ Version 0.3.8 (June 28th 2019)
 
 Version 0.3.7 (June 22th 2019)
 -----------------------------
- * Fixed setScope() method.
- * RefreshRate parameter can be null.
+ * Fixed setScope() method
+ * RefreshRate parameter can be null
 
 Version 0.3.6 (June 20th 2019)
 -----------------------------
- * Fixed declaration file.
+ * Fixed declaration file
 
 Version 0.3.5 (October 08th 2018)
 -----------------------------
- * FrameRat.js published on NPM at @lcluber/frameratjs.
- * Updated README.md with NPM installation procedure.
+ * FrameRat.js published on NPM at @lcluber/frameratjs
+ * Updated README.md with NPM installation procedure
 
 Version 0.3.4 (July 15th 2018)
 ------------------------------
- * Library exported as ES6 and IIFE modules instead of UMD.
+ * Library exported as ES6 and IIFE modules instead of UMD
  * FRAMERAT namespace becomes Framerat
 
 Version 0.3.3 (July 4th 2018)
