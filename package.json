@@ -1,6 +1,6 @@
 {
   "name": "@lcluber/frameratjs",
-  "version": "0.3.10",
+  "version": "0.4.0",
   "description": "Animation frame library written in TypeScript",
   "keywords": [
     "animation frame"

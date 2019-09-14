@@ -2008,12 +2008,13 @@ var Framerat = (function (exports) {
         }, {
             key: 'tick',
             value: function tick(now) {
+                var nxt = true;
                 var delta = this.clock.computeDelta(now);
                 if (!this.minDelta || delta >= this.minDelta) {
                     this.clock.tick(now);
-                    this.callback();
+                    if (this.callback() === false) nxt = false;
                 }
-                this.requestNewFrame();
+                nxt ? this.requestNewFrame() : this.stop();
             }
         }, {
             key: 'startAnimation',

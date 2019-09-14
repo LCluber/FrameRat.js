@@ -1,3 +1,7 @@
+Version 0.4.0 (September 15th 2019)
+-----------------------------
+ * Callback function can return false to trigger stop() method
+
 Version 0.3.10 (September 14th 2019)
 -----------------------------
  * Added setMaxRefreshRate() method

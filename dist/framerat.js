@@ -108,12 +108,14 @@ class Player {
         this.stopAnimation();
     }
     tick(now) {
+        let nxt = true;
         let delta = this.clock.computeDelta(now);
         if (!this.minDelta || delta >= this.minDelta) {
             this.clock.tick(now);
-            this.callback();
+            if (this.callback() === false)
+                nxt = false;
         }
-        this.requestNewFrame();
+        nxt ? this.requestNewFrame() : this.stop();
     }
     startAnimation() {
         this.clock.start();
