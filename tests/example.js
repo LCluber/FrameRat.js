@@ -1,40 +1,45 @@
-
+var playButton = findById('play');
   var canvas  = document.getElementById("canvas");
   var context = canvas.getContext("2d");
   var width   = canvas.width = window.innerWidth;
   var height  = canvas.height = window.innerHeight;
 
-  var mainCircle   = TYPE6.Geometry.Circle.create( width * 0.5, height * 0.5, 200 );
+  var mainCircle   = new Type6.Circle( width * 0.5, height * 0.5, 200 );
   var smallCircles = [];
   var angle        = 0;
   var numObjects   = 24;
   var step         = 0;
-  var minAlpha     = 0.2;
-  var slice        = TYPE6.Trigonometry.TWOPI / numObjects;
+  var slice        = Type6.Trigonometry.twopi / numObjects;
   var radius       = 20;
+
+  function smallCircle(posX,posY) {
+    this.circle = new Type6.Circle(posX, posY, 20);
+    this.alpha = 0.2;
+    this.minAlpha = 0.2;
+    this.setAlpha = function() {
+      if( this.alpha > this.minAlpha ) {
+        this.alpha = Math.max(this.alpha - 0.01, this.minAlpha);
+      }
+    };
+  }
 
   for(var i = 0; i < numObjects; i += 1) {
     angle = i * slice;
-    smallCircles[i] = TYPE6.Geometry.Circle.create(
-      TYPE6.Trigonometry.cosineEquation( mainCircle.getRadius(), angle, 0, mainCircle.getPositionX() ),
-      TYPE6.Trigonometry.sineEquation( mainCircle.getRadius(), angle, 0, mainCircle.getPositionY() ),
-      20
+    smallCircles[i] = new smallCircle(
+      Type6.Trigonometry.cosineEquation( mainCircle.radius, angle, 0, mainCircle.position.x ),
+      Type6.Trigonometry.sineEquation( mainCircle.radius, angle, 0, mainCircle.position.y )
     );
-    var circle = smallCircles[i];
-    circle.alpha = minAlpha;
-    circle.majAlpha = function(){
-      if( this.alpha > minAlpha )
-        this.alpha = Math.max(this.alpha - 0.01, minAlpha);
-    };
   }
+
 
   function draw(){
     for(var i = 0 ; i < numObjects ; i += 1) {
       var circle = smallCircles[i];
-      if (i === Math.floor(step))
+      if (i === Math.floor(step)){
         circle.alpha = 1;
-      else
-        circle.majAlpha();
+      }else{
+        circle.setAlpha();
+      }
       drawCircle(smallCircles[i]);
     }
 
@@ -47,7 +52,7 @@
   function drawCircle(circle){
     context.fillStyle = "rgba(153, 0, 0, " + circle.alpha + ")";
     context.beginPath();
-    context.arc( circle.getPositionX(), circle.getPositionY(), circle.getRadius(), 0, TYPE6.Trigonometry.TWOPI, false);
+    context.arc( circle.circle.position.x, circle.circle.position.y, circle.circle.radius, 0, Type6.Trigonometry.twopi, false);
     context.fill();
   }
 
@@ -58,23 +63,55 @@
   function render(){
     clearFrame();
     draw();
-    animation.drawConsole( context );
-    animation.newFrame();
+    majTime();
+    majFPS();
   }
 
   //create animation frame
-  var animation = FRAMERAT.create( render, null );
+  var animation = new FrameRat.Player(render);
 
   function playAnimation(){
-    animation.play();
-  }
-
-  function pauseAnimation () {
-    animation.toggle();
+    var state = animation.toggle();
+    if(state) {
+      playButton.innerText = "Pause";
+    } else {
+      playButton.innerText = "Play";
+    }
   }
 
   function stopAnimation () {
     animation.stop();
     clearFrame();
-    animation.drawConsole( context ); //draw the console one time to show the reset
+    playButton.innerHTML = "Play";
+    //animation.drawConsole( context ); //draw the console one time to show the reset
+  }
+
+  function majTime() {
+    findById('time').innerHTML = formatTime(Type6.Utils.round(animation.getTotal(), 2));
+  }
+
+  function majFPS() {
+    findById('fps').innerHTML = formatFPS(Math.round(animation.getFPS()));
+    //findById('fps').innerHTML = animation.getFramePerSecond() + ' fps - ' + animation.getFormatedDelta() + ' ms';
+  }
+
+  function formatTime(value){
+    var zeros = '';
+    for (var i = 100 ; i > 1 ; i /= 10) {
+      if (value < i) {
+        zeros += '0';
+      }
+    }
+    return zeros + value.toFixed(2);
+  }
+
+  function formatFPS(value){
+    if (value < 10) {
+      return '0' + value + ' fps';
+    }
+    return value + ' fps';
+  }
+
+  function findById( id ) {
+    return document.getElementById(id);
   }

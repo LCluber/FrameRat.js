@@ -1,3 +1,7 @@
+Version 1.0.0 (September 17th 2019)
+-----------------------------
+ * Library name is now FrameRat on IIFE version
+
 Version 0.4.0 (September 15th 2019)
 -----------------------------
  * Callback function can return false to trigger stop() method
