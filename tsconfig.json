@@ -17,8 +17,8 @@
     "allowJs": false,
     "removeComments": true,
     "declaration":true,
-    "declarationDir":"build/es6/",
-    "outDir":"build/es6/",
+    "declarationDir":"build/",
+    "outDir":"build/",
     "rootDir":"src/ts/"
   },
   "exclude": [
