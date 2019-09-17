@@ -64,7 +64,7 @@ class Player {
         this.clock = new Clock();
         this.callback = callback;
         this.fsm = new FSM([
-            { name: 'play', from: false, to: true },
+            { name: 'start', from: false, to: true },
             { name: 'stop', from: true, to: false }
         ]);
     }
@@ -86,15 +86,15 @@ class Player {
     getState() {
         return this.fsm.state;
     }
-    play() {
-        let play = this.fsm['play']();
-        if (play) {
+    start() {
+        let start = this.fsm['start']();
+        if (start) {
             this.startAnimation();
         }
-        return play;
+        return start;
     }
     toggle() {
-        return this.play() || this.pause();
+        return this.start() || this.pause();
     }
     pause() {
         if (this.fsm['stop']()) {

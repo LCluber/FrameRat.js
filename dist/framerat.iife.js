@@ -1943,7 +1943,7 @@ var FrameRat = (function (exports) {
             this.minDelta = 0;
             this.clock = new Clock();
             this.callback = callback;
-            this.fsm = new FSM([{ name: 'play', from: false, to: true }, { name: 'stop', from: true, to: false }]);
+            this.fsm = new FSM([{ name: 'start', from: false, to: true }, { name: 'stop', from: true, to: false }]);
         }
 
         _createClass$3(Player, [{
@@ -1977,18 +1977,18 @@ var FrameRat = (function (exports) {
                 return this.fsm.state;
             }
         }, {
-            key: 'play',
-            value: function play() {
-                var play = this.fsm['play']();
-                if (play) {
+            key: 'start',
+            value: function start() {
+                var start = this.fsm['start']();
+                if (start) {
                     this.startAnimation();
                 }
-                return play;
+                return start;
             }
         }, {
             key: 'toggle',
             value: function toggle() {
-                return this.play() || this.pause();
+                return this.start() || this.pause();
             }
         }, {
             key: 'pause',

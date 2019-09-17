@@ -50,7 +50,7 @@ export declare class Player {
     getFPS(): number;
     getTicks(): number;
     getState(): string | number | boolean;
-    play(): boolean;
+    start(): boolean;
     toggle(): boolean;
     pause(): false;
     stop(): void;

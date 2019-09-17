@@ -18,7 +18,7 @@ export class Player {
     this.callback = callback;
 
     this.fsm = new FSM([
-                { name: 'play',  from: false,  to: true },
+                { name: 'start', from: false,  to: true },
                 { name: 'stop', from: true, to: false }
               ]);
 
@@ -52,16 +52,16 @@ export class Player {
   //   this.callback = this.callback.bind(scope);
   // }
 
-  public play(): boolean {
-    let play = this.fsm['play']();
-    if(play) {
+  public start(): boolean {
+    let start = this.fsm['start']();
+    if(start) {
       this.startAnimation();
     }
-    return play;
+    return start;
   }
 
   public toggle(): boolean {
-    return this.play() || this.pause();
+    return this.start() || this.pause();
   }
 
   public pause(): false {
