@@ -1,4 +1,5 @@
 import babel from "rollup-plugin-babel";
+import resolve from "rollup-plugin-node-resolve";
 
 module.exports = {
   input: "build/framerat.js",
@@ -8,8 +9,13 @@ module.exports = {
     format: "iife"
   },
   plugins: [
+    resolve({
+      mainFields: ['main'], 
+      extensions: [ '.js'],
+      modulesOnly: true
+    }),
     babel({
-      exclude: "node_modules/**" // only transpile our source code
+      // exclude: "node_modules/**" // only transpile our source code
     })
   ]
 };
