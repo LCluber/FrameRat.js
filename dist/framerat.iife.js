@@ -1977,6 +1977,11 @@ var Framerat = (function (exports) {
                 return this.fsm.state;
             }
         }, {
+            key: 'setScope',
+            value: function setScope(scope) {
+                this.callback = this.callback.bind(scope);
+            }
+        }, {
             key: 'play',
             value: function play() {
                 var play = this.fsm['play']();

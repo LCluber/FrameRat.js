@@ -1,6 +1,6 @@
 {
   "name": "@lcluber/frameratjs",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Animation frame library written in TypeScript",
   "keywords": [
     "animation frame"
@@ -36,10 +36,10 @@
     "dist/"
   ],
   "dependencies": {
-    "@lcluber/mouettejs": "2.1.0",
+    "@lcluber/mouettejs": "2.2.1",
     "@lcluber/taipanjs": "0.3.11",
     "@lcluber/type6js": "1.1.0",
-    "@lcluber/chjs": "2.6.2",
+    "@lcluber/chjs": "2.7.0",
     "body-parser": "1.16.1",
     "cookie-parser": "1.4.3",
     "debug": "2.6.1",

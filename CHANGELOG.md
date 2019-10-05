@@ -1,3 +1,8 @@
+Version 0.4.1 (October 5th 2019)
+-----------------------------
+ * Fixed setScope() method
+ * Updated dependencies
+
 Version 0.4.0 (September 15th 2019)
 -----------------------------
  * Callback function can return false to trigger stop() method

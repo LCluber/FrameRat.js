@@ -86,6 +86,9 @@ class Player {
     getState() {
         return this.fsm.state;
     }
+    setScope(scope) {
+        this.callback = this.callback.bind(scope);
+    }
     play() {
         let play = this.fsm['play']();
         if (play) {
@@ -109,7 +112,7 @@ class Player {
     }
     tick(now) {
         let nxt = true;
-        let delta = this.clock.computeDelta(now);
+        const delta = this.clock.computeDelta(now);
         if (!this.minDelta || delta >= this.minDelta) {
             this.clock.tick(now);
             if (this.callback() === false)

@@ -48,9 +48,9 @@ export class Player {
     return this.fsm.state;
   }
 
-  // public setScope(scope: any): void {
-  //   this.callback = this.callback.bind(scope);
-  // }
+  public setScope(scope: Object): void {
+    this.callback = this.callback.bind(scope);
+  }
 
   public play(): boolean {
     let play = this.fsm['play']();
@@ -79,7 +79,7 @@ export class Player {
 
   private tick(now: number): void {
     let nxt = true;
-    let delta = this.clock.computeDelta(now);
+    const delta = this.clock.computeDelta(now);
     if (!this.minDelta || delta >= this.minDelta) {
       this.clock.tick(now);
       if (this.callback() === false)

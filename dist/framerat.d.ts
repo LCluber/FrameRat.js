@@ -50,6 +50,7 @@ export declare class Player {
     getFPS(): number;
     getTicks(): number;
     getState(): string | number | boolean;
+    setScope(scope: Object): void;
     play(): boolean;
     toggle(): boolean;
     pause(): false;
