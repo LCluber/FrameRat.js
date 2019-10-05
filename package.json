@@ -37,7 +37,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged",
+      "pre-commit": "",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-push": "npm run test"
     }
@@ -52,30 +52,30 @@
   ],
   "dependencies": {
     "@lcluber/chjs": "2.7.0",
-    "@lcluber/mouettejs": "2.1.0",
+    "@lcluber/mouettejs": "2.2.1",
     "@lcluber/taipanjs": "0.3.11",
     "@lcluber/type6js": "1.1.0"
   },
   "devDependencies": {
-    "@babel/core": "7.5.4",
-    "@babel/preset-env": "7.5.4",
+    "@babel/core": "7.6.0",
+    "@babel/preset-env": "7.6.0",
     "@commitlint/cli": "8.0.0",
     "@commitlint/config-conventional": "8.0.0",
     "@commitlint/prompt": "8.0.0",
     "@semantic-release/changelog": "3.0.4",
     "@semantic-release/git": "7.0.16",
     "@semantic-release/npm": "5.1.13",
-    "babel-jest": "24.8.0",
+    "babel-jest": "24.9.0",
     "cz-conventional-changelog": "2.1.0",
     "husky": "2.7.0",
-    "jest": "24.8.0",
+    "jest": "24.9.0",
     "prettier": "1.18.2",
     "pretty-quick": "1.11.1",
     "rollup-plugin-babel": "4.3.3",
     "rollup-plugin-node-resolve": "5.2.0",
     "semantic-release": "15.13.18",
     "tslint": "5.9.1",
-    "typescript": "3.2.2",
+    "typescript": "3.6.3",
     "uglify-js": "3.6.0"
   }
 }
