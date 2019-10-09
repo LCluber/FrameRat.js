@@ -1,14 +1,12 @@
-// import { Player } from "../dist/framerat";
-const framerat = require("../dist/framerat.iife.js");
-const ch = require("@lcluber/chjs/dist/ch.cjs");
+import { Player } from "../dist/framerat";
 
 // jest.useFakeTimlers();
 
 function render(){
   
 }
-console.log(framerat);
-var animation = new framerat.Player(render);
+
+var animation = new Player(render);
 
 animation.start();
 
@@ -26,25 +24,25 @@ animation.start();
 
 test("getDelta() returns number", () => {
   let value = FrameRat.getDelta();
-  expect(ch.isNumber(value)).toBe(true);
+  expect(value).toBePositive();
 });
 
 test("getTotal() returns number", () => {
   let value = FrameRat.getTotal();
-  expect(ch.isNumber(value)).toBe(true);
+  expect(value).toBePositive();
 });
 
 test("getFPS() returns number", () => {
   let value = FrameRat.getFPS();
-  expect(ch.isNumber(value)).toBe(true);
+  expect(value).toBePositive();
 });
 
 test("getTicks() returns number", () => {
   let value = FrameRat.getTicks();
-  expect(ch.isNumber(value)).toBe(true);
+  expect(value).toBePositive();
 });
 
 test("getState() returns boolean", () => {
   let value = FrameRat.getState();
-  expect(ch.isBoolean(value)).toBe(true);
+  expect(value).toBeBoolean();
 });
