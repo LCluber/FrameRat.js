@@ -1,7 +1,5 @@
 module.exports = api => {
-  const isTest = api.env("test");
   if (isTest) {
-    // const esModules = ['@lcluber'].join('|'); //`/node_modules/(?!${esModules})`
     return {
       presets: [
         [
@@ -12,8 +10,7 @@ module.exports = api => {
             }
           }
         ]
-      ] // ,
-      // transformIgnorePatterns: [`/node_modules/(?!${esModules})`]
+      ]
     };
   } else {
     return {
