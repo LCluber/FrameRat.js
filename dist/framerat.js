@@ -24,11 +24,41 @@
 * https://github.com/LCluber/FrameRat.js
 */
 
-import { Time } from '@lcluber/type6js';
+import { Time, NumArray } from '@lcluber/type6js';
 import { FSM } from '@lcluber/taipanjs';
 import { isNumber } from '@lcluber/chjs';
-import { Clock } from './clock';
-export class Player {
+
+class Clock {
+    constructor() {
+        this.fpsArrayLength = 60;
+        this.fpsArray = Array(this.fpsArrayLength);
+        this.reset();
+    }
+    reset() {
+        this.now = 0;
+        this.total = 0;
+        this.delta = 0;
+        this.ticks = 0;
+        this.fpsArray.fill(60);
+    }
+    start() {
+        this.now = performance.now();
+    }
+    tick(now) {
+        this.now = now;
+        this.total += this.delta;
+        this.fpsArray[this.ticks % 60] = Time.millisecondToFramePerSecond(this.delta);
+        this.ticks++;
+    }
+    computeDelta(now) {
+        return this.delta = now - this.now;
+    }
+    computeAverageFPS() {
+        return NumArray.average(this.fpsArray, this.fpsArrayLength);
+    }
+}
+
+class Player {
     constructor(callback) {
         this.frameId = 0;
         this.minDelta = 0;
@@ -99,3 +129,5 @@ export class Player {
         this.frameId = window.requestAnimationFrame(this.tick.bind(this));
     }
 }
+
+export { Player };

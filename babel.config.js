@@ -1,13 +1,13 @@
 module.exports = api => {
-  const isTest = api.env("test");
+  const isTest = api.env('test');
   if (isTest) {
     return {
       presets: [
         [
-          "@babel/env",
+          '@babel/env',
           {
             targets: {
-              node: "current"
+              node: 'current'
             }
           }
         ]
@@ -17,10 +17,10 @@ module.exports = api => {
     return {
       presets: [
         [
-          "@babel/env",
+          '@babel/env',
           {
-            loose: true
-            // modules: false
+            loose: true,
+            modules: false
           }
         ]
       ],

@@ -5,20 +5,17 @@ module.exports = {
   input: 'build/player.js',
   output: {
     name: 'FrameRat',
-    file: 'build/framerat.js',
-    format: 'esm'
+    file: 'build/framerat.iife.js',
+    format: 'iife'
   },
-  external: [
-    '@lcluber/mouettejs',
-    '@lcluber/taipanjs',
-    '@lcluber/type6js',
-    '@lcluber/chjs'
-  ],
   plugins: [
     resolve({
       mainFields: ['main'],
       extensions: ['.js'],
       modulesOnly: true
+    }),
+    babel({
+      // exclude: "node_modules/**" // only transpile our source code
     })
   ]
 };

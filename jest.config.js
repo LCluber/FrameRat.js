@@ -1,8 +1,9 @@
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
 
+const esModules = ['@lcluber'].join('|');
+
 module.exports = {
-  const esModules = ['@lcluber'].join('|');
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
@@ -25,7 +26,7 @@ module.exports = {
   // collectCoverageFrom: null,
 
   // The directory where Jest should output its coverage files
-  coverageDirectory: "./tests/coverage",
+  coverageDirectory: './tests/coverage',
 
   // An array of regexp pattern strings used to skip coverage collection
   // coveragePathIgnorePatterns: [
@@ -59,13 +60,10 @@ module.exports = {
   // globalTeardown: null,
 
   // A set of global variables that need to be available in all test environments
-  globals: { "FrameRat" },
+  // globals: {'FrameRat'},
 
   // An array of directory names to be searched recursively up from the requiring module's location
-  moduleDirectories: [
-    "node_modules",
-    "dist"
-  ],
+  moduleDirectories: ['node_modules', 'dist'],
 
   // An array of file extensions your modules use
   // moduleFileExtensions: [
@@ -125,16 +123,16 @@ module.exports = {
   // setupFiles: [],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-  setupFilesAfterEnv: ["jest-extended"],
+  setupFilesAfterEnv: ['jest-extended'],
 
-  // A list of paths to snapshot serializer modules Jest should use for snapshot testing
-  // snapshotSerializers: [],
+  // A list of pconst esModules = ['@lcluber'].join('|');ths to snapshot serializer modules Jest should use for snapshot testing
+  // snapshotSerconst esModules = ['@lcluber'].join('|');alizers: [],
 
-  // The test environment that will be used for testing
-  // testEnvironment: "jest-environment-jsdom",
+  // The test enconst esModules = ['@lcluber'].join('|');ironment that will be used for testing
+  // testEnvironconst esModules = ['@lcluber'].join('|');ent: "jest-environment-jsdom",
 
-  // Options that will be passed to the testEnvironment
-  // testEnvironmentOptions: {},
+  // Options thaconst esModules = ['@lcluber'].join('|'); will be passed to the testEnvironment
+  // testEnvironconst esModules = ['@lcluber'].join('|');entOptions: {},
 
   // Adds a location field to test results
   // testLocationInResults: false,
@@ -166,12 +164,10 @@ module.exports = {
   // timers: "real",
 
   // A map from regular expressions to paths to transformers
-  transform: "^.+\\.js$": "babel-jest",
+  transform: { '^.+\\.js$': 'babel-jest' },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  transformIgnorePatterns: [
-    transformIgnorePatterns: [`/node_modules/(?!${esModules})`]
-  ],
+  transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,
