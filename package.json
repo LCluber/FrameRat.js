@@ -1,9 +1,9 @@
 {
   "name": "@lcluber/frameratjs",
   "version": "1.0.0",
-  "description": "Animation frame library written in TypeScript",
+  "description": "Animation frame request library",
   "keywords": [
-    "animation frame"
+    "animation frame request"
   ],
   "homepage": "https://github.com/LCluber/FrameRat.js.git",
   "main": "dist/framerat",
@@ -37,14 +37,14 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "",
+      "pre-commit": "gbvalidator",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-push": ""
+      "pre-push": "gbvalidator"
     }
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+      "path": "cz-conventional-changelog"
     }
   },
   "files": [
@@ -62,16 +62,20 @@
     "@commitlint/cli": "8.0.0",
     "@commitlint/config-conventional": "8.0.0",
     "@commitlint/prompt": "8.0.0",
+    "@lcluber/gitbranchvalidator": "1.2.0",
     "@semantic-release/changelog": "3.0.4",
     "@semantic-release/git": "7.0.16",
     "@semantic-release/npm": "5.1.13",
     "babel-jest": "24.9.0",
+    "commitizen": "4.0.3",
     "cz-conventional-changelog": "2.1.0",
     "husky": "2.7.0",
     "jest": "24.9.0",
     "jest-extended": "0.11.2",
     "prettier": "1.18.2",
     "pretty-quick": "1.11.1",
+    "rimraf": "3.0.0",
+    "rollup": "1.25.0",
     "rollup-plugin-babel": "4.3.3",
     "rollup-plugin-node-resolve": "5.2.0",
     "semantic-release": "15.13.18",

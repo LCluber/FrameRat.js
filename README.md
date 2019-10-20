@@ -1,6 +1,6 @@
 ## Synopsis
 
-[FrameRat.js](http://frameratjs.lcluber.com) is an animation frame library written in TypeScript.
+[FrameRat.js](http://frameratjs.lcluber.com) is an animation frame request library written in TypeScript.
 
 ## Motivation
 
