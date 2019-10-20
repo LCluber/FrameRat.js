@@ -10,12 +10,6 @@ Clone the project :
 $ git clone https://github.com/LCluber/FrameRat.js.git
 ```
 
-Install global dependencies :
-
-```bash
-$ npm i -g typescript rollup uglify-js jest commitizen semantic-release-cli rimraf
-```
-
 Install project dependencies :
 
 ```bash
