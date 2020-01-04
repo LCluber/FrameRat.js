@@ -25,7 +25,6 @@
 */
 
 import { Time, NumArray } from '@lcluber/type6js';
-import { FSM } from '@lcluber/taipanjs';
 import { isNumber } from '@lcluber/chjs';
 
 class Clock {
@@ -64,10 +63,7 @@ class Player {
         this.minDelta = 0;
         this.clock = new Clock();
         this.callback = callback;
-        this.fsm = new FSM([
-            { name: 'start', from: false, to: true },
-            { name: 'stop', from: true, to: false }
-        ]);
+        this.running = false;
     }
     setMaxRefreshRate(maxFPS) {
         this.minDelta = isNumber(maxFPS) ? Time.framePerSecondToMillisecond(maxFPS) : this.minDelta;
@@ -84,45 +80,54 @@ class Player {
     getTicks() {
         return this.clock.ticks;
     }
-    getState() {
-        return this.fsm.state;
+    setScope(scope) {
+        this.callback = this.callback.bind(scope);
     }
     start() {
-        let start = this.fsm['start']();
-        if (start) {
+        if (!this.running) {
             this.startAnimation();
+            return true;
         }
-        return start;
+        return false;
     }
     toggle() {
-        return this.start() || this.pause();
+        if (this.start()) {
+            return true;
+        }
+        this.pause();
+        return false;
     }
     pause() {
-        if (this.fsm['stop']()) {
+        if (this.running) {
             this.stopAnimation();
+            return true;
         }
         return false;
     }
     stop() {
-        this.fsm['stop']();
         this.clock.reset();
-        this.stopAnimation();
+        if (this.running) {
+            this.stopAnimation();
+        }
     }
     tick(now) {
         let nxt = true;
-        let delta = this.clock.computeDelta(now);
+        const delta = this.clock.computeDelta(now);
         if (!this.minDelta || delta >= this.minDelta) {
             this.clock.tick(now);
-            if (this.callback() === false)
+            if (this.callback() === false) {
                 nxt = false;
+            }
         }
         nxt ? this.requestNewFrame() : this.stop();
     }
     startAnimation() {
         this.clock.start();
+        this.running = !this.running;
         this.requestNewFrame();
     }
     stopAnimation() {
+        this.running = !this.running;
         window.cancelAnimationFrame(this.frameId);
     }
     requestNewFrame() {

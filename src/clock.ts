@@ -1,4 +1,3 @@
-// import { Logger, Group } from '@lcluber/mouettejs';
 import { Time, NumArray } from '@lcluber/type6js';
 
 export class Clock {
@@ -9,11 +8,9 @@ export class Clock {
   private now         : number;
   private fpsArrayLength : number = 60;
   private fpsArray : Array<number> = Array(this.fpsArrayLength);
-  // private logger      : Group;
 
   constructor() {
     this.reset();
-    // this.logger = Logger.addGroup('FrameRat');
   }
 
   public reset(): void {

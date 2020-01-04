@@ -1,27 +1,21 @@
 import { Time } from '@lcluber/type6js';
-import { FSM } from '@lcluber/taipanjs';
 import { isNumber } from '@lcluber/chjs';
 import { Clock } from './clock';
 
 export class Player {
 
-  public fsm          : FSM;
   private clock       : Clock;
   public frameId      : number;
   private callback    : Function;
   private minDelta    : number;
+  private running     : boolean
 
   constructor(callback: Function) {
     this.frameId = 0;
     this.minDelta = 0;
     this.clock = new Clock();
     this.callback = callback;
-
-    this.fsm = new FSM([
-                { name: 'start', from: false,  to: true },
-                { name: 'stop', from: true, to: false }
-              ]);
-
+    this.running = false;
   }
 
   public setMaxRefreshRate(maxFPS: number): void {
@@ -44,56 +38,61 @@ export class Player {
     return this.clock.ticks;
   }
 
-  public getState(): string|number|boolean {
-    return this.fsm.state;
+  public setScope(scope: Object): void {
+    this.callback = this.callback.bind(scope);
   }
 
-  // public setScope(scope: any): void {
-  //   this.callback = this.callback.bind(scope);
-  // }
-
   public start(): boolean {
-    let start = this.fsm['start']();
-    if(start) {
+    if(!this.running) {
       this.startAnimation();
+      return true;
     }
-    return start;
+    return false;
   }
 
   public toggle(): boolean {
-    return this.start() || this.pause();
+    if (this.start()) {
+      return true;
+    }
+    this.pause();
+    return false;
   }
 
-  public pause(): false {
-    if(this.fsm['stop']()) {
+  public pause(): boolean {
+    if(this.running) {
       this.stopAnimation();
+      return true;
     }
     return false;
   }
 
   public stop(): void {
-    this.fsm['stop']()
     this.clock.reset();
-    this.stopAnimation();
+    if(this.running) {
+      this.stopAnimation();
+    }
   }
 
   private tick(now: number): void {
     let nxt = true;
-    let delta = this.clock.computeDelta(now);
+    const delta = this.clock.computeDelta(now);
     if (!this.minDelta || delta >= this.minDelta) {
       this.clock.tick(now);
-      if (this.callback() === false)
+      if (this.callback() === false) {
         nxt = false ;
+      }
     } 
     nxt ? this.requestNewFrame() : this.stop();
   }
 
   private startAnimation() : void {
     this.clock.start();
+    this.running = !this.running;
     this.requestNewFrame();
   }
 
   private stopAnimation(): void {
+    this.running = !this.running;
     window.cancelAnimationFrame(this.frameId);
   }
 
