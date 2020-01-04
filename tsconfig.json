@@ -13,15 +13,13 @@
     "strictPropertyInitialization": false,
     "allowSyntheticDefaultImports": true,
     "preserveConstEnums": true,
-    "suppressImplicitAnyIndexErrors":false,
+    "suppressImplicitAnyIndexErrors": false,
     "allowJs": false,
     "removeComments": true,
-    "declaration":true,
-    "declarationDir":"build/es6/",
-    "outDir":"build/es6/",
-    "rootDir":"src/ts/"
+    "declaration": true,
+    "declarationDir": "build/",
+    "outDir": "build/",
+    "rootDir": "src/"
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

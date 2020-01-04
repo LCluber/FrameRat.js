@@ -1,32 +1,67 @@
-## FrameRat.js project installation guide
+## Installation guide
 
-You just cloned FrameRat.js : git clone https://github.com/LCluber/FrameRat.js.git
+Install Git : [https://git-scm.com/](https://git-scm.com/)
 
-### Install nodejs on your server :
-  - Windows and OSX : **https://nodejs.org/en/**
-  - Linux master race : run
-    - **curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -**
-    - **sudo apt-get install -y nodejs**
+Install Node.js : [https://nodejs.org](https://nodejs.org)
 
+Clone the project :
 
-### Install grunt :
-  - Run **npm update -g npm** to update npm
-  - Run **npm install -g grunt-cli**
+```bash
+$ git clone https://github.com/LCluber/FrameRat.js.git
+```
 
+Install project dependencies :
 
-### Install typescript :
-  - Run **npm install -g typescript**
+```bash
+$ cd <project-directory>
+$ npm i
+```
 
+## Workflow
 
-### Install project dependencies
-  - Run **npm install** from your project directory
+build the library :
 
+```bash
+$ npm run build
+```
 
-### Workflow
-  - Run **grunt** to serve the website. (http://localhost:3000/)
-  - Run **grunt build** to build the library and serve the website.
-  - Use **grunt --help** to see the list of tasks.
+test the library :
 
-  - Set node environment if needed :
-    - Run **export NODE_ENV=development**
-    - Or **export NODE_ENV=production**
+```bash
+$ npm run test
+```
+
+commit your work with [conventional commits](#conventional-commits) :
+
+```bash
+$ npm run commit
+```
+
+Set node environment if needed :
+
+```bash
+export NODE_ENV=development
+export NODE_ENV=production
+```
+
+## Folders
+
+- dist/
+- examples/
+- src/
+- tests/
+
+## Stack
+
+| Purpose         |                    Choice                    |                                                                                Motivation |
+| :-------------- | :------------------------------------------: | ----------------------------------------------------------------------------------------: |
+| repository      |        [Github](https://github.com/)         | the world’s largest community of developers to discover, share, and build better software |
+| package manager |     [npm](https://www.npmjs.com/get-npm)     |                                                           default node.js package manager |
+| type checking   | [TypeScript](https://www.typescriptlang.org) |                            static type checking along with the latest ECMAScript features |
+| module bundler  |      [Rollup.js](https://rollupjs.org)       |                                                   advanced module bundler for ES6 modules |
+| unit testing    |          [Jest](https://jestjs.io/)          |                                             delightful testing with a focus on simplicity |
+| deployment      |       [Travis](https://travis-ci.com/)       |                                                           test and deploy with confidence |
+
+## Conventional commits
+
+[see COMMITS.md](https://github.com/LCluber/Ch.js/blob/master/COMMITS.md).

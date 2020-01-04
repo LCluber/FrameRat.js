@@ -1,6 +1,6 @@
 /** MIT License
 * 
-* Copyright (c) 2011 Ludovic CLUBER 
+* Copyright (c) 2011 Ludovic CLUBER
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -8,10 +8,11 @@
 * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 * copies of the Software, and to permit persons to whom the Software is
 * furnished to do so, subject to the following conditions:
-*
-* The above copyright notice and this permission notice shall be included in all
-* copies or substantial portions of the Software.
-*
+* 
+* The above copyright notice and this permission notice (including the next
+* paragraph) shall be included in all copies or substantial portions of the
+* Software.
+* 
 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,12 +20,11 @@
 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
-*
-* http://frameratjs.lcluber.com
+* 
+* https://github.com/LCluber/FrameRat.js
 */
 
-import { NumArray, Time } from '@lcluber/type6js';
-import { FSM } from '@lcluber/taipanjs';
+import { Time, NumArray } from '@lcluber/type6js';
 import { isNumber } from '@lcluber/chjs';
 
 class Clock {
@@ -63,10 +63,7 @@ class Player {
         this.minDelta = 0;
         this.clock = new Clock();
         this.callback = callback;
-        this.fsm = new FSM([
-            { name: 'play', from: false, to: true },
-            { name: 'stop', from: true, to: false }
-        ]);
+        this.running = false;
     }
     setMaxRefreshRate(maxFPS) {
         this.minDelta = isNumber(maxFPS) ? Time.framePerSecondToMillisecond(maxFPS) : this.minDelta;
@@ -83,48 +80,54 @@ class Player {
     getTicks() {
         return this.clock.ticks;
     }
-    getState() {
-        return this.fsm.state;
-    }
     setScope(scope) {
         this.callback = this.callback.bind(scope);
     }
-    play() {
-        let play = this.fsm['play']();
-        if (play) {
+    start() {
+        if (!this.running) {
             this.startAnimation();
+            return true;
         }
-        return play;
+        return false;
     }
     toggle() {
-        return this.play() || this.pause();
+        if (this.start()) {
+            return true;
+        }
+        this.pause();
+        return false;
     }
     pause() {
-        if (this.fsm['stop']()) {
+        if (this.running) {
             this.stopAnimation();
+            return true;
         }
         return false;
     }
     stop() {
-        this.fsm['stop']();
         this.clock.reset();
-        this.stopAnimation();
+        if (this.running) {
+            this.stopAnimation();
+        }
     }
     tick(now) {
         let nxt = true;
         const delta = this.clock.computeDelta(now);
         if (!this.minDelta || delta >= this.minDelta) {
             this.clock.tick(now);
-            if (this.callback() === false)
+            if (this.callback() === false) {
                 nxt = false;
+            }
         }
         nxt ? this.requestNewFrame() : this.stop();
     }
     startAnimation() {
         this.clock.start();
+        this.running = !this.running;
         this.requestNewFrame();
     }
     stopAnimation() {
+        this.running = !this.running;
         window.cancelAnimationFrame(this.frameId);
     }
     requestNewFrame() {

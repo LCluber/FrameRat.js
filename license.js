@@ -24,39 +24,3 @@
 * https://github.com/LCluber/FrameRat.js
 */
 
-export declare class Player {
-    private clock;
-    frameId: number;
-    private callback;
-    private minDelta;
-    private running;
-    constructor(callback: Function);
-    setMaxRefreshRate(maxFPS: number): void;
-    getDelta(): number;
-    getTotal(): number;
-    getFPS(): number;
-    getTicks(): number;
-    setScope(scope: Object): void;
-    start(): boolean;
-    toggle(): boolean;
-    pause(): boolean;
-    stop(): void;
-    private tick;
-    private startAnimation;
-    private stopAnimation;
-    private requestNewFrame;
-}
-export declare class Clock {
-    ticks: number;
-    total: number;
-    delta: number;
-    private now;
-    private fpsArrayLength;
-    private fpsArray;
-    constructor();
-    reset(): void;
-    start(): void;
-    tick(now: number): void;
-    computeDelta(now: number): number;
-    computeAverageFPS(): number;
-}

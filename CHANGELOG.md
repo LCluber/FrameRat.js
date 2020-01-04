@@ -1,3 +1,9 @@
+
+Version 1.0.0 (January 03th 2019)
+-----------------------------
+ * Library name is now FrameRat on IIFE version
+ * play() method replaced by start() method
+
 Version 0.4.1 (October 5th 2019)
 -----------------------------
  * Fixed setScope() method
