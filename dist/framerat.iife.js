@@ -90,7 +90,7 @@ var FrameRat = (function (exports) {
       return (1 - ratio) * x + ratio * y;
     };
 
-    Utils.sign = function sign(x) {
+    Utils.getSign = function getSign(x) {
       return x ? x < 0 ? -1 : 1 : 0;
     };
 
@@ -106,36 +106,20 @@ var FrameRat = (function (exports) {
       return (x - min) / (max - min);
     };
 
-    Utils.lerp = function lerp(normal, min, max) {
-      return (max - min) * normal + min;
+    Utils.lerp = function lerp(min, max, amount) {
+      return (max - min) * amount + min;
     };
 
     Utils.map = function map(x, sourceMin, sourceMax, destMin, destMax) {
-      return this.lerp(this.normalize(x, sourceMin, sourceMax), destMin, destMax);
+      return this.lerp(destMin, destMax, this.normalize(x, sourceMin, sourceMax));
     };
 
-    Utils.isEven = function isEven(x) {
-      return !(x & 1);
-    };
-
-    Utils.isOdd = function isOdd(x) {
-      return x & 1;
-    };
-
-    Utils.isOrigin = function isOrigin(x) {
-      return x === 0 ? true : false;
-    };
-
-    Utils.isPositive = function isPositive(x) {
-      return x >= 0 ? true : false;
-    };
-
-    Utils.isNegative = function isNegative(x) {
-      return x < 0 ? true : false;
-    };
-
-    Utils.contains = function contains(x, min, max) {
+    Utils.isIn = function isIn(x, min, max) {
       return x >= min && x <= max;
+    };
+
+    Utils.isOut = function isOut(x, min, max) {
+      return x < min || x > max;
     };
 
     return Utils;
@@ -173,33 +157,30 @@ var FrameRat = (function (exports) {
     };
 
     Trigonometry.setSinePrecision = function setSinePrecision(value) {
-      if (value < this.sineLoops.length) {
+      if (value >= 0 && value <= this.maxDecimals) {
         this.sineDecimals = value;
         return value;
       }
 
-      this.sineDecimals = 2;
-      return 2;
+      return this.sineDecimals = this.maxDecimals;
     };
 
     Trigonometry.setCosinePrecision = function setCosinePrecision(value) {
-      if (value < Trigonometry.cosineLoops.length) {
+      if (value >= 0 && value <= this.maxDecimals) {
         this.cosineDecimals = value;
         return value;
       }
 
-      this.cosineDecimals = 2;
-      return 2;
+      return this.cosineDecimals = this.maxDecimals;
     };
 
     Trigonometry.setArctanPrecision = function setArctanPrecision(value) {
-      if (value < Trigonometry.arctanLoops.length) {
-        this.cosineDecimals = value;
+      if (value >= 0 && value <= this.maxDecimals) {
+        this.arctanDecimals = value;
         return value;
       }
 
-      this.arctanDecimals = 2;
-      return 2;
+      return this.arctanDecimals = this.maxDecimals;
     };
 
     Trigonometry.degreeToRadian = function degreeToRadian(degree) {
@@ -261,10 +242,6 @@ var FrameRat = (function (exports) {
       }
     };
 
-    Trigonometry.arctan2Vector2 = function arctan2Vector2(vector2) {
-      return this.arctan2(vector2.x, vector2.y);
-    };
-
     Trigonometry.arctan = function arctan(angle) {
       var loops = Trigonometry.arctanLoops[this.arctanDecimals];
 
@@ -318,6 +295,7 @@ var FrameRat = (function (exports) {
   Trigonometry.sineDecimals = 2;
   Trigonometry.cosineDecimals = 2;
   Trigonometry.arctanDecimals = 2;
+  Trigonometry.maxDecimals = 8;
   Trigonometry.factorialArray = [];
   Trigonometry.init();
 
@@ -326,19 +304,19 @@ var FrameRat = (function (exports) {
   function () {
     function Time() {}
 
-    Time.millisecondToSecond = function millisecondToSecond(millisecond) {
+    Time.millisecToSec = function millisecToSec(millisecond) {
       return millisecond * 0.001;
     };
 
-    Time.secondToMilliecond = function secondToMilliecond(second) {
+    Time.secToMillisec = function secToMillisec(second) {
       return second * 1000;
     };
 
-    Time.millisecondToFramePerSecond = function millisecondToFramePerSecond(millisecond) {
+    Time.millisecToFps = function millisecToFps(millisecond) {
       return 1000 / millisecond;
     };
 
-    Time.framePerSecondToMillisecond = function framePerSecondToMillisecond(refreshRate) {
+    Time.fpsToMillisec = function fpsToMillisec(refreshRate) {
       return 1000 / refreshRate;
     };
 
@@ -452,7 +430,7 @@ var FrameRat = (function (exports) {
     _proto.tick = function tick(now) {
       this.now = now;
       this.total += this.delta;
-      this.fpsArray[this.ticks % 60] = Time.millisecondToFramePerSecond(this.delta);
+      this.fpsArray[this.ticks % 60] = Time.millisecToFps(this.delta);
       this.ticks++;
     };
 
@@ -481,15 +459,15 @@ var FrameRat = (function (exports) {
     var _proto = Player.prototype;
 
     _proto.setMaxRefreshRate = function setMaxRefreshRate(maxFPS) {
-      this.minDelta = isNumber(maxFPS) ? Time.framePerSecondToMillisecond(maxFPS) : this.minDelta;
+      this.minDelta = isNumber(maxFPS) ? Time.fpsToMillisec(maxFPS) : this.minDelta;
     };
 
     _proto.getDelta = function getDelta() {
-      return Time.millisecondToSecond(this.clock.delta);
+      return Time.millisecToSec(this.clock.delta);
     };
 
     _proto.getTotal = function getTotal() {
-      return Time.millisecondToSecond(this.clock.total);
+      return Time.millisecToSec(this.clock.total);
     };
 
     _proto.getFPS = function getFPS() {

@@ -29,7 +29,7 @@
     "clean": "rimraf dist/* build/*",
     "rollup": "rollup --config && rollup --config rollup.config.iife.js",
     "uglify": "uglifyjs build/framerat.iife.js --config-file uglify.config.json --output build/framerat.iife.min.js",
-    "declaration":"cat license.js build/player.d.ts build/clock.d.ts > dist/framerat.d.ts",
+    "declaration": "cat license.js build/player.d.ts build/clock.d.ts > dist/framerat.d.ts",
     "banner": "cat license.js build/framerat.js > dist/framerat.js && cat license.js build/framerat.iife.js > dist/framerat.iife.js && cat license.js build/framerat.iife.min.js > dist/framerat.iife.min.js",
     "pretty": "prettier --check 'src/ts/*.ts' --write",
     "test": "jest --coverage",
@@ -52,8 +52,8 @@
     "dist/"
   ],
   "dependencies": {
-    "@lcluber/chjs": "2.10.0",
-    "@lcluber/type6js": "1.1.0"
+    "@lcluber/chjs": "2.10.1",
+    "@lcluber/type6js": "2.0.1"
   },
   "devDependencies": {
     "@babel/core": "7.6.0",
@@ -61,7 +61,7 @@
     "@commitlint/cli": "8.0.0",
     "@commitlint/config-conventional": "8.0.0",
     "@commitlint/prompt": "8.0.0",
-    "@lcluber/gitbranchvalidator": "1.2.0",
+    "@lcluber/gitbranchvalidator": "1.3.0",
     "@semantic-release/changelog": "3.0.4",
     "@semantic-release/git": "7.0.16",
     "@semantic-release/npm": "5.1.13",
@@ -72,7 +72,7 @@
     "jest": "24.9.0",
     "jest-extended": "0.11.2",
     "prettier": "1.18.2",
-    "pretty-quick": "1.11.1",
+    "pretty-quick": "2.0.1",
     "rimraf": "3.0.0",
     "rollup": "1.25.0",
     "rollup-plugin-babel": "4.3.3",

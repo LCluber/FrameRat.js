@@ -19,15 +19,15 @@ export class Player {
   }
 
   public setMaxRefreshRate(maxFPS: number): void {
-    this.minDelta = isNumber(maxFPS) ? Time.framePerSecondToMillisecond(maxFPS) : this.minDelta;
+    this.minDelta = isNumber(maxFPS) ? Time.fpsToMillisec(maxFPS) : this.minDelta;
   }
 
   public getDelta():number {
-    return Time.millisecondToSecond(this.clock.delta);
+    return Time.millisecToSec(this.clock.delta);
   }
 
   public getTotal():number {
-    return Time.millisecondToSecond(this.clock.total);
+    return Time.millisecToSec(this.clock.total);
   }
 
   public getFPS():number {
