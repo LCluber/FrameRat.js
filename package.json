@@ -1,6 +1,6 @@
 {
   "name": "@lcluber/frameratjs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Animation frame request library",
   "keywords": [
     "animation frame request"

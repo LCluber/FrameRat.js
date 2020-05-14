@@ -1,3 +1,6 @@
+Version 1.0.1 (May 14th 2019)
+-----------------------------
+ * Update Type6js dependency to version 2.0.1
 
 Version 1.0.0 (January 03th 2019)
 -----------------------------
