@@ -28,7 +28,7 @@ export class Clock {
   public tick(now: number): void {
     this.now = now;
     this.total += this.delta;
-    this.fpsArray[this.ticks % 60] = Time.millisecondToFramePerSecond(this.delta);
+    this.fpsArray[this.ticks % 60] = Time.millisecToFps(this.delta);
     this.ticks++;
   }
 

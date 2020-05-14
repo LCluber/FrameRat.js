@@ -46,7 +46,7 @@ class Clock {
     tick(now) {
         this.now = now;
         this.total += this.delta;
-        this.fpsArray[this.ticks % 60] = Time.millisecondToFramePerSecond(this.delta);
+        this.fpsArray[this.ticks % 60] = Time.millisecToFps(this.delta);
         this.ticks++;
     }
     computeDelta(now) {
@@ -66,13 +66,13 @@ class Player {
         this.running = false;
     }
     setMaxRefreshRate(maxFPS) {
-        this.minDelta = isNumber(maxFPS) ? Time.framePerSecondToMillisecond(maxFPS) : this.minDelta;
+        this.minDelta = isNumber(maxFPS) ? Time.fpsToMillisec(maxFPS) : this.minDelta;
     }
     getDelta() {
-        return Time.millisecondToSecond(this.clock.delta);
+        return Time.millisecToSec(this.clock.delta);
     }
     getTotal() {
-        return Time.millisecondToSecond(this.clock.total);
+        return Time.millisecToSec(this.clock.total);
     }
     getFPS() {
         return this.clock.computeAverageFPS();
