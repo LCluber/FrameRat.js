@@ -1,6 +1,6 @@
 [![License: MIT](https://img.shields.io/npm/l/@lcluber/frameratjs?color=brightgreen)](https://opensource.org/licenses/MIT)
-[![npm version](https://badge.fury.io/js/%40dwtechs%2Fcsvx.svg)](https://www.npmjs.com/package/@lcluber/frameratjs)
-[![last version release date](https://img.shields.io/github/release-date/LCluber/FrameRat.js)](https://www.npmjs.com/package/@dwtechs/csvx)
+[![npm version](https://badge.fury.io/js/%40lcluber%2Fframeratjs.svg)](https://www.npmjs.com/package/@lcluber/frameratjs)
+[![last version release date](https://img.shields.io/github/release-date/LCluber/FrameRat.js)](https://www.npmjs.com/package/@lcluber/frameratjs)
 ![Jest:coverage](https://img.shields.io/badge/Jest:coverage-100%25-brightgreen.svg)
 [![minified size](https://img.shields.io/bundlephobia/min/@lcluber/frameratjs?color=brightgreen)](https://www.npmjs.com/package/@lcluber/frameratjs)
 
