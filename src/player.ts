@@ -1,39 +1,43 @@
 import { Time } from '@lcluber/type6js';
-import { isNumber } from '@lcluber/chjs';
+import { isNumber } from '@dwtechs/checkhard';
 import { Clock } from './clock';
 
 export class Player {
 
-  private clock       : Clock;
-  public frameId      : number;
-  private callback    : Function;
-  private minDelta    : number;
-  private running     : boolean
+  private clock               : Clock;
+  public frameId              : number;
+  private callback            : Function;
+  private frameMinDuration    : number; //cap frame rate.
+  private active              : boolean
 
   constructor(callback: Function) {
-    this.frameId = 0;
-    this.minDelta = 0;
-    this.clock = new Clock();
-    this.callback = callback;
-    this.running = false;
+    this.frameId          = 0;
+    this.frameMinDuration = 0;
+    this.clock            = new Clock();
+    this.callback         = callback;
+    this.active           = false;
   }
 
-  public setMaxRefreshRate(maxFPS: number): void {
-    this.minDelta = isNumber(maxFPS) ? Time.fpsToMillisec(maxFPS) : this.minDelta;
+  public capFPS(maxFPS: number): void {
+    this.frameMinDuration = isNumber(maxFPS) ? Time.fpsToMillisec(maxFPS) : this.frameMinDuration;
   }
 
-  public getDelta():number {
+  // get duration of the current frame
+  public getTick():number {
     return Time.millisecToSec(this.clock.delta);
   }
 
-  public getTotal():number {
+  // Get Total time elapsed in seconds
+  public getTime():number {
     return Time.millisecToSec(this.clock.total);
   }
 
+  // Get Frame per Second 
   public getFPS():number {
     return this.clock.computeAverageFPS();
   }
 
+  // Get total ticks elapsed
   public getTicks():number {
     return this.clock.ticks;
   }
@@ -43,7 +47,7 @@ export class Player {
   }
 
   public start(): boolean {
-    if(!this.running) {
+    if (!this.active) {
       this.startAnimation();
       return true;
     }
@@ -59,7 +63,7 @@ export class Player {
   }
 
   public pause(): boolean {
-    if(this.running) {
+    if (this.active) {
       this.stopAnimation();
       return true;
     }
@@ -68,36 +72,38 @@ export class Player {
 
   public stop(): void {
     this.clock.reset();
-    if(this.running) {
+    if (this.active) {
       this.stopAnimation();
     }
   }
 
-  private tick(now: number): void {
-    let nxt = true;
+  private computeNewFrame(now: number): void {
     const delta = this.clock.computeDelta(now);
-    if (!this.minDelta || delta >= this.minDelta) {
+    if (!this.frameMinDuration || delta >= this.frameMinDuration) {
       this.clock.tick(now);
-      if (this.callback() === false) {
-        nxt = false ;
+      if (this.callback() === false) { // a callback that returns false will stop the animation
+        return this.stop();
       }
     } 
-    nxt ? this.requestNewFrame() : this.stop();
+    this.requestNewFrame();
   }
 
   private startAnimation() : void {
     this.clock.start();
-    this.running = !this.running;
+    this.toggleActive();
     this.requestNewFrame();
   }
 
   private stopAnimation(): void {
-    this.running = !this.running;
+    this.toggleActive();
     window.cancelAnimationFrame(this.frameId);
   }
 
   private requestNewFrame(): void {
-    this.frameId = window.requestAnimationFrame(this.tick.bind(this));
+    this.frameId = window.requestAnimationFrame(this.computeNewFrame.bind(this));
   }
 
+  private toggleActive() {
+    this.active = !this.active;
+  }
 }

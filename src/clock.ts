@@ -2,12 +2,12 @@ import { Time, NumArray } from '@lcluber/type6js';
 
 export class Clock {
 
-  public ticks        : number;
-  public total        : number;
-  public delta        : number;
-  private now         : number;
-  private fpsArrayLength : number = 60;
-  private fpsArray : Array<number> = Array(this.fpsArrayLength);
+  public ticks            : number;
+  public total            : number;
+  public delta            : number;
+  private now             : number;
+  private fpsArrayLength  : number = 60;
+  private fpsArray        : Array<number> = Array(this.fpsArrayLength);
 
   constructor() {
     this.reset();

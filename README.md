@@ -1,6 +1,13 @@
+[![License: MIT](https://img.shields.io/npm/l/@lcluber/frameratjs?color=brightgreen)](https://opensource.org/licenses/MIT)
+[![npm version](https://badge.fury.io/js/%40dwtechs%2Fcsvx.svg)](https://www.npmjs.com/package/@lcluber/frameratjs)
+[![last version release date](https://img.shields.io/github/release-date/LCluber/FrameRat.js)](https://www.npmjs.com/package/@dwtechs/csvx)
+![Jest:coverage](https://img.shields.io/badge/Jest:coverage-100%25-brightgreen.svg)
+[![minified size](https://img.shields.io/bundlephobia/min/@lcluber/frameratjs?color=brightgreen)](https://www.npmjs.com/package/@lcluber/frameratjs)
+
+
 ## Synopsis
 
-[FrameRat.js](http://frameratjs.lcluber.com) is an animation frame request library written in TypeScript.
+**[FrameRat.js](http://frameratjs.lcluber.com)** is an animation frame request library written in TypeScript.
 
 ## Motivation
 
@@ -8,52 +15,124 @@ The purpose of this library is to provide a simple way to control an animation w
 
 ## Installation
 
+### npm
+
 ```bash
-$ npm install @lcluber/frameratjs
+$ npm i @lcluber/frameratjs
 ```
-Or download it **[here](http://frameratjs.lcluber.com/#download)**.
 
-## Demo
+### yarn
 
-See a basic example **[here](http://frameratjs.lcluber.com/#example)**.
+```bash
+$ yarn add @lcluber/frameratjs
+```
 
 ## Usage
 
-Learn how to use it **[here](http://frameratjs.lcluber.com/#source)**.
+
+### TypeScript
+
+```javascript
+
+import { Player } from '@lcluber/frameratjs';
+
+export class AnimatedBackground {
+  animation: Player;
+  context: WebGLRenderingContext;
+  width: number;
+  height: number;
+
+constructor() {
+    const canvas: HTMLCanvasElement = document.getElementById("canvas");
+    this.context = canvas.getContext("webgl");
+    this.width   = canvas.width = window.innerWidth;
+    this.height  = canvas.height = window.innerHeight;
+    this.animation = new Player(this.render);
+    this.animation.setScope(this);
+    this.animation.capFPS(24);
+}
+
+public playAnimation(){
+  this.animation.toggle();
+}
+
+public stopAnimation () {
+  this.animation.stop();
+  clearFrame();
+}
+
+// rendering function
+private render(){
+  clearFrame();
+  draw();
+}
+
+private clearFrame(){
+  context.clearRect(0, 0, this.width, this.height);
+}
+
+private draw() {
+    //draw stuff in canvas
+}
+
+```
+
+### IIFE
+
+```javascript
+
+var canvas  = document.getElementById("canvas");
+var context = canvas.getContext("2d");
+var width   = canvas.width = window.innerWidth;
+var height  = canvas.height = window.innerHeight;
+
+// rendering function
+function render(){
+  clearFrame();
+  draw();
+}
+
+//create animation frame
+var animation = new FrameRat.Player(render);
+
+function playAnimation(){
+  animation.toggle();
+}
+
+function stopAnimation () {
+  animation.stop();
+  clearFrame();
+}
+
+function clearFrame(){
+  context.clearRect(0, 0, width, height);
+}
+
+function draw() {
+  //draw stuff in canvas
+}
+
+```
+
 
 ## API Reference
 
-Read the documentation **[here](http://frameratjs.lcluber.com/doc/)**.
+```javascript
 
-## Tests
+capFPS(maxFPS: number): void;
+getTick(): number;
+getTime(): number;
+getFPS(): number;
+getTicks(): number;
+setScope(scope: Object): void; // Set the scope of the callback if needed
+start(): boolean;
+toggle(): boolean;
+pause(): boolean;
+stop(): void;
 
-No tests to run yet
+```
 
 ## Contributors
 
 There is still a lot of work to do on this project and I would be glad to get all the help you can provide.
 To contribute you can clone the project on **[GitHub](https://github.com/LCluber/FrameRat.js)** and see  **NOTICE.md** for detailed installation walkthrough of the project.
-
-## License
-
-MIT License
-
-Copyright (c) 2011 Ludovic CLUBER
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.

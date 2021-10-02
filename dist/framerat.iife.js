@@ -355,53 +355,58 @@ var FrameRat = (function (exports) {
     return NumArray;
   }();
 
-  /** MIT License
-   *
-   * Copyright (c) 2009 Ludovic CLUBER
-   *
-   * Permission is hereby granted, free of charge, to any person obtaining a copy
-   * of this software and associated documentation files (the "Software"), to deal
-   * in the Software without restriction, including without limitation the rights
-   * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-   * copies of the Software, and to permit persons to whom the Software is
-   * furnished to do so, subject to the following conditions:
-   *
-   * The above copyright notice and this permission notice (including the next
-   * paragraph) shall be included in all copies or substantial portions of the
-   * Software.
-   *
-   * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-   * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-   * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-   * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-   * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-   * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-   * SOFTWARE.
-   *
-   * https://github.com/LCluber/Ch.js
-   */
+  /*
+  MIT License
 
-  function isInteger(number, typeCheck) {
+  Copyright (c) 2009 DWTechs
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+
+  https://github.com/DWTechs/CheckHard.js
+  */
+  function isNumeric(number) {
+    return !isNaN(number - parseFloat(number));
+  }
+
+  function getTag(tag) {
+    if (tag == null) {
+      return tag === undefined ? '[object Undefined]' : '[object Null]';
+    }
+
+    return toString.call(tag);
+  }
+
+  function isNumber(number, typeCheck) {
     if (typeCheck === void 0) {
       typeCheck = true;
     }
 
-    var _int = parseInt(number, 10);
-
-    return typeCheck ? number === _int : number == _int;
-  }
-
-  function isFloat(number, typeCheck) {
-    if (typeCheck === void 0) {
-      typeCheck = true;
+    if (isSymbol(number)) {
+      return false;
     }
 
-    var moduloCheck = number % 1 !== 0;
-    return typeCheck ? Number(number) === number && moduloCheck : Number(number) == number && moduloCheck;
+    return typeCheck ? Number(number) === number : isNumeric(number);
   }
 
-  function isNumber(number) {
-    return isInteger(number) || isFloat(number);
+  function isSymbol(sym) {
+    var type = typeof sym;
+    return type == 'symbol' || type === 'object' && sym != null && getTag(sym) == '[object Symbol]';
   }
 
   var Clock =
@@ -450,23 +455,23 @@ var FrameRat = (function (exports) {
   function () {
     function Player(callback) {
       this.frameId = 0;
-      this.minDelta = 0;
+      this.frameMinDuration = 0;
       this.clock = new Clock();
       this.callback = callback;
-      this.running = false;
+      this.active = false;
     }
 
     var _proto = Player.prototype;
 
-    _proto.setMaxRefreshRate = function setMaxRefreshRate(maxFPS) {
-      this.minDelta = isNumber(maxFPS) ? Time.fpsToMillisec(maxFPS) : this.minDelta;
+    _proto.capFPS = function capFPS(maxFPS) {
+      this.frameMinDuration = isNumber(maxFPS) ? Time.fpsToMillisec(maxFPS) : this.frameMinDuration;
     };
 
-    _proto.getDelta = function getDelta() {
+    _proto.getTick = function getTick() {
       return Time.millisecToSec(this.clock.delta);
     };
 
-    _proto.getTotal = function getTotal() {
+    _proto.getTime = function getTime() {
       return Time.millisecToSec(this.clock.total);
     };
 
@@ -483,7 +488,7 @@ var FrameRat = (function (exports) {
     };
 
     _proto.start = function start() {
-      if (!this.running) {
+      if (!this.active) {
         this.startAnimation();
         return true;
       }
@@ -501,7 +506,7 @@ var FrameRat = (function (exports) {
     };
 
     _proto.pause = function pause() {
-      if (this.running) {
+      if (this.active) {
         this.stopAnimation();
         return true;
       }
@@ -512,39 +517,42 @@ var FrameRat = (function (exports) {
     _proto.stop = function stop() {
       this.clock.reset();
 
-      if (this.running) {
+      if (this.active) {
         this.stopAnimation();
       }
     };
 
-    _proto.tick = function tick(now) {
-      var nxt = true;
+    _proto.computeNewFrame = function computeNewFrame(now) {
       var delta = this.clock.computeDelta(now);
 
-      if (!this.minDelta || delta >= this.minDelta) {
+      if (!this.frameMinDuration || delta >= this.frameMinDuration) {
         this.clock.tick(now);
 
         if (this.callback() === false) {
-          nxt = false;
+          return this.stop();
         }
       }
 
-      nxt ? this.requestNewFrame() : this.stop();
+      this.requestNewFrame();
     };
 
     _proto.startAnimation = function startAnimation() {
       this.clock.start();
-      this.running = !this.running;
+      this.toggleActive();
       this.requestNewFrame();
     };
 
     _proto.stopAnimation = function stopAnimation() {
-      this.running = !this.running;
+      this.toggleActive();
       window.cancelAnimationFrame(this.frameId);
     };
 
     _proto.requestNewFrame = function requestNewFrame() {
-      this.frameId = window.requestAnimationFrame(this.tick.bind(this));
+      this.frameId = window.requestAnimationFrame(this.computeNewFrame.bind(this));
+    };
+
+    _proto.toggleActive = function toggleActive() {
+      this.active = !this.active;
     };
 
     return Player;

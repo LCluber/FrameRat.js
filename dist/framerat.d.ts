@@ -28,12 +28,12 @@ export declare class Player {
     private clock;
     frameId: number;
     private callback;
-    private minDelta;
-    private running;
+    private frameMinDuration;
+    private active;
     constructor(callback: Function);
-    setMaxRefreshRate(maxFPS: number): void;
-    getDelta(): number;
-    getTotal(): number;
+    capFPS(maxFPS: number): void;
+    getTick(): number;
+    getTime(): number;
     getFPS(): number;
     getTicks(): number;
     setScope(scope: Object): void;
@@ -41,10 +41,11 @@ export declare class Player {
     toggle(): boolean;
     pause(): boolean;
     stop(): void;
-    private tick;
+    private computeNewFrame;
     private startAnimation;
     private stopAnimation;
     private requestNewFrame;
+    private toggleActive;
 }
 export declare class Clock {
     ticks: number;
